@@ -7,6 +7,8 @@
 
 import UIKit
 
+import Then
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -19,10 +21,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        window = UIWindow(windowScene: windowScene)
-        window?.backgroundColor = .systemBackground
-        window?.rootViewController = ViewController()
-        window?.makeKeyAndVisible()
+        window = UIWindow(windowScene: windowScene).then({
+            $0.backgroundColor = .systemBackground
+            $0.rootViewController = ViewController()
+            $0.makeKeyAndVisible()
+        })
+
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
