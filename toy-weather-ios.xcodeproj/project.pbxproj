@@ -40,6 +40,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04DD776D2820A4800049A3BD /* App */ = {
+			isa = PBXGroup;
+			children = (
+				04DFC086281BBBFD0089CBED /* AppDelegate.swift */,
+				04DFC088281BBBFD0089CBED /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
 		04DFC07A281BBBFD0089CBED = {
 			isa = PBXGroup;
 			children = (
@@ -61,8 +70,7 @@
 		04DFC085281BBBFD0089CBED /* toy-weather-ios */ = {
 			isa = PBXGroup;
 			children = (
-				04DFC086281BBBFD0089CBED /* AppDelegate.swift */,
-				04DFC088281BBBFD0089CBED /* SceneDelegate.swift */,
+				04DD776D2820A4800049A3BD /* App */,
 				04DFC08A281BBBFD0089CBED /* ViewController.swift */,
 				04DFC08F281BBBFE0089CBED /* Assets.xcassets */,
 				04DFC091281BBBFE0089CBED /* LaunchScreen.storyboard */,
@@ -85,7 +93,6 @@
 				FA046253694FBF7766970FEE /* Pods-toy-weather-ios.debug.xcconfig */,
 				D16391DA654C9D884859F0D8 /* Pods-toy-weather-ios.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
