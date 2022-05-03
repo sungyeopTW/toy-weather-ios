@@ -7,6 +7,8 @@
 
 import UIKit
 
+import Then
+
 class LocationSearchTableView: UITableView {
     
     var tableViewCellCount = 0
