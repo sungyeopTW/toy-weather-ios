@@ -13,7 +13,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(
         _ scene: UIScene,
         willConnectTo session: UISceneSession,
@@ -23,7 +22,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene).then({
             $0.backgroundColor = .systemBackground
-            $0.rootViewController = ViewController()
+            $0.rootViewController = UINavigationController(
+                rootViewController: LocationSearchViewController()
+            )
             $0.makeKeyAndVisible()
         })
 
