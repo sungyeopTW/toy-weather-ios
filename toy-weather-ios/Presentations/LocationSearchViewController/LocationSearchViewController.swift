@@ -37,7 +37,8 @@ class LocationSearchViewController: UIViewController {
         // UISearchController
         let searchController = UISearchController().then({
             $0.searchBar.placeholder = "지역을 입력하세요 🗺"
-            $0.obscuresBackgroundDuringPresentation = false
+            $0.hidesNavigationBarDuringPresentation = true
+
             $0.searchBar.delegate = self
         })
         self.navigationItem.searchController = searchController
@@ -52,15 +53,17 @@ extension LocationSearchViewController {
     
     private func setBookmarkTableViewLayout() {
         self.view.addSubview(bookmarkTableView)
+        
         bookmarkTableView.snp.makeConstraints({
-            $0.edges.equalToSuperview()
+            $0.edges.equalTo(self.view.safeAreaLayoutGuide)
         })
     }
     
     private func setLocationSearchTableViewLayout() {
         self.view.addSubview(locationSearchTableView)
+        
         locationSearchTableView.snp.makeConstraints({
-            $0.edges.equalToSuperview()
+            $0.edges.equalTo(self.view.safeAreaLayoutGuide)
         })
     }
     
@@ -77,15 +80,11 @@ extension LocationSearchViewController: UISearchBarDelegate {
         self.locationSearchTableView.reloadData() // reload
         self.locationSearchTableView.isHidden = false // 보이게
         
-        self.bookmarkTableView.tableViewCellCount = 0
-        self.bookmarkTableView.reloadData()
         self.bookmarkTableView.isHidden = true
     }
     
     // searchBar에 입력 종료 시 locationSearchTableView -- X / bookmarkTableView -- O
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        self.locationSearchTableView.tableViewCellCount = 0
-        self.locationSearchTableView.reloadData()
         self.locationSearchTableView.isHidden = true
         
         self.bookmarkTableView.tableViewCellCount = 10
