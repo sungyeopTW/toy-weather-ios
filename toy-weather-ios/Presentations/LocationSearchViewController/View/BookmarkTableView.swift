@@ -9,7 +9,7 @@ import UIKit
 
 import Then
 
-class BookmarkTableView: UITableView {
+final class BookmarkTableView: UITableView {
     
     var tableViewCellCount = 10
     
@@ -42,6 +42,13 @@ extension BookmarkTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         cell.textLabel?.text = "즐겨찾기 된 지역 셀"
+        
+        // let cell = tableView.dequeueReusableCell(
+        //     withIdentifier: "bookmarkTableViewCell",
+        //     for: indexPath
+        // ).then({
+        //     $0.textLabel?.text = "즐겨찾기 된 지역"
+        // })
         
         return cell
     }
