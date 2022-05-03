@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class LocationSearchViewController: UIViewController {
+final class LocationSearchViewController: UIViewController {
     
     private let locationSearchTableView = LocationSearchTableView()
     private let bookmarkTableView = BookmarkTableView()
@@ -31,10 +31,12 @@ class LocationSearchViewController: UIViewController {
     // MARK: - Methods
     
     private func setNavigationController() {
+        // NavigationController
         self.navigationController?.navigationBar.prefersLargeTitles = true /// Large Title
+        self.navigationController?.navigationBar.backgroundColor = .systemBackground
         self.navigationItem.title = "오늘의 날씨 정보 🧑🏻‍💼"
         
-        // UISearchController
+        // SearchController
         let searchController = UISearchController().then({
             $0.searchBar.placeholder = "지역을 입력하세요 🗺"
             $0.hidesNavigationBarDuringPresentation = true

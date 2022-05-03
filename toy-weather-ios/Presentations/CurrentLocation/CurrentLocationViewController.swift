@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CurrentLocationViewController: UIViewController {
+final class CurrentLocationViewController: UIViewController {
     
     
     // MARK: - Life Cycle
