@@ -21,9 +21,6 @@ class LocationSearchTableView: UITableView {
         
         self.dataSource = self
         self.isHidden = true
-        
-        // self.layer.borderColor = UIColor.red.cgColor
-        // self.layer.borderWidth = 2.0
     }
     
     required init?(coder: NSCoder) {
