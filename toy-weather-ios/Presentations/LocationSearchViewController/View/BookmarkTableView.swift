@@ -1,5 +1,5 @@
 //
-//  LocationSearchTableView.swift
+//  BookmarkTableView.swift
 //  toy-weather-ios
 //
 //  Created by sungyeopTW on 2022/05/03.
@@ -9,9 +9,9 @@ import UIKit
 
 import Then
 
-class LocationSearchTableView: UITableView {
+class BookmarkTableView: UITableView {
     
-    var tableViewCellCount = 0
+    var tableViewCellCount = 10
     
     
     // MARK: - Life Cycle
@@ -20,10 +20,6 @@ class LocationSearchTableView: UITableView {
         super.init(frame: frame, style: style)
         
         self.dataSource = self
-        self.isHidden = true
-        
-        // self.layer.borderColor = UIColor.red.cgColor
-        // self.layer.borderWidth = 2.0
     }
     
     required init?(coder: NSCoder) {
@@ -33,9 +29,9 @@ class LocationSearchTableView: UITableView {
 }
 
 
-// MARK: - LocationSearchTableViewDataSource
+// MARK: - BookmarkTableViewDataSource
 
-extension LocationSearchTableView: UITableViewDataSource {
+extension BookmarkTableView: UITableViewDataSource {
     
     // Section당 row
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -43,13 +39,9 @@ extension LocationSearchTableView: UITableViewDataSource {
     }
     
     // cell
-    func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        let cell = UITableViewCell().then({
-            $0.textLabel?.text = "검색할 지역 뜨는 셀!!!"
-        })
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        cell.textLabel?.text = "즐겨찾기 된 지역 셀"
         
         return cell
     }
