@@ -13,7 +13,6 @@ import Then
 final class BookmarkTableViewCell: UITableViewCell {
     
     var temperature = 16
-    var starColor: UIColor = .gray
     var location = "서울특별시 용산구 용문동"
     
     var isBookmarked = true // 즐찾 여부
@@ -54,7 +53,7 @@ final class BookmarkTableViewCell: UITableViewCell {
     
     private func setupInitialValue() {
         self.temperatureLabel.text = "\(self.temperature)\(self.isCelsius ? "°C" : "°F")"
-        self.starImageView.tintColor = isBookmarked ? .orange : .gray
+        self.starImageView.tintColor = isBookmarked ? .yellowStarColor : .grayStarColor
         self.locationLabel.text = self.location
     }
     
