@@ -20,6 +20,7 @@ final class BookmarkTableView: UITableView {
         super.init(frame: frame, style: style)
         
         self.setupBookmarkTableView()
+        self.setupTableViewSeparator()
     }
     
     required init?(coder: NSCoder) {
@@ -32,9 +33,22 @@ final class BookmarkTableView: UITableView {
     private func setupBookmarkTableView() {
         self.dataSource = self
         self.register(BookmarkTableViewCell.self, forCellReuseIdentifier: "bookmarkTableViewCell")
+        self.register(
+            BookmarkTableViewEmptyCell.self,
+            forCellReuseIdentifier: "bookmarkTableViewEmptyCell"
+        )
+    }
+    
+    // tableViewCellCount에 따라 seperator 다르게 설정
+    private func setupTableViewSeparator() {
+        switch self.tableViewCellCount {
+        case 0:
+            self.separatorStyle = .none
+        default:
+            self.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
+            self.separatorColor = .black
+        }
         
-        self.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
-        self.separatorColor = .black
     }
     
 }
@@ -46,7 +60,7 @@ extension BookmarkTableView: UITableViewDataSource {
     
     // Section당 row
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.tableViewCellCount
+        return self.tableViewCellCount == 0 ? 1 : self.tableViewCellCount
     }
     
     // cell
@@ -55,9 +69,13 @@ extension BookmarkTableView: UITableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
-            withIdentifier: "bookmarkTableViewCell",
+            withIdentifier: tableViewCellCount == 0
+                ? "bookmarkTableViewEmptyCell"
+                : "bookmarkTableViewCell",
             for: indexPath
         )
+        
+        if tableViewCellCount == 0 { cell.selectionStyle = .none }
         
         return cell
     }
