@@ -22,7 +22,7 @@ final class BookmarkTableViewCell: UITableViewCell {
     // MARK: - UI
     
     private let temperatureLabel = UILabel().then({
-        $0.font = .systemFont(ofSize: 45.0, weight: .bold)
+        $0.font = .systemFont(ofSize: 40.0, weight: .bold)
     })
     
     private let starImageView = UIImageView(frame: .zero).then({
@@ -52,7 +52,9 @@ final class BookmarkTableViewCell: UITableViewCell {
     // MARK: - Methods
     
     private func setupInitialValue() {
-        self.temperatureLabel.text = "\(self.temperature)\(self.isCelsius ? "°C" : "°F")"
+        self.temperatureLabel.text = self.isCelsius
+            ? "\(self.temperature)°C"
+            : "\(TemperatureHelper().functransformTemperatureToFahrenheit(self.temperature))°F"
         self.starImageView.tintColor = isBookmarked ? .yellowStarColor : .grayStarColor
         self.locationLabel.text = self.location
     }
