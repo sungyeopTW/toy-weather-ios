@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 // Bookmark가 없을 경우 출력할 cell
-class BookmarkTableViewEmptyCell: UITableViewCell {
+final class BookmarkTableViewEmptyCell: UITableViewCell {
     
     let descriptionText: String = "지역을 검색한 뒤 \n즐겨찾기를 추가하세요⭐️"
     
