@@ -12,6 +12,7 @@
 		04DD777F28210B250049A3BD /* LocationSearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD777E28210B250049A3BD /* LocationSearchTableView.swift */; };
 		04DD7781282114420049A3BD /* BookmarkTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD7780282114420049A3BD /* BookmarkTableView.swift */; };
 		04DD7783282163350049A3BD /* BookmarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD7782282163350049A3BD /* BookmarkTableViewCell.swift */; };
+		04DD7785282209690049A3BD /* BookmarkTableViewEmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD7784282209690049A3BD /* BookmarkTableViewEmptyCell.swift */; };
 		04DFC087281BBBFD0089CBED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DFC086281BBBFD0089CBED /* AppDelegate.swift */; };
 		04DFC089281BBBFD0089CBED /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DFC088281BBBFD0089CBED /* SceneDelegate.swift */; };
 		04DFC090281BBBFE0089CBED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04DFC08F281BBBFE0089CBED /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 		04DD777E28210B250049A3BD /* LocationSearchTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTableView.swift; sourceTree = "<group>"; };
 		04DD7780282114420049A3BD /* BookmarkTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkTableView.swift; sourceTree = "<group>"; };
 		04DD7782282163350049A3BD /* BookmarkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkTableViewCell.swift; sourceTree = "<group>"; };
+		04DD7784282209690049A3BD /* BookmarkTableViewEmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkTableViewEmptyCell.swift; sourceTree = "<group>"; };
 		04DFC083281BBBFD0089CBED /* toy-weather-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "toy-weather-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04DFC086281BBBFD0089CBED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04DFC088281BBBFD0089CBED /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,11 +88,28 @@
 		04DD777B2820F59C0049A3BD /* View */ = {
 			isa = PBXGroup;
 			children = (
-				04DD777E28210B250049A3BD /* LocationSearchTableView.swift */,
-				04DD7780282114420049A3BD /* BookmarkTableView.swift */,
-				04DD7782282163350049A3BD /* BookmarkTableViewCell.swift */,
+				04DD7787282213B30049A3BD /* LocationSearchTableView */,
+				04DD7786282213A70049A3BD /* BookmarkTableView */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		04DD7786282213A70049A3BD /* BookmarkTableView */ = {
+			isa = PBXGroup;
+			children = (
+				04DD7780282114420049A3BD /* BookmarkTableView.swift */,
+				04DD7782282163350049A3BD /* BookmarkTableViewCell.swift */,
+				04DD7784282209690049A3BD /* BookmarkTableViewEmptyCell.swift */,
+			);
+			path = BookmarkTableView;
+			sourceTree = "<group>";
+		};
+		04DD7787282213B30049A3BD /* LocationSearchTableView */ = {
+			isa = PBXGroup;
+			children = (
+				04DD777E28210B250049A3BD /* LocationSearchTableView.swift */,
+			);
+			path = LocationSearchTableView;
 			sourceTree = "<group>";
 		};
 		04DFC07A281BBBFD0089CBED = {
@@ -260,6 +279,7 @@
 				04DD77772820AFEE0049A3BD /* CurrentLocationViewController.swift in Sources */,
 				04DD7783282163350049A3BD /* BookmarkTableViewCell.swift in Sources */,
 				04DFC087281BBBFD0089CBED /* AppDelegate.swift in Sources */,
+				04DD7785282209690049A3BD /* BookmarkTableViewEmptyCell.swift in Sources */,
 				04DFC089281BBBFD0089CBED /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

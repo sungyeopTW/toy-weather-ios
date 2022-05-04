@@ -53,7 +53,7 @@ final class BookmarkTableViewCell: UITableViewCell {
     // MARK: - Methods
     
     private func setupInitialValue() {
-        self.temperatureLabel.text = isCelsius ? "\(self.temperature)°C" : "\(self.temperature)°F"
+        self.temperatureLabel.text = "\(self.temperature)\(self.isCelsius ? "°C" : "°F")"
         self.starImageView.tintColor = isBookmarked ? .orange : .gray
         self.locationLabel.text = self.location
     }
