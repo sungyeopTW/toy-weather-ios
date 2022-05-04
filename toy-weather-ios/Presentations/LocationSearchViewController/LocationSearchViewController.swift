@@ -21,16 +21,14 @@ final class LocationSearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.setNavigationController() /// Setting -- NavigationController
-        
-        self.setBookmarkTableViewLayout() /// Layout -- BookmarkTableView
-        self.setLocationSearchTableViewLayout() /// Layout -- LocationSearchTableView
+        self.setupNavigationController()
+        self.setupConstraints()
     }
     
     
     // MARK: - Methods
     
-    private func setNavigationController() {
+    private func setupNavigationController() {
         // NavigationController
         self.navigationController?.navigationBar.prefersLargeTitles = true /// Large Title
         self.navigationController?.navigationBar.backgroundColor = .systemBackground
@@ -46,25 +44,17 @@ final class LocationSearchViewController: UIViewController {
         self.navigationItem.searchController = searchController
     }
     
-}
-
-
-// MARK: - Layout
-
-extension LocationSearchViewController {
-    
-    private func setBookmarkTableViewLayout() {
-        self.view.addSubview(bookmarkTableView)
+    private func setupConstraints() {
+        let subViews = [self.bookmarkTableView, self.locationSearchTableView]
+        subViews.forEach{ self.view.addSubview($0) }
         
-        bookmarkTableView.snp.makeConstraints({
+        // bookmarkTableView layout
+        self.bookmarkTableView.snp.makeConstraints({
             $0.edges.equalTo(self.view.safeAreaLayoutGuide)
         })
-    }
-    
-    private func setLocationSearchTableViewLayout() {
-        self.view.addSubview(locationSearchTableView)
         
-        locationSearchTableView.snp.makeConstraints({
+        // locationSearchTableView layout
+        self.locationSearchTableView.snp.makeConstraints({
             $0.edges.equalTo(self.view.safeAreaLayoutGuide)
         })
     }
@@ -80,7 +70,7 @@ extension LocationSearchViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         self.locationSearchTableView.tableViewCellCount = 10 // row count 변경
         self.locationSearchTableView.reloadData() // reload
-        self.locationSearchTableView.isHidden = false // 보이게
+        self.locationSearchTableView.isHidden = false // 숨김 여부
         
         self.bookmarkTableView.isHidden = true
     }
@@ -89,7 +79,7 @@ extension LocationSearchViewController: UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         self.locationSearchTableView.isHidden = true
         
-        self.bookmarkTableView.tableViewCellCount = 10
+        self.bookmarkTableView.tableViewCellCount = 4
         self.bookmarkTableView.reloadData()
         self.bookmarkTableView.isHidden = false
     }
