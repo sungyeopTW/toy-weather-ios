@@ -12,6 +12,7 @@ import Then
 final class LocationSearchTableView: UITableView {
     
     var tableViewCellCount = 10
+    var navigation: UINavigationController?
     
     
     // MARK: - Life Cycle
@@ -31,6 +32,8 @@ final class LocationSearchTableView: UITableView {
     
     private func setupLocationSearchTableView() {
         self.dataSource = self
+        self.delegate = self
+        
         self.isHidden = true
         
         self.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
@@ -74,6 +77,21 @@ extension LocationSearchTableView: UITableViewDataSource {
         if tableViewCellCount == 0 { cell.selectionStyle = .none }
         
         return cell
+    }
+    
+}
+
+
+// MARK: - LocationSearchTableViewDelegate
+
+extension LocationSearchTableView: UITableViewDelegate {
+    
+    // 클릭 이벤트
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let locationDetailViewController = LocationDetailViewController()
+        
+        guard let navigation = navigation else { return }
+        navigation.pushViewController(locationDetailViewController, animated: true)
     }
     
 }
