@@ -11,7 +11,7 @@ import Then
 
 final class LocationSearchTableView: UITableView {
     
-    var tableViewCellCount = 0
+    var tableViewCellCount = 10
     
     
     // MARK: - Life Cycle
@@ -19,12 +19,31 @@ final class LocationSearchTableView: UITableView {
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
         
-        self.dataSource = self
-        self.isHidden = true
+        self.setupLocationSearchTableView()
+        self.setupTableViewSearator()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - Methods
+    
+    private func setupLocationSearchTableView() {
+        self.dataSource = self
+        self.register(LocationSearchViewCell.self, forCellReuseIdentifier: "locationSearchViewCell")
+        self.isHidden = true
+    }
+    
+    private func setupTableViewSearator() {
+        switch self.tableViewCellCount {
+        case 0:
+            self.separatorStyle = .none
+        default:
+            self.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
+            self.separatorColor = .black
+        }
     }
     
 }
@@ -44,9 +63,12 @@ extension LocationSearchTableView: UITableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        let cell = UITableViewCell().then({
-            $0.textLabel?.text = "검색할 지역 뜨는 셀!!!"
-        })
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: "locationSearchViewCell",
+            for: indexPath
+        )
+        
+        // TODO : 검색결과가 없을 경우 LocationSearchTableViewEmptyCell 넣어야 함
         
         return cell
     }
