@@ -26,6 +26,13 @@ final class LocationSearchViewController: UIViewController {
         self.setupConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    
+        self.setupNavigationController()
+        self.setupConstraints()
+    }
+    
     
     // MARK: - Methods
     
@@ -37,22 +44,20 @@ final class LocationSearchViewController: UIViewController {
     
     private func setupNavigationController() {
         // NavigationController
-        self.navigationController?.navigationBar.prefersLargeTitles = true /// Large Title
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.backgroundColor = .systemBackground
-        self.navigationItem.title = "오늘의 날씨 정보 🧑🏻‍💼"
-        self.navigationItem.hidesSearchBarWhenScrolling = false
 
-        
-        
         // SearchController
         let searchController = UISearchController().then({
             $0.searchBar.placeholder = "지역을 입력하세요 🗺"
-
-
             $0.hidesNavigationBarDuringPresentation = true
-
             $0.searchBar.delegate = self
         })
+        
+        // NavigationItem
+        self.navigationItem.title = "오늘의 날씨 정보 🧑🏻‍💼"
+        self.navigationItem.hidesSearchBarWhenScrolling = false
         self.navigationItem.searchController = searchController
     }
     
