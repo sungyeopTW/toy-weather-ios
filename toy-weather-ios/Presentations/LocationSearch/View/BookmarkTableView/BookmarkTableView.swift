@@ -11,7 +11,7 @@ import Then
 
 final class BookmarkTableView: UITableView {
     
-    var tableViewCellCount = 0
+    var tableViewCellCount = 5
     var navigation: UINavigationController?
     
     
@@ -21,14 +21,11 @@ final class BookmarkTableView: UITableView {
         super.init(frame: frame, style: style)
         
         self.setupBookmarkTableView()
-        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
     
 
     // MARK: - Methods

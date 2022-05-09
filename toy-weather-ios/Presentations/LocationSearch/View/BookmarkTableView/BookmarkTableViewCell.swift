@@ -29,7 +29,6 @@ final class BookmarkTableViewCell: UITableViewCell {
         $0.image = UIImage(systemName: "star.fill")
     })
 
-    
     private let locationLabel = UILabel().then({
         $0.font = .systemFont(ofSize: 20.0, weight: .regular)
     })
