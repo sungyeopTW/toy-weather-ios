@@ -11,7 +11,7 @@ import Then
 
 final class BookmarkTableView: UITableView {
     
-    var tableViewCellCount = 4
+    var tableViewCellCount = 0
     
     
     // MARK: - Life Cycle
@@ -20,34 +20,27 @@ final class BookmarkTableView: UITableView {
         super.init(frame: frame, style: style)
         
         self.setupBookmarkTableView()
-        self.setupTableViewSeparator()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    
 
     // MARK: - Methods
     
     private func setupBookmarkTableView() {
         self.dataSource = self
+        
+        self.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
+        
         self.register(BookmarkTableViewCell.self, forCellReuseIdentifier: "bookmarkTableViewCell")
         self.register(
             BookmarkTableViewEmptyCell.self,
             forCellReuseIdentifier: "bookmarkTableViewEmptyCell"
         )
-    }
-    
-    // tableViewCellCount에 따라 seperator 다르게 설정
-    private func setupTableViewSeparator() {
-        switch self.tableViewCellCount {
-        case 0:
-            self.separatorStyle = .none
-        default:
-            self.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
-            self.separatorColor = .black
-        }
     }
     
 }

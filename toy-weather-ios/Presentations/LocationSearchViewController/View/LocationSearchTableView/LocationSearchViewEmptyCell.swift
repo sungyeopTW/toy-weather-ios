@@ -1,8 +1,8 @@
 //
-//  BookmarkTableViewEmptyCell.swift
+//  LocationSearchViewEmptyCell.swift
 //  toy-weather-ios
 //
-//  Created by sungyeopTW on 2022/05/04.
+//  Created by sungyeopTW on 2022/05/09.
 //
 
 import UIKit
@@ -10,10 +10,9 @@ import UIKit
 import SnapKit
 import Then
 
-// Bookmark가 없을 경우 출력할 cell
-final class BookmarkTableViewEmptyCell: UITableViewCell {
+final class LocationSearchViewEmptyCell: UITableViewCell {
     
-    let descriptionText: String = "지역을 검색한 뒤 \n즐겨찾기를 추가하세요⭐️"
+    let descriptionText: String = "해당하는 지역이 없습니다."
     
     
     // MARK: - UI
