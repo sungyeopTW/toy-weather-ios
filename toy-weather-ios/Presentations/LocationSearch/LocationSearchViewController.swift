@@ -21,6 +21,7 @@ final class LocationSearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.initialize()
         self.setupNavigationController()
         self.setupConstraints()
     }
@@ -28,15 +29,26 @@ final class LocationSearchViewController: UIViewController {
     
     // MARK: - Methods
     
+    private func initialize() {
+        // navigationController 넘김
+        self.bookmarkTableView.navigation = self.navigationController
+        self.locationSearchTableView.navigation = self.navigationController
+    }
+    
     private func setupNavigationController() {
         // NavigationController
         self.navigationController?.navigationBar.prefersLargeTitles = true /// Large Title
         self.navigationController?.navigationBar.backgroundColor = .systemBackground
         self.navigationItem.title = "오늘의 날씨 정보 🧑🏻‍💼"
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+
+        
         
         // SearchController
         let searchController = UISearchController().then({
             $0.searchBar.placeholder = "지역을 입력하세요 🗺"
+
+
             $0.hidesNavigationBarDuringPresentation = true
 
             $0.searchBar.delegate = self
@@ -68,7 +80,7 @@ extension LocationSearchViewController: UISearchBarDelegate {
     
     // searchBar에 입력 시작 시 locationSearchTableView -- O / bookmarkTableView -- X
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        self.locationSearchTableView.tableViewCellCount = 0 // row count 변경
+        self.locationSearchTableView.tableViewCellCount = 10 // row count 변경
         self.locationSearchTableView.reloadData() // reload
         self.locationSearchTableView.isHidden = false // 숨김 여부
         

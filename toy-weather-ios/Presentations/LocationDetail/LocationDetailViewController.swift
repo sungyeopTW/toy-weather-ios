@@ -1,5 +1,5 @@
 //
-//  CurrentLocationViewController.swift
+//  LocationDetailViewController.swift
 //  toy-weather-ios
 //
 //  Created by sungyeopTW on 2022/05/03.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CurrentLocationViewController: UIViewController {
+final class LocationDetailViewController: UIViewController {
     
     
     // MARK: - Life Cycle

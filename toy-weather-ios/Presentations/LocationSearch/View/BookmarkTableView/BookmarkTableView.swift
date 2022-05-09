@@ -12,6 +12,7 @@ import Then
 final class BookmarkTableView: UITableView {
     
     var tableViewCellCount = 0
+    var navigation: UINavigationController?
     
     
     // MARK: - Life Cycle
@@ -20,6 +21,7 @@ final class BookmarkTableView: UITableView {
         super.init(frame: frame, style: style)
         
         self.setupBookmarkTableView()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -33,6 +35,7 @@ final class BookmarkTableView: UITableView {
     
     private func setupBookmarkTableView() {
         self.dataSource = self
+        self.delegate = self
         
         self.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         
@@ -70,6 +73,21 @@ extension BookmarkTableView: UITableViewDataSource {
         if tableViewCellCount == 0 { cell.selectionStyle = .none }
         
         return cell
+    }
+    
+}
+
+
+// MARK: - BookmarkTableViewDelegate
+
+extension BookmarkTableView: UITableViewDelegate {
+    
+    // 클릭 이벤트
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let locationDetailViewController = LocationDetailViewController()
+        
+        guard let navigation = navigation else { return }
+        navigation.pushViewController(locationDetailViewController, animated: true)
     }
     
 }
