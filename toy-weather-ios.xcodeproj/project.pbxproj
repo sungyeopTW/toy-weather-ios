@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		04C7FCB32822417400599E98 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C7FCB22822417400599E98 /* Colors.swift */; };
 		04C7FCB52822439B00599E98 /* TemperatureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C7FCB42822439B00599E98 /* TemperatureHelper.swift */; };
+		04C7FCB828225F4F00599E98 /* LocationSearchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C7FCB728225F4F00599E98 /* LocationSearchViewCell.swift */; };
 		04DD77752820AFC90049A3BD /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD77742820AFC90049A3BD /* LocationSearchViewController.swift */; };
 		04DD77772820AFEE0049A3BD /* CurrentLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD77762820AFEE0049A3BD /* CurrentLocationViewController.swift */; };
 		04DD777F28210B250049A3BD /* LocationSearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD777E28210B250049A3BD /* LocationSearchTableView.swift */; };
@@ -26,6 +27,7 @@
 /* Begin PBXFileReference section */
 		04C7FCB22822417400599E98 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		04C7FCB42822439B00599E98 /* TemperatureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureHelper.swift; sourceTree = "<group>"; };
+		04C7FCB728225F4F00599E98 /* LocationSearchViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewCell.swift; sourceTree = "<group>"; };
 		04DD77742820AFC90049A3BD /* LocationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewController.swift; sourceTree = "<group>"; };
 		04DD77762820AFEE0049A3BD /* CurrentLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationViewController.swift; sourceTree = "<group>"; };
 		04DD777E28210B250049A3BD /* LocationSearchTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTableView.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				04DD777E28210B250049A3BD /* LocationSearchTableView.swift */,
+				04C7FCB728225F4F00599E98 /* LocationSearchViewCell.swift */,
 			);
 			path = LocationSearchTableView;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				04C7FCB52822439B00599E98 /* TemperatureHelper.swift in Sources */,
 				04DFC087281BBBFD0089CBED /* AppDelegate.swift in Sources */,
 				04DD7785282209690049A3BD /* BookmarkTableViewEmptyCell.swift in Sources */,
+				04C7FCB828225F4F00599E98 /* LocationSearchViewCell.swift in Sources */,
 				04DFC089281BBBFD0089CBED /* SceneDelegate.swift in Sources */,
 				04DD778B28221DFF0049A3BD /* UIColor.swift in Sources */,
 			);

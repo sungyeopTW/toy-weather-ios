@@ -48,7 +48,6 @@ final class BookmarkTableView: UITableView {
             self.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
             self.separatorColor = .black
         }
-        
     }
     
 }
