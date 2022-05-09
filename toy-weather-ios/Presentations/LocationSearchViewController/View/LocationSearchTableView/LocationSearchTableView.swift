@@ -20,7 +20,6 @@ final class LocationSearchTableView: UITableView {
         super.init(frame: frame, style: style)
         
         self.setupLocationSearchTableView()
-        self.setupTableViewSearator()
     }
     
     required init?(coder: NSCoder) {
@@ -32,18 +31,20 @@ final class LocationSearchTableView: UITableView {
     
     private func setupLocationSearchTableView() {
         self.dataSource = self
-        self.register(LocationSearchViewCell.self, forCellReuseIdentifier: "locationSearchViewCell")
         self.isHidden = true
-    }
-    
-    private func setupTableViewSearator() {
-        switch self.tableViewCellCount {
-        case 0:
-            self.separatorStyle = .none
-        default:
-            self.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
-            self.separatorColor = .black
-        }
+        
+        self.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
+        
+        self.register(
+            LocationSearchViewCell.self,
+            forCellReuseIdentifier: "locationSearchViewCell"
+        )
+        self.register(
+            LocationSearchViewEmptyCell.self,
+            forCellReuseIdentifier: "locationSearchViewEmptyCell"
+        )
+        
+
     }
     
 }
@@ -55,7 +56,7 @@ extension LocationSearchTableView: UITableViewDataSource {
     
     // Section당 row
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.tableViewCellCount
+        return self.tableViewCellCount == 0 ? 1 : self.tableViewCellCount
     }
     
     // cell
@@ -64,11 +65,13 @@ extension LocationSearchTableView: UITableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
-            withIdentifier: "locationSearchViewCell",
+            withIdentifier: self.tableViewCellCount == 0
+                ? "locationSearchViewEmptyCell"
+                : "locationSearchViewCell",
             for: indexPath
         )
         
-        // TODO : 검색결과가 없을 경우 LocationSearchTableViewEmptyCell 넣어야 함
+        if tableViewCellCount == 0 { cell.selectionStyle = .none }
         
         return cell
     }

@@ -68,7 +68,7 @@ extension LocationSearchViewController: UISearchBarDelegate {
     
     // searchBar에 입력 시작 시 locationSearchTableView -- O / bookmarkTableView -- X
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        self.locationSearchTableView.tableViewCellCount = 10 // row count 변경
+        self.locationSearchTableView.tableViewCellCount = 0 // row count 변경
         self.locationSearchTableView.reloadData() // reload
         self.locationSearchTableView.isHidden = false // 숨김 여부
         
@@ -79,7 +79,7 @@ extension LocationSearchViewController: UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         self.locationSearchTableView.isHidden = true
         
-        self.bookmarkTableView.tableViewCellCount = 4
+        self.bookmarkTableView.tableViewCellCount = 5
         self.bookmarkTableView.reloadData()
         self.bookmarkTableView.isHidden = false
     }
