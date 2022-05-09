@@ -39,7 +39,7 @@ final class BookmarkTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.setupInitialValue()
+        self.initialize()
         self.setupConstraints()
     }
     
@@ -50,7 +50,7 @@ final class BookmarkTableViewCell: UITableViewCell {
     
     // MARK: - Methods
     
-    private func setupInitialValue() {
+    private func initialize() {
         self.temperatureLabel.text = self.isCelsius
             ? "\(self.temperature)°C"
             : "\(TemperatureHelper().functransformTemperatureToFahrenheit(self.temperature))°F"

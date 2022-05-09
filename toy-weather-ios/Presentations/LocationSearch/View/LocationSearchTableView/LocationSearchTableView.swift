@@ -20,7 +20,7 @@ final class LocationSearchTableView: UITableView {
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
         
-        self.setupLocationSearchTableView()
+        self.initialize()
     }
     
     required init?(coder: NSCoder) {
@@ -30,7 +30,7 @@ final class LocationSearchTableView: UITableView {
     
     // MARK: - Methods
     
-    private func setupLocationSearchTableView() {
+    private func initialize() {
         self.dataSource = self
         self.delegate = self
         

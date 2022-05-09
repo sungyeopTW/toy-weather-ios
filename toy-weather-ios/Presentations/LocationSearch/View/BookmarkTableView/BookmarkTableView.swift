@@ -20,7 +20,7 @@ final class BookmarkTableView: UITableView {
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
         
-        self.setupBookmarkTableView()
+        self.initialize()
     }
     
     required init?(coder: NSCoder) {
@@ -30,7 +30,7 @@ final class BookmarkTableView: UITableView {
 
     // MARK: - Methods
     
-    private func setupBookmarkTableView() {
+    private func initialize() {
         self.dataSource = self
         self.delegate = self
         

@@ -31,7 +31,7 @@ final class BookmarkTableViewEmptyCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.setupInitialValue()
+        self.initialize()
         self.setupConstraints()
     }
     
@@ -42,7 +42,7 @@ final class BookmarkTableViewEmptyCell: UITableViewCell {
     
     // MARK: - Methods
     
-    private func setupInitialValue() {
+    private func initialize() {
         self.descriptionLabel.text = self.descriptionText
     }
     
