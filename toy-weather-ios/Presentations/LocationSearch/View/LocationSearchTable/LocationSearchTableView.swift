@@ -40,14 +40,12 @@ final class LocationSearchTableView: UITableView {
         
         self.register(
             LocationSearchViewCell.self,
-            forCellReuseIdentifier: "locationSearchViewCell"
+            forCellReuseIdentifier: "LocationSearchViewCell"
         )
         self.register(
             LocationSearchViewEmptyCell.self,
-            forCellReuseIdentifier: "locationSearchViewEmptyCell"
+            forCellReuseIdentifier: "LocationSearchViewEmptyCell"
         )
-        
-
     }
     
 }
@@ -69,8 +67,8 @@ extension LocationSearchTableView: UITableViewDataSource {
     ) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: self.tableViewCellCount == 0
-                ? "locationSearchViewEmptyCell"
-                : "locationSearchViewCell",
+                ? "LocationSearchViewEmptyCell"
+                : "LocationSearchViewCell",
             for: indexPath
         )
         

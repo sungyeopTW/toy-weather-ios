@@ -36,10 +36,10 @@ final class BookmarkTableView: UITableView {
         
         self.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         
-        self.register(BookmarkTableViewCell.self, forCellReuseIdentifier: "bookmarkTableViewCell")
+        self.register(BookmarkTableViewCell.self, forCellReuseIdentifier: "BookmarkTableViewCell")
         self.register(
             BookmarkTableViewEmptyCell.self,
-            forCellReuseIdentifier: "bookmarkTableViewEmptyCell"
+            forCellReuseIdentifier: "BookmarkTableViewEmptyCell"
         )
     }
     
@@ -62,8 +62,8 @@ extension BookmarkTableView: UITableViewDataSource {
     ) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: tableViewCellCount == 0
-                ? "bookmarkTableViewEmptyCell"
-                : "bookmarkTableViewCell",
+                ? "BookmarkTableViewEmptyCell"
+                : "BookmarkTableViewCell",
             for: indexPath
         )
         

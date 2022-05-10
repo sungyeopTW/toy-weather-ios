@@ -32,14 +32,13 @@ final class WeatherDetailCollectionView: UICollectionView {
         self.dataSource = self
         self.delegate = self
         
-        // TODO: 추후 identifier 첫문자 대문자로 싹--- 바꿉시당
         self.register(
             WeatherDetailCollectionViewTemperatureCell.self,
-            forCellWithReuseIdentifier: "weatherDetailCollectionViewTemperatureCell"
+            forCellWithReuseIdentifier: "WeatherDetailCollectionViewTemperatureCell"
         )
         self.register(
             WeatherDetailCollectionViewCell.self,
-            forCellWithReuseIdentifier: "weatherDetailCollectionViewCell"
+            forCellWithReuseIdentifier: "WeatherDetailCollectionViewCell"
         )
     }
 
@@ -65,8 +64,8 @@ extension WeatherDetailCollectionView: UICollectionViewDataSource {
     ) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: indexPath[1] == 0
-                ? "weatherDetailCollectionViewTemperatureCell"
-                : "weatherDetailCollectionViewCell",
+                ? "WeatherDetailCollectionViewTemperatureCell"
+                : "WeatherDetailCollectionViewCell",
             for: indexPath
         )
         
@@ -78,7 +77,6 @@ extension WeatherDetailCollectionView: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
-// layout으로 flowLayout을 사용했으므로
 extension WeatherDetailCollectionView: UICollectionViewDelegateFlowLayout {
     
     // item size
@@ -92,11 +90,4 @@ extension WeatherDetailCollectionView: UICollectionViewDelegateFlowLayout {
         return CGSize(width: width, height: indexPath[1] == 0 ? width : 120)
     }
     
-    // func collectionView(
-    //     _ collectionView: UICollectionView,
-    //     layout collectionViewLayout: UICollectionViewLayout,
-    //     insetForSectionAt section: Int
-    // ) -> UIEdgeInsets {
-    //     return UIEdgeInsets(top: -10, left: 0, bottom: 0, right: 0)
-    // }
 }
