@@ -40,8 +40,12 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
         $0.textColor = .white
     })
     
-    private let starImageView = UIImageView(frame: .zero).then({
-        $0.image = UIImage(systemName: "star.fill")
+    // TODO: 다른 star 들도 변경, color 변수명도 바꾸자
+    private let bookmarkButton = UIButton(frame: .zero).then({
+        $0.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        $0.contentHorizontalAlignment = .fill
+        $0.contentVerticalAlignment = .fill
+        $0.imageView?.contentMode = .scaleAspectFit
     })
     
     private let skyLabel = UILabel().then({
@@ -75,7 +79,7 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
         // label text
         self.subTitleLabel.text = self.subTitle
         self.titleLabel.text = self.title
-        self.starImageView.tintColor = self.isBookmarked ? .yellowStarColor : .grayStarColor
+        self.bookmarkButton.tintColor = self.isBookmarked ? .yellowStarColor : .grayStarColor
         self.skyLabel.text = self.sky
         self.temperatureLabel.text = self.isCelsius
             ? "\(self.temperature)°C"
@@ -87,7 +91,7 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
             self.backgroundImageView,
             self.subTitleLabel,
             self.titleLabel,
-            self.starImageView,
+            self.bookmarkButton,
             self.skyLabel,
             self.temperatureLabel
         ]
@@ -110,8 +114,8 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
             $0.leading.equalTo(self.subTitleLabel)
         })
         
-        // starImageView layout
-        self.starImageView.snp.makeConstraints({
+        // bookmarkButton layout
+        self.bookmarkButton.snp.makeConstraints({
             $0.width.height.equalTo(45)
             
             $0.top.equalTo(self.subTitleLabel.snp.top)
