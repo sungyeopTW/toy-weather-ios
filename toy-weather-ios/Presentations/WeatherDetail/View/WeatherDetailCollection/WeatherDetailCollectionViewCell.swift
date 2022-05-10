@@ -13,7 +13,7 @@ import Then
 final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     
     var subTitleText = "바람의 풍향, 풍속"
-    var titleLabelText = "바람"
+    var titleLabelText = "바람 💨"
     var contentLabelText = "컨텐츠"
     
     
@@ -52,10 +52,8 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     // MARK: - Methods
     
     func initialize() {
-        // self.backgroundColor = UIColor.grayBackGroundColor /// ??  필요할까
-        self.layer.borderWidth = 1.0
-        self.layer.borderColor = UIColor.grayBorderColor.cgColor
-        // self.layer.cornerRadius = 12.0
+        // just bottom border
+        self.layer.addBorder([.bottom], color: .grayBorderColor, width: 1.0)
         
         // label text
         self.subTitleLabel.text = self.subTitleText

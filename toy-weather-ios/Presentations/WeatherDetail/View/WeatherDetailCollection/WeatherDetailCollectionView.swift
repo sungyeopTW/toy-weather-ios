@@ -92,4 +92,11 @@ extension WeatherDetailCollectionView: UICollectionViewDelegateFlowLayout {
         return CGSize(width: width, height: indexPath[1] == 0 ? width : 120)
     }
     
+    // func collectionView(
+    //     _ collectionView: UICollectionView,
+    //     layout collectionViewLayout: UICollectionViewLayout,
+    //     insetForSectionAt section: Int
+    // ) -> UIEdgeInsets {
+    //     return UIEdgeInsets(top: -10, left: 0, bottom: 0, right: 0)
+    // }
 }
