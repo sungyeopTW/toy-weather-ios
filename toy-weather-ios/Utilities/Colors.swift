@@ -12,4 +12,6 @@ extension UIColor {
     static let grayStarColor = UIColor(hex: "c5c5c5")
     static let yellowStarColor = UIColor(hex: "fbcb7d")
     
+    static let grayBorderColor = UIColor(hex: "e9ecef")
+    
 }
