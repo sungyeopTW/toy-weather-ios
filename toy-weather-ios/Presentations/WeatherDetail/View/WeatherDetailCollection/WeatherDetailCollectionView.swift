@@ -34,6 +34,10 @@ final class WeatherDetailCollectionView: UICollectionView {
         
         // TODO: 추후 identifier 첫문자 대문자로 싹--- 바꿉시당
         self.register(
+            WeatherDetailCollectionViewTemperatureCell.self,
+            forCellWithReuseIdentifier: "weatherDetailCollectionViewTemperatureCell"
+        )
+        self.register(
             WeatherDetailCollectionViewCell.self,
             forCellWithReuseIdentifier: "weatherDetailCollectionViewCell"
         )
@@ -51,7 +55,7 @@ extension WeatherDetailCollectionView: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        5
+        4
     }
     
     // cell
@@ -59,14 +63,12 @@ extension WeatherDetailCollectionView: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "weatherDetailCollectionViewCell",
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: indexPath[1] == 0
+                ? "weatherDetailCollectionViewTemperatureCell"
+                : "weatherDetailCollectionViewCell",
             for: indexPath
-        ) as? WeatherDetailCollectionViewCell
-        
-        else {
-            return UICollectionViewCell()
-        }
+        )
         
         return cell
     }
@@ -87,7 +89,7 @@ extension WeatherDetailCollectionView: UICollectionViewDelegateFlowLayout {
     ) -> CGSize {
         let width = collectionView.frame.width - 32.0
     
-        return CGSize(width: width, height: width)
+        return CGSize(width: width, height: indexPath[1] == 0 ? width : 120)
     }
     
 }
