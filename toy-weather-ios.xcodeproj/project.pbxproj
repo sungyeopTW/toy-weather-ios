@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		04465491282A2DE600CF286B /* WeatherDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04465490282A2DE600CF286B /* WeatherDetailCollectionViewCell.swift */; };
+		04465493282A4A2000CF286B /* CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04465492282A4A2000CF286B /* CALayer.swift */; };
 		04C7FCB32822417400599E98 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C7FCB22822417400599E98 /* Colors.swift */; };
 		04C7FCB52822439B00599E98 /* TemperatureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C7FCB42822439B00599E98 /* TemperatureHelper.swift */; };
 		04C7FCB828225F4F00599E98 /* LocationSearchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C7FCB728225F4F00599E98 /* LocationSearchViewCell.swift */; };
@@ -30,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		04465490282A2DE600CF286B /* WeatherDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		04465492282A4A2000CF286B /* CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALayer.swift; sourceTree = "<group>"; };
 		04C7FCB22822417400599E98 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		04C7FCB42822439B00599E98 /* TemperatureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureHelper.swift; sourceTree = "<group>"; };
 		04C7FCB728225F4F00599E98 /* LocationSearchViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewCell.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				04DD778A28221DFF0049A3BD /* UIColor.swift */,
+				04465492282A4A2000CF286B /* CALayer.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 				04C7FCB52822439B00599E98 /* TemperatureHelper.swift in Sources */,
 				04F7FA4A2829E8F70089AC77 /* WeatherDetailCollectionViewTemperatureCell.swift in Sources */,
 				04F7FA362828972C0089AC77 /* LocationSearchViewEmptyCell.swift in Sources */,
+				04465493282A4A2000CF286B /* CALayer.swift in Sources */,
 				04DFC087281BBBFD0089CBED /* AppDelegate.swift in Sources */,
 				04465491282A2DE600CF286B /* WeatherDetailCollectionViewCell.swift in Sources */,
 				04DD7785282209690049A3BD /* BookmarkTableViewEmptyCell.swift in Sources */,
