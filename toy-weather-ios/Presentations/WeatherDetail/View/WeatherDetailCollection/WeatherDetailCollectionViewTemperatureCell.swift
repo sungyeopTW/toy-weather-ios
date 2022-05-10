@@ -23,7 +23,7 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     
     // MARK: - UI
     
-    private let imageView = UIImageView().then({
+    private let backgroundImageView = UIImageView().then({
         $0.contentMode = .scaleAspectFill /// 비율유지 더 작은 사이즈에 맞춤
         $0.clipsToBounds = true /// image가 imageView보다 크면 맞춰 자름
         $0.layer.cornerRadius = 12.0
@@ -38,6 +38,10 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     private let titleLabel = UILabel().then({
         $0.font = .systemFont(ofSize: 45.0, weight: .bold)
         $0.textColor = .white
+    })
+    
+    private let starImageView = UIImageView(frame: .zero).then({
+        $0.image = UIImage(systemName: "star.fill")
     })
     
     private let skyLabel = UILabel().then({
@@ -71,6 +75,7 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
         // label text
         self.subTitleLabel.text = self.subTitle
         self.titleLabel.text = self.title
+        self.starImageView.tintColor = self.isBookmarked ? .yellowStarColor : .grayStarColor
         self.skyLabel.text = self.sky
         self.temperatureLabel.text = self.isCelsius
             ? "\(self.temperature)°C"
@@ -79,16 +84,17 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     
     func setupConstraints() {
         let subViews = [
-            self.imageView,
+            self.backgroundImageView,
             self.subTitleLabel,
             self.titleLabel,
+            self.starImageView,
             self.skyLabel,
             self.temperatureLabel
         ]
         subViews.forEach({ self.addSubview($0) })
         
         // imageView layout
-        self.imageView.snp.makeConstraints({
+        self.backgroundImageView.snp.makeConstraints({
             $0.edges.equalToSuperview()
         })
         
@@ -104,6 +110,15 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
             $0.leading.equalTo(self.subTitleLabel)
         })
         
+        // starImageView layout
+        self.starImageView.snp.makeConstraints({
+            $0.width.height.equalTo(45)
+            
+            $0.top.equalTo(self.subTitleLabel.snp.top)
+            $0.trailing.equalTo(self.skyLabel.snp.trailing)
+        })
+        
+        // skyLabel layout
         self.skyLabel.snp.makeConstraints({
             $0.bottom.equalTo(self.temperatureLabel.snp.top).offset(10)
             $0.trailing.equalToSuperview().offset(-34)

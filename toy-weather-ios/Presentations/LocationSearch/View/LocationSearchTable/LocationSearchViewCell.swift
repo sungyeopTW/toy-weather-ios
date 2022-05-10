@@ -46,7 +46,7 @@ final class LocationSearchViewCell: UITableViewCell {
     
     private func initialize() {
         self.locationLabel.text = self.location
-        self.starImageView.tintColor = isBookmarked ? .yellowStarColor : .grayStarColor
+        self.starImageView.tintColor = self.isBookmarked ? .yellowStarColor : .grayStarColor
     }
     
     private func setupConstraints() {
