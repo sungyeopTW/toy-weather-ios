@@ -12,6 +12,8 @@ import Then
 
 final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     
+    var index: Int?
+    
     var subTitleText = "바람의 풍향, 풍속"
     var titleLabelText = "바람 💨"
     var contentLabelText = "컨텐츠"
