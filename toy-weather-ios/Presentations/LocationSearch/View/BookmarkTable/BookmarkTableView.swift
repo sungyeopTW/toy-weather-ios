@@ -81,10 +81,10 @@ extension BookmarkTableView: UITableViewDelegate {
     
     // 클릭 이벤트
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let locationDetailViewController = LocationDetailViewController()
+        let weatherDetailViewController = WeatherDetailViewController()
         
         guard let navigation = navigation else { return }
-        navigation.pushViewController(locationDetailViewController, animated: true)
+        navigation.pushViewController(weatherDetailViewController, animated: true)
     }
     
 }
