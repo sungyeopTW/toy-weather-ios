@@ -106,13 +106,13 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
         
         self.skyLabel.snp.makeConstraints({
             $0.bottom.equalTo(self.temperatureLabel.snp.top).offset(10)
-            $0.trailing.equalToSuperview().offset(-32)
+            $0.trailing.equalToSuperview().offset(-34)
         })
         
         // contentLabel layout
         self.temperatureLabel.snp.makeConstraints({
             $0.bottom.equalToSuperview().offset(-16)
-            $0.trailing.equalTo(self.skyLabel)
+            $0.trailing.equalTo(self.skyLabel).offset(2)
         })
     }
     
