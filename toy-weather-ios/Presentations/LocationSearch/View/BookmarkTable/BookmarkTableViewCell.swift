@@ -75,12 +75,22 @@ final class BookmarkTableViewCell: UITableViewCell {
         self.bookmarkButton.tintColor = self.isBookmarked
             ? .yellowBookmarkColor
             : .grayBookmarkColor
+        self.bookmarkButton.addTarget(
+            self,
+            action: #selector(tabBookmarkButton(_:)),
+            for: .touchUpInside)
     }
     
     // tabTemperatureButton
     @objc func tabTemperatureButton(_ sender: UIButton) {
         self.isCelsius = !self.isCelsius
-        print(self.isCelsius)
+        print("isCelsius : ", self.isCelsius)
+    }
+    
+    // tabBookmarkButton
+    @objc func tabBookmarkButton(_ sender: UIButton) {
+        self.isBookmarked = !self.isBookmarked
+        print("isBookmarked : ", self.isBookmarked)
     }
     
 }

@@ -83,6 +83,10 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
         self.bookmarkButton.tintColor = self.isBookmarked
             ? .yellowBookmarkColor
             : .grayBookmarkColor
+        self.bookmarkButton.addTarget(
+            self,
+            action: #selector(tabBookmarkButton),
+            for: .touchUpInside)
         
         // temperatureButton
         self.temperatureButton.setTitle(
@@ -101,7 +105,13 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     // tabTemperatureButton
     @objc func tabTemperatureButton(_ sender: UIButton) {
         self.isCelsius = !self.isCelsius
-        print(self.isCelsius)
+        print("isCelsius : ", self.isCelsius)
+    }
+    
+    // tabBookmarkButton
+    @objc func tabBookmarkButton(_ sender: UIButton) {
+        self.isBookmarked = !self.isBookmarked
+        print("isBookmarked : ", self.isBookmarked)
     }
     
 }
