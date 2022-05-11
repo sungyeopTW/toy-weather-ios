@@ -70,7 +70,9 @@ extension LocationSearchTableView: UITableViewDataSource {
                 ? "LocationSearchViewEmptyCell"
                 : "LocationSearchViewCell",
             for: indexPath
-        )
+        ).then({
+            $0.selectionStyle = .none
+        })
         
         if tableViewCellCount == 0 { cell.selectionStyle = .none }
         

@@ -65,7 +65,9 @@ extension BookmarkTableView: UITableViewDataSource {
                 ? "BookmarkTableViewEmptyCell"
                 : "BookmarkTableViewCell",
             for: indexPath
-        )
+        ).then({
+            $0.selectionStyle = .none
+        })
         
         if tableViewCellCount == 0 { cell.selectionStyle = .none }
         
