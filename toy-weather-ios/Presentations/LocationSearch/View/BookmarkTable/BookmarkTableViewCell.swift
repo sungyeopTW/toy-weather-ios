@@ -25,8 +25,11 @@ final class BookmarkTableViewCell: UITableViewCell {
         $0.font = .systemFont(ofSize: 40.0, weight: .bold)
     })
     
-    private let starImageView = UIImageView(frame: .zero).then({
-        $0.image = UIImage(systemName: "star.fill")
+    private let bookmarkButton = UIButton(frame: .zero).then({
+        $0.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        $0.contentHorizontalAlignment = .fill
+        $0.contentVerticalAlignment = .fill
+        $0.imageView?.contentMode = .scaleAspectFit
     })
 
     private let locationLabel = UILabel().then({
@@ -54,7 +57,9 @@ final class BookmarkTableViewCell: UITableViewCell {
         self.temperatureLabel.text = self.isCelsius
             ? "\(self.temperature)°C"
             : "\(TemperatureHelper().functransformTemperatureToFahrenheit(self.temperature))°F"
-        self.starImageView.tintColor = isBookmarked ? .yellowStarColor : .grayStarColor
+        self.bookmarkButton.tintColor = self.isBookmarked
+            ? .yellowBookmarkColor
+            : .grayBookmarkColor
         self.locationLabel.text = self.location
     }
     
@@ -65,7 +70,7 @@ final class BookmarkTableViewCell: UITableViewCell {
             $0.height.equalTo(80)
         })
         
-        let subViews = [self.temperatureLabel, self.starImageView, self.locationLabel]
+        let subViews = [self.temperatureLabel, self.bookmarkButton, self.locationLabel]
         subViews.forEach { self.contentView.addSubview($0) }
         
         // temperatureLabel layout
@@ -77,8 +82,8 @@ final class BookmarkTableViewCell: UITableViewCell {
             $0.bottom.equalToSuperview()
         })
         
-        // starImageView layout
-        self.starImageView.snp.makeConstraints({
+        // bookmarkButton layout
+        self.bookmarkButton.snp.makeConstraints({
             $0.width.height.equalTo(32)
         
             $0.trailing.equalTo(self.temperatureLabel.snp.trailing)
@@ -88,7 +93,7 @@ final class BookmarkTableViewCell: UITableViewCell {
         // locationLabel layout
         self.locationLabel.snp.makeConstraints({
             $0.trailing.equalTo(self.temperatureLabel.snp.trailing)
-            $0.top.equalTo(self.starImageView.snp.bottom).offset(4)
+            $0.top.equalTo(self.bookmarkButton.snp.bottom).offset(4)
         })
     }
     

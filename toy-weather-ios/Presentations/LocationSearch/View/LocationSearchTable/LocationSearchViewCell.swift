@@ -23,8 +23,11 @@ final class LocationSearchViewCell: UITableViewCell {
         $0.font = .systemFont(ofSize: 22.0, weight: .regular)
     })
     
-    private let starImageView = UIImageView(frame: .zero).then({
-        $0.image = UIImage(systemName: "star.fill")
+    private let bookmarkButton = UIButton(frame: .zero).then({
+        $0.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        $0.contentHorizontalAlignment = .fill
+        $0.contentVerticalAlignment = .fill
+        $0.imageView?.contentMode = .scaleAspectFit
     })
     
     
@@ -46,7 +49,9 @@ final class LocationSearchViewCell: UITableViewCell {
     
     private func initialize() {
         self.locationLabel.text = self.location
-        self.starImageView.tintColor = self.isBookmarked ? .yellowStarColor : .grayStarColor
+        self.bookmarkButton.tintColor = self.isBookmarked
+            ? .yellowBookmarkColor
+            : .grayBookmarkColor
     }
     
     private func setupConstraints() {
@@ -56,7 +61,7 @@ final class LocationSearchViewCell: UITableViewCell {
             $0.height.equalTo(50)
         })
         
-        let subViews = [self.locationLabel, self.starImageView]
+        let subViews = [self.locationLabel, self.bookmarkButton]
         subViews.forEach { self.contentView.addSubview($0) }
         
         // locationLabel
@@ -65,8 +70,8 @@ final class LocationSearchViewCell: UITableViewCell {
             $0.centerY.equalToSuperview()
         })
         
-        // starImageView
-        self.starImageView.snp.makeConstraints({
+        // bookmarkButton layout
+        self.bookmarkButton.snp.makeConstraints({
             $0.width.height.equalTo(32)
             
             $0.trailing.equalToSuperview().offset(-20)
