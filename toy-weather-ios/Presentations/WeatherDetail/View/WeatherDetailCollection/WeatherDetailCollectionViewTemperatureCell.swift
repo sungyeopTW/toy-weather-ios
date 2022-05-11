@@ -40,7 +40,6 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
         $0.textColor = .white
     })
     
-    // TODO: 다른 star 들도 변경, color 변수명도 바꾸자
     private let bookmarkButton = UIButton(frame: .zero).then({
         $0.setImage(UIImage(systemName: "star.fill"), for: .normal)
         $0.contentHorizontalAlignment = .fill
@@ -75,7 +74,7 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     
     // MARK: - Methods
     
-    func initialize() {
+    private func initialize() {
         self.subTitleLabel.text = self.subTitle
         self.titleLabel.text = self.title
         self.bookmarkButton.tintColor = self.isBookmarked
@@ -87,7 +86,14 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
             : "\(TemperatureHelper().functransformTemperatureToFahrenheit(self.temperature))°F"
     }
     
-    func setupConstraints() {
+}
+
+
+// MARK: - Layout
+
+extension WeatherDetailCollectionViewTemperatureCell {
+    
+    private func setupConstraints() {
         let subViews = [
             self.backgroundImageView,
             self.subTitleLabel,

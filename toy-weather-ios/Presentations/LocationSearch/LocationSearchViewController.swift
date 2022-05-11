@@ -61,21 +61,6 @@ final class LocationSearchViewController: UIViewController {
         self.navigationItem.searchController = searchController
     }
     
-    private func setupConstraints() {
-        let subViews = [self.bookmarkTableView, self.locationSearchTableView]
-        subViews.forEach{ self.view.addSubview($0) }
-        
-        // bookmarkTableView layout
-        self.bookmarkTableView.snp.makeConstraints({
-            $0.edges.equalTo(self.view.safeAreaLayoutGuide)
-        })
-        
-        // locationSearchTableView layout
-        self.locationSearchTableView.snp.makeConstraints({
-            $0.edges.equalTo(self.view.safeAreaLayoutGuide)
-        })
-    }
-    
 }
 
 
@@ -99,6 +84,28 @@ extension LocationSearchViewController: UISearchBarDelegate {
         self.bookmarkTableView.tableViewCellCount = 5
         self.bookmarkTableView.reloadData()
         self.bookmarkTableView.isHidden = false
+    }
+    
+}
+
+
+// MARK: - Layout
+
+extension LocationSearchViewController {
+    
+    private func setupConstraints() {
+        let subViews = [self.bookmarkTableView, self.locationSearchTableView]
+        subViews.forEach{ self.view.addSubview($0) }
+        
+        // bookmarkTableView layout
+        self.bookmarkTableView.snp.makeConstraints({
+            $0.edges.equalTo(self.view.safeAreaLayoutGuide)
+        })
+        
+        // locationSearchTableView layout
+        self.locationSearchTableView.snp.makeConstraints({
+            $0.edges.equalTo(self.view.safeAreaLayoutGuide)
+        })
     }
     
 }

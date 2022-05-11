@@ -63,6 +63,13 @@ final class BookmarkTableViewCell: UITableViewCell {
         self.locationLabel.text = self.location
     }
     
+}
+
+
+// MARK: - Layout
+
+extension BookmarkTableViewCell {
+    
     private func setupConstraints() {
         // contentView layout
         self.contentView.snp.makeConstraints({

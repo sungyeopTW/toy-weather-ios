@@ -44,6 +44,13 @@ final class LocationSearchViewEmptyCell: UITableViewCell {
     private func initialize() {
         self.descriptionLabel.text = self.descriptionText
     }
+
+}
+
+
+// MARK: - Layout
+
+extension LocationSearchViewEmptyCell {
     
     private func setupConstraints() {
         // contentView layout
@@ -61,5 +68,5 @@ final class LocationSearchViewEmptyCell: UITableViewCell {
             $0.center.equalToSuperview()
         })
     }
-
+    
 }

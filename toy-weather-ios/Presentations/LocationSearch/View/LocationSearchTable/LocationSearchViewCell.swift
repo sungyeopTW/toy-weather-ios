@@ -54,6 +54,13 @@ final class LocationSearchViewCell: UITableViewCell {
             : .grayBookmarkColor
     }
     
+}
+
+
+// MARK: - Layout
+
+extension LocationSearchViewCell {
+    
     private func setupConstraints() {
         // contentView layout
         self.contentView.snp.makeConstraints({
@@ -78,4 +85,5 @@ final class LocationSearchViewCell: UITableViewCell {
             $0.centerY.equalToSuperview()
         })
     }
+    
 }

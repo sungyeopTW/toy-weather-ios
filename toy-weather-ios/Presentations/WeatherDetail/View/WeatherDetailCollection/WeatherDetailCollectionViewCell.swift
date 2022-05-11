@@ -53,7 +53,7 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Methods
     
-    func initialize() {
+    private func initialize() {
         // just bottom border
         self.layer.addBorder([.bottom], color: .grayBorderColor, width: 1.0)
         
@@ -63,7 +63,14 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
         self.contentLabel.text = self.contentLabelText
     }
     
-    func setupConstraints() {
+}
+
+
+// MARK: - Layout
+
+extension WeatherDetailCollectionViewCell {
+    
+    private func setupConstraints() {
         let subViews = [self.subTitleLabel, self.titleLabel, self.contentLabel]
         subViews.forEach({ self.addSubview($0) })
         

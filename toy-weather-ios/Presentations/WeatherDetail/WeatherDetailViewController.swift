@@ -15,9 +15,6 @@ final class WeatherDetailViewController: UIViewController {
     private let weatherDetailCollectionView = WeatherDetailCollectionView()
     
     
-    // MARK: - UI
-    
-    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -33,6 +30,13 @@ final class WeatherDetailViewController: UIViewController {
     private func initialize() {
         self.navigationItem.title = "날씨 상세정보 🏖"
     }
+        
+}
+
+
+// MARK: - Layout
+
+extension WeatherDetailViewController {
     
     private func setupConstraint() {
         self.view.addSubview(self.weatherDetailCollectionView)
