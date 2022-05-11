@@ -21,8 +21,9 @@ final class BookmarkTableViewCell: UITableViewCell {
     
     // MARK: - UI
     
-    private let temperatureLabel = UILabel().then({
-        $0.font = .systemFont(ofSize: 40.0, weight: .bold)
+    private let temperatureButton = UIButton().then({
+        $0.titleLabel?.font = .systemFont(ofSize: 45.0, weight: .bold)
+        $0.setTitleColor(.black, for: .normal)
     })
     
     private let bookmarkButton = UIButton(frame: .zero).then({
@@ -54,13 +55,32 @@ final class BookmarkTableViewCell: UITableViewCell {
     // MARK: - Methods
     
     private func initialize() {
-        self.temperatureLabel.text = self.isCelsius
-            ? "\(self.temperature)°C"
-            : "\(TemperatureHelper().functransformTemperatureToFahrenheit(self.temperature))°F"
+        // label
+        self.locationLabel.text = self.location
+        
+        // temperatureButton
+        self.temperatureButton.setTitle(
+            self.isCelsius
+                ? "\(self.temperature)°C"
+                : "\(TemperatureHelper().functransformTemperatureToFahrenheit(self.temperature))°F",
+            for: .normal
+        )
+        self.temperatureButton.addTarget(
+            self,
+            action: #selector(tabTemperatureButton(_:)),
+            for: .touchUpInside
+        )
+        
+        // bookmarkButton
         self.bookmarkButton.tintColor = self.isBookmarked
             ? .yellowBookmarkColor
             : .grayBookmarkColor
-        self.locationLabel.text = self.location
+    }
+    
+    // tabTemperatureButton
+    @objc func tabTemperatureButton(_ sender: UIButton) {
+        self.isCelsius = !self.isCelsius
+        print(self.isCelsius)
     }
     
 }
@@ -77,29 +97,28 @@ extension BookmarkTableViewCell {
             $0.height.equalTo(80)
         })
         
-        let subViews = [self.temperatureLabel, self.bookmarkButton, self.locationLabel]
+        let subViews = [self.temperatureButton, self.bookmarkButton, self.locationLabel]
         subViews.forEach { self.contentView.addSubview($0) }
         
         // temperatureLabel layout
-        self.temperatureLabel.snp.makeConstraints({
+        self.temperatureButton.snp.makeConstraints({
             $0.height.equalTo(60)
             
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().inset(16)
+            $0.leading.equalToSuperview().offset(20)
             $0.bottom.equalToSuperview()
         })
         
         // bookmarkButton layout
         self.bookmarkButton.snp.makeConstraints({
             $0.width.height.equalTo(32)
-        
-            $0.trailing.equalTo(self.temperatureLabel.snp.trailing)
-            $0.top.equalTo(self.temperatureLabel).offset(-10)
+            
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.top.equalTo(self.temperatureButton).offset(-10)
         })
         
         // locationLabel layout
         self.locationLabel.snp.makeConstraints({
-            $0.trailing.equalTo(self.temperatureLabel.snp.trailing)
+            $0.trailing.equalTo(self.bookmarkButton.snp.trailing)
             $0.top.equalTo(self.bookmarkButton.snp.bottom).offset(4)
         })
     }
