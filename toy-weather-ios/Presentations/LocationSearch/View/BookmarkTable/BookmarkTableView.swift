@@ -69,8 +69,6 @@ extension BookmarkTableView: UITableViewDataSource {
             $0.selectionStyle = .none
         })
         
-        if tableViewCellCount == 0 { cell.selectionStyle = .none }
-        
         return cell
     }
     
@@ -83,10 +81,14 @@ extension BookmarkTableView: UITableViewDelegate {
     
     // 클릭 이벤트
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let weatherDetailViewController = WeatherDetailViewController()
         
-        guard let navigation = navigation else { return }
-        navigation.pushViewController(weatherDetailViewController, animated: true)
+        if self.tableViewCellCount != 0 {
+            let weatherDetailViewController = WeatherDetailViewController()
+            
+            guard let navigation = navigation else { return }
+            navigation.pushViewController(weatherDetailViewController, animated: true)
+        }
+
     }
     
 }
