@@ -76,10 +76,11 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     // MARK: - Methods
     
     func initialize() {
-        // label text
         self.subTitleLabel.text = self.subTitle
         self.titleLabel.text = self.title
-        self.bookmarkButton.tintColor = self.isBookmarked ? .yellowStarColor : .grayStarColor
+        self.bookmarkButton.tintColor = self.isBookmarked
+            ? .yellowBookmarkColor
+            : .grayBookmarkColor
         self.skyLabel.text = self.sky
         self.temperatureLabel.text = self.isCelsius
             ? "\(self.temperature)°C"
