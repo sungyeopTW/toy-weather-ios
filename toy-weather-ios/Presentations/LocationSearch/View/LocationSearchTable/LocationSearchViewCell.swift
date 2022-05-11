@@ -48,10 +48,23 @@ final class LocationSearchViewCell: UITableViewCell {
     // MARK: - Methods
     
     private func initialize() {
+        // label
         self.locationLabel.text = self.location
+        
+        // bookmarkButton
         self.bookmarkButton.tintColor = self.isBookmarked
             ? .yellowBookmarkColor
             : .grayBookmarkColor
+        self.bookmarkButton.addTarget(
+            self,
+            action: #selector(tabBookmarkButton),
+            for: .touchUpInside)
+    }
+    
+    // tabBookmarkButton
+    @objc func tabBookmarkButton(_ sender: UIButton) {
+        self.isBookmarked = !self.isBookmarked
+        print("isBookmarked : ", self.isBookmarked)
     }
     
 }

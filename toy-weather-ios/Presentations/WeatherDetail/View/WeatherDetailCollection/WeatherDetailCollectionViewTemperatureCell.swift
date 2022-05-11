@@ -92,7 +92,7 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
         self.temperatureButton.setTitle(
             self.isCelsius
                 ? "\(self.temperature)°C"
-                : "\(TemperatureHelper().functransformTemperatureToFahrenheit(self.temperature))°F",
+                : "\(TemperatureHelper().transformTemperatureToFahrenheit(self.temperature))°F",
             for: .normal
         )
         self.temperatureButton.addTarget(
