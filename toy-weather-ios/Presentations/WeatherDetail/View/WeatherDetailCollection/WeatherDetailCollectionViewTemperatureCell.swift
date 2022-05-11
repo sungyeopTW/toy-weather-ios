@@ -52,9 +52,8 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
         $0.textColor = .white
     })
     
-    private let temperatureLabel = UILabel().then({
-        $0.font = .systemFont(ofSize: 70.0, weight: .bold)
-        $0.textColor = .white
+    private let temperatureButton = UIButton().then({
+        $0.titleLabel?.font = .systemFont(ofSize: 70.0, weight: .bold)
     })
     
     
@@ -75,15 +74,34 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     // MARK: - Methods
     
     private func initialize() {
+        // label
         self.subTitleLabel.text = self.subTitle
         self.titleLabel.text = self.title
+        self.skyLabel.text = self.sky
+        
+        // bookmarkButton
         self.bookmarkButton.tintColor = self.isBookmarked
             ? .yellowBookmarkColor
             : .grayBookmarkColor
-        self.skyLabel.text = self.sky
-        self.temperatureLabel.text = self.isCelsius
-            ? "\(self.temperature)°C"
-            : "\(TemperatureHelper().functransformTemperatureToFahrenheit(self.temperature))°F"
+        
+        // temperatureButton
+        self.temperatureButton.setTitle(
+            self.isCelsius
+                ? "\(self.temperature)°C"
+                : "\(TemperatureHelper().functransformTemperatureToFahrenheit(self.temperature))°F",
+            for: .normal
+        )
+        self.temperatureButton.addTarget(
+            self,
+            action: #selector(tabTemperatureButton(_:)),
+            for: .touchUpInside
+        )
+    }
+    
+    // tabTemperatureButton
+    @objc func tabTemperatureButton(_ sender: UIButton) {
+        self.isCelsius = !self.isCelsius
+        print(self.isCelsius)
     }
     
 }
@@ -100,7 +118,7 @@ extension WeatherDetailCollectionViewTemperatureCell {
             self.titleLabel,
             self.bookmarkButton,
             self.skyLabel,
-            self.temperatureLabel
+            self.temperatureButton
         ]
         subViews.forEach({ self.addSubview($0) })
         
@@ -131,12 +149,12 @@ extension WeatherDetailCollectionViewTemperatureCell {
         
         // skyLabel layout
         self.skyLabel.snp.makeConstraints({
-            $0.bottom.equalTo(self.temperatureLabel.snp.top).offset(10)
+            $0.bottom.equalTo(self.temperatureButton.snp.top).offset(10)
             $0.trailing.equalToSuperview().offset(-34)
         })
         
-        // contentLabel layout
-        self.temperatureLabel.snp.makeConstraints({
+        // temperatureButton layout
+        self.temperatureButton.snp.makeConstraints({
             $0.bottom.equalToSuperview().offset(-16)
             $0.trailing.equalTo(self.skyLabel).offset(2)
         })
