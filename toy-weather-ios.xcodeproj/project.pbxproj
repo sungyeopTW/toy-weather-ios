@@ -88,8 +88,8 @@
 		04DD77702820ACB70049A3BD /* Presentations */ = {
 			isa = PBXGroup;
 			children = (
-				04DD77732820AD990049A3BD /* WeatherDetail */,
 				04DD77722820AD410049A3BD /* LocationSearch */,
+				04DD77732820AD990049A3BD /* WeatherDetail */,
 			);
 			path = Presentations;
 			sourceTree = "<group>";

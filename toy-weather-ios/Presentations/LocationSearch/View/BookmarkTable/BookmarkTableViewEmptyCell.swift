@@ -45,6 +45,13 @@ final class BookmarkTableViewEmptyCell: UITableViewCell {
     private func initialize() {
         self.descriptionLabel.text = self.descriptionText
     }
+
+}
+
+
+// MARK: - Layout
+
+extension BookmarkTableViewEmptyCell {
     
     private func setupConstraints() {
         // contentView layout
@@ -62,5 +69,5 @@ final class BookmarkTableViewEmptyCell: UITableViewCell {
             $0.center.equalToSuperview()
         })
     }
-
+    
 }
