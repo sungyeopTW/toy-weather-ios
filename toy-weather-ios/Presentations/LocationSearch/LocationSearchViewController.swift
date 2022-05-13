@@ -27,6 +27,7 @@ final class LocationSearchViewController: UIViewController {
 
     lazy var bookmarkTableView = UITableView().then {
         $0.dataSource = self /// self를 참조해야 하므로 lazy var
+        $0.delegate = self
         $0.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         $0.rowHeight = 80
         $0.register(BookmarkTableViewCell.self, forCellReuseIdentifier: "BookmarkTableViewCell")
@@ -137,6 +138,18 @@ extension LocationSearchViewController: UITableViewDataSource {
         }
         
         return UITableViewCell()
+    }
+    
+}
+
+
+// MARK: - BookmarkTableViewDelegate
+
+extension LocationSearchViewController: UITableViewDelegate {
+    
+    // tab event
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.navigationController?.pushViewController(WeatherDetailViewController(), animated: true)
     }
     
 }
