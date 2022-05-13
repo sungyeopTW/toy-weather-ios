@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0437FD86282E4CF90097C584 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0437FD85282E4CF90097C584 /* Enums.swift */; };
 		04465491282A2DE600CF286B /* WeatherDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04465490282A2DE600CF286B /* WeatherDetailCollectionViewCell.swift */; };
 		04465493282A4A2000CF286B /* CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04465492282A4A2000CF286B /* CALayer.swift */; };
 		04C7FCB32822417400599E98 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C7FCB22822417400599E98 /* Colors.swift */; };
@@ -15,7 +16,6 @@
 		04DD77752820AFC90049A3BD /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD77742820AFC90049A3BD /* LocationSearchViewController.swift */; };
 		04DD77772820AFEE0049A3BD /* WeatherDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD77762820AFEE0049A3BD /* WeatherDetailViewController.swift */; };
 		04DD777F28210B250049A3BD /* LocationSearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD777E28210B250049A3BD /* LocationSearchTableView.swift */; };
-		04DD7781282114420049A3BD /* BookmarkTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD7780282114420049A3BD /* BookmarkTableView.swift */; };
 		04DD7783282163350049A3BD /* BookmarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD7782282163350049A3BD /* BookmarkTableViewCell.swift */; };
 		04DD7785282209690049A3BD /* BookmarkTableViewEmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD7784282209690049A3BD /* BookmarkTableViewEmptyCell.swift */; };
 		04DD778B28221DFF0049A3BD /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD778A28221DFF0049A3BD /* UIColor.swift */; };
@@ -30,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0437FD85282E4CF90097C584 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		04465490282A2DE600CF286B /* WeatherDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		04465492282A4A2000CF286B /* CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALayer.swift; sourceTree = "<group>"; };
 		04C7FCB22822417400599E98 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -38,7 +39,6 @@
 		04DD77742820AFC90049A3BD /* LocationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewController.swift; sourceTree = "<group>"; };
 		04DD77762820AFEE0049A3BD /* WeatherDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailViewController.swift; sourceTree = "<group>"; };
 		04DD777E28210B250049A3BD /* LocationSearchTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTableView.swift; sourceTree = "<group>"; };
-		04DD7780282114420049A3BD /* BookmarkTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkTableView.swift; sourceTree = "<group>"; };
 		04DD7782282163350049A3BD /* BookmarkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkTableViewCell.swift; sourceTree = "<group>"; };
 		04DD7784282209690049A3BD /* BookmarkTableViewEmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkTableViewEmptyCell.swift; sourceTree = "<group>"; };
 		04DD778A28221DFF0049A3BD /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
@@ -124,7 +124,6 @@
 		04DD7786282213A70049A3BD /* BookmarkTable */ = {
 			isa = PBXGroup;
 			children = (
-				04DD7780282114420049A3BD /* BookmarkTableView.swift */,
 				04DD7782282163350049A3BD /* BookmarkTableViewCell.swift */,
 				04DD7784282209690049A3BD /* BookmarkTableViewEmptyCell.swift */,
 			);
@@ -156,6 +155,7 @@
 				04DFC08F281BBBFE0089CBED /* Assets.xcassets */,
 				04DFC091281BBBFE0089CBED /* LaunchScreen.storyboard */,
 				04C7FCB22822417400599E98 /* Colors.swift */,
+				0437FD85282E4CF90097C584 /* Enums.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -342,7 +342,6 @@
 			files = (
 				04DD77752820AFC90049A3BD /* LocationSearchViewController.swift in Sources */,
 				04C7FCB32822417400599E98 /* Colors.swift in Sources */,
-				04DD7781282114420049A3BD /* BookmarkTableView.swift in Sources */,
 				04DD777F28210B250049A3BD /* LocationSearchTableView.swift in Sources */,
 				04DD77772820AFEE0049A3BD /* WeatherDetailViewController.swift in Sources */,
 				04DD7783282163350049A3BD /* BookmarkTableViewCell.swift in Sources */,
@@ -356,6 +355,7 @@
 				04C7FCB828225F4F00599E98 /* LocationSearchViewCell.swift in Sources */,
 				04DFC089281BBBFD0089CBED /* SceneDelegate.swift in Sources */,
 				04F7FA482829E4EB0089AC77 /* WeatherDetailCollectionView.swift in Sources */,
+				0437FD86282E4CF90097C584 /* Enums.swift in Sources */,
 				04DD778B28221DFF0049A3BD /* UIColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

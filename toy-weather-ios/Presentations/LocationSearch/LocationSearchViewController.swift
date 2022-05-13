@@ -12,7 +12,7 @@ import Then
 
 final class LocationSearchViewController: UIViewController {
     
-    var tableViewCellCount = 5
+    var bookmarkCount = 5
     
     
     // MARK: - Enum
@@ -24,8 +24,13 @@ final class LocationSearchViewController: UIViewController {
     
     
     // MARK: - UI
-    
-    // let BookmarkTableView = UITableView()
+
+    lazy var bookmarkTableView = UITableView().then {
+        $0.dataSource = self /// self를 참조해야 하므로 lazy var
+        $0.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
+        $0.rowHeight = 80
+        $0.register(BookmarkTableViewCell.self, forCellReuseIdentifier: "BookmarkTableViewCell")
+    }
     
     
     // MARK: - Life Cycle
@@ -33,7 +38,7 @@ final class LocationSearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // self.initialize()
+        self.initialize()
         self.setupNavigationController()
         // self.setupConstraints()
     }
@@ -49,15 +54,12 @@ final class LocationSearchViewController: UIViewController {
     // MARK: - Methods
     
     private func initialize() {
-        // // navigationController 넘김
-        // self.bookmarkTableView.navigation = self.navigationController
-        // self.locationSearchTableView.navigation = self.navigationController
+        self.view = self.bookmarkTableView
     }
     
     private func setupNavigationController() {
         // NavigationController
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.backgroundColor = .white
         
         // NavigationItem
@@ -121,18 +123,20 @@ extension LocationSearchViewController {
 
 // MARK: - BookmarkTableViewDataSource
 
-// extension LocationSearchViewController: UITableViewDataSource {
+extension LocationSearchViewController: UITableViewDataSource {
     
-    // // section당 row
-    // func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    //     return self.tableViewCellCount
-    // }
-    //
-    // // cell
-    // func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    //     let cell = UITableViewCell()
-    //
-    //     return cell
-    // }
+    // section당 row
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.bookmarkCount
+    }
     
-// }
+    // cell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "BookmarkTableViewCell") {
+            return cell
+        }
+        
+        return UITableViewCell()
+    }
+    
+}

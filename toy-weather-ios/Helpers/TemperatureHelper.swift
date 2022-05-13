@@ -10,7 +10,7 @@
 
 protocol TemperatureHelperProtocol: AnyObject {
     
-    func transformTemperatureToFahrenheit(_ celsiusValue: Int) -> Int
+    func toFahrenheit(from celsiusValue: String) -> Int
     
 }
 
@@ -20,10 +20,14 @@ protocol TemperatureHelperProtocol: AnyObject {
 final class TemperatureHelper: TemperatureHelperProtocol {
     
     // 화씨로 온도 변형
-    func transformTemperatureToFahrenheit(_ celsiusValue: Int) -> Int {
-        let fahrenheitValue = (Double(celsiusValue) * 1.8) + 32
+    func toFahrenheit(from celsiusValue: String) -> Int {
+        if let celsiusValue = Int(celsiusValue) {
+            let fahrenheitValue = (Double(celsiusValue) * 1.8) + 32
+            
+            return Int(fahrenheitValue)
+        }
         
-        return Int(fahrenheitValue)
+        return 0
     }
     
 }
