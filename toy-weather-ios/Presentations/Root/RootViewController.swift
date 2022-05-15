@@ -1,5 +1,5 @@
 //
-//  LocationSearchViewController.swift
+//  RootViewController.swift
 //  toy-weather-ios
 //
 //  Created by sungyeopTW on 2022/05/03.
@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class LocationSearchViewController: UIViewController {
+final class RootViewController: UIViewController {
     
     var bookmarkCount = 5
     
@@ -77,7 +77,7 @@ final class LocationSearchViewController: UIViewController {
 
 // MARK: - LocationSearchBarDelegate
 
-extension LocationSearchViewController: UISearchBarDelegate {
+extension RootViewController: UISearchBarDelegate {
     
     // // searchBar에 입력 시작 시 locationSearchTableView -- O / bookmarkTableView -- X
     // func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -102,7 +102,7 @@ extension LocationSearchViewController: UISearchBarDelegate {
 
 // MARK: - Layout
 
-extension LocationSearchViewController {
+extension RootViewController {
     
     // private func setupConstraints() {
     //     let subViews = [self.bookmarkTableView, self.locationSearchTableView]
@@ -124,7 +124,7 @@ extension LocationSearchViewController {
 
 // MARK: - BookmarkTableViewDataSource
 
-extension LocationSearchViewController: UITableViewDataSource {
+extension RootViewController: UITableViewDataSource {
     
     // section당 row
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -145,7 +145,7 @@ extension LocationSearchViewController: UITableViewDataSource {
 
 // MARK: - BookmarkTableViewDelegate
 
-extension LocationSearchViewController: UITableViewDelegate {
+extension RootViewController: UITableViewDelegate {
     
     // tab event
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

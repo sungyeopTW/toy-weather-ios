@@ -13,7 +13,7 @@
 		04C7FCB32822417400599E98 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C7FCB22822417400599E98 /* Colors.swift */; };
 		04C7FCB52822439B00599E98 /* TemperatureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C7FCB42822439B00599E98 /* TemperatureHelper.swift */; };
 		04C7FCB828225F4F00599E98 /* LocationSearchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C7FCB728225F4F00599E98 /* LocationSearchViewCell.swift */; };
-		04DD77752820AFC90049A3BD /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD77742820AFC90049A3BD /* LocationSearchViewController.swift */; };
+		04DD77752820AFC90049A3BD /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD77742820AFC90049A3BD /* RootViewController.swift */; };
 		04DD77772820AFEE0049A3BD /* WeatherDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD77762820AFEE0049A3BD /* WeatherDetailViewController.swift */; };
 		04DD777F28210B250049A3BD /* LocationSearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD777E28210B250049A3BD /* LocationSearchTableView.swift */; };
 		04DD7783282163350049A3BD /* BookmarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD7782282163350049A3BD /* BookmarkTableViewCell.swift */; };
@@ -36,7 +36,7 @@
 		04C7FCB22822417400599E98 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		04C7FCB42822439B00599E98 /* TemperatureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureHelper.swift; sourceTree = "<group>"; };
 		04C7FCB728225F4F00599E98 /* LocationSearchViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewCell.swift; sourceTree = "<group>"; };
-		04DD77742820AFC90049A3BD /* LocationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewController.swift; sourceTree = "<group>"; };
+		04DD77742820AFC90049A3BD /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		04DD77762820AFEE0049A3BD /* WeatherDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailViewController.swift; sourceTree = "<group>"; };
 		04DD777E28210B250049A3BD /* LocationSearchTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTableView.swift; sourceTree = "<group>"; };
 		04DD7782282163350049A3BD /* BookmarkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkTableViewCell.swift; sourceTree = "<group>"; };
@@ -76,6 +76,23 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		04D3F99D2830CD81002AB0EA /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				04D3F99E2830CE21002AB0EA /* View */,
+				04DD77742820AFC90049A3BD /* RootViewController.swift */,
+			);
+			path = Root;
+			sourceTree = "<group>";
+		};
+		04D3F99E2830CE21002AB0EA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				04DD7786282213A70049A3BD /* BookmarkTableCell */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		04DD776D2820A4800049A3BD /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -88,6 +105,7 @@
 		04DD77702820ACB70049A3BD /* Presentations */ = {
 			isa = PBXGroup;
 			children = (
+				04D3F99D2830CD81002AB0EA /* Root */,
 				04DD77722820AD410049A3BD /* LocationSearch */,
 				04DD77732820AD990049A3BD /* WeatherDetail */,
 			);
@@ -98,7 +116,6 @@
 			isa = PBXGroup;
 			children = (
 				04DD777B2820F59C0049A3BD /* View */,
-				04DD77742820AFC90049A3BD /* LocationSearchViewController.swift */,
 			);
 			path = LocationSearch;
 			sourceTree = "<group>";
@@ -116,18 +133,17 @@
 			isa = PBXGroup;
 			children = (
 				04DD7787282213B30049A3BD /* LocationSearchTable */,
-				04DD7786282213A70049A3BD /* BookmarkTable */,
 			);
 			path = View;
 			sourceTree = "<group>";
 		};
-		04DD7786282213A70049A3BD /* BookmarkTable */ = {
+		04DD7786282213A70049A3BD /* BookmarkTableCell */ = {
 			isa = PBXGroup;
 			children = (
 				04DD7782282163350049A3BD /* BookmarkTableViewCell.swift */,
 				04DD7784282209690049A3BD /* BookmarkTableViewEmptyCell.swift */,
 			);
-			path = BookmarkTable;
+			path = BookmarkTableCell;
 			sourceTree = "<group>";
 		};
 		04DD7787282213B30049A3BD /* LocationSearchTable */ = {
@@ -340,7 +356,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04DD77752820AFC90049A3BD /* LocationSearchViewController.swift in Sources */,
+				04DD77752820AFC90049A3BD /* RootViewController.swift in Sources */,
 				04C7FCB32822417400599E98 /* Colors.swift in Sources */,
 				04DD777F28210B250049A3BD /* LocationSearchTableView.swift in Sources */,
 				04DD77772820AFEE0049A3BD /* WeatherDetailViewController.swift in Sources */,
