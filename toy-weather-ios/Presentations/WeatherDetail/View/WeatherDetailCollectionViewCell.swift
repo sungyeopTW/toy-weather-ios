@@ -12,7 +12,7 @@ import Then
 
 final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     
-    var index: Int?
+    var indexPath: Int?
     
     var subTitleText = "바람의 풍향, 풍속"
     var titleLabelText = "바람 💨"
@@ -62,6 +62,8 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
         self.titleLabel.text = self.titleLabelText
         self.contentLabel.text = self.contentLabelText
     }
+    
+    // TODO: 어떻게 IndexPath 가져 올거심 ?
     
 }
 

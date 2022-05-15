@@ -12,4 +12,8 @@ enum Symbol {
 
 enum Image {
     static let bookmark = "star.fill"
+    static let sunny = "sunny"
+    static let clouds = "clouds"
+    static let rain = "rain"
+    static let snow = "snow"
 }

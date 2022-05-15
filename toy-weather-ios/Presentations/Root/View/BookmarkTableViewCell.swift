@@ -58,7 +58,7 @@ final class BookmarkTableViewCell: UITableViewCell {
         
         // label
         self.locationLabel.text = self.location
-        self.temperatureLabel.text = isCelsius
+        self.temperatureLabel.text = self.isCelsius
             ? "\(self.temperature)\(Symbol.celsius)"
             : "\(TemperatureHelper().toFahrenheit(from: self.temperature))\(Symbol.fahrenheit)"
         
