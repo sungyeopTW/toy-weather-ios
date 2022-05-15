@@ -1,5 +1,5 @@
 //
-//  LocationSearchViewCell.swift
+//  LocationSearchTableViewCell.swift
 //  toy-weather-ios
 //
 //  Created by sungyeopTW on 2022/05/04.
@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class LocationSearchViewCell: UITableViewCell {
+final class LocationSearchTableViewCell: UITableViewCell {
     
     var location = "경기도 성남시중원구 중앙동"
     
@@ -24,7 +24,7 @@ final class LocationSearchViewCell: UITableViewCell {
     })
     
     private let bookmarkButton = UIButton(frame: .zero).then({
-        $0.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        $0.setImage(UIImage(systemName: Image.bookmark), for: .normal)
         $0.contentHorizontalAlignment = .fill
         $0.contentVerticalAlignment = .fill
         $0.imageView?.contentMode = .scaleAspectFit
@@ -48,6 +48,9 @@ final class LocationSearchViewCell: UITableViewCell {
     // MARK: - Methods
     
     private func initialize() {
+        // selectionStyle
+        self.selectionStyle = .none
+        
         // label
         self.locationLabel.text = self.location
         
@@ -72,15 +75,9 @@ final class LocationSearchViewCell: UITableViewCell {
 
 // MARK: - Layout
 
-extension LocationSearchViewCell {
+extension LocationSearchTableViewCell {
     
     private func setupConstraints() {
-        // contentView layout
-        self.contentView.snp.makeConstraints({
-            $0.width.equalToSuperview()
-            $0.height.equalTo(50)
-        })
-        
         let subViews = [self.locationLabel, self.bookmarkButton]
         subViews.forEach { self.contentView.addSubview($0) }
         

@@ -12,7 +12,10 @@ import Then
 
 final class RootViewController: UIViewController {
     
-    var bookmarkCount = 5
+    var bookmarkCount = 3
+    
+    let locationSearchViewController = LocationSearchViewController()
+    let weatherDetailViewController = WeatherDetailViewController()
     
     
     // MARK: - Enum
@@ -41,21 +44,15 @@ final class RootViewController: UIViewController {
         
         self.initialize()
         self.setupNavigationController()
-        // self.setupConstraints()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    
-        // self.setupNavigationController()
-        // self.setupConstraints()
-    }
-    
+
     
     // MARK: - Methods
     
     private func initialize() {
         self.view = self.bookmarkTableView
+        
+        self.locationSearchViewController.navigation = self.navigationController
     }
     
     private func setupNavigationController() {
@@ -66,7 +63,10 @@ final class RootViewController: UIViewController {
         // NavigationItem
         self.navigationItem.title = Text.navigationBarTitle
         self.navigationItem.hidesSearchBarWhenScrolling = false
-        self.navigationItem.searchController = UISearchController().then {
+        self.navigationItem.searchController = UISearchController(
+            searchResultsController: locationSearchViewController
+        ).then {
+            $0.searchBar.delegate = self
             $0.searchBar.placeholder = Text.searchControllerPlaceholder
             $0.hidesNavigationBarDuringPresentation = true
         }
@@ -75,49 +75,17 @@ final class RootViewController: UIViewController {
 }
 
 
-// MARK: - LocationSearchBarDelegate
+// MARK: - SearchBarDelegate
 
 extension RootViewController: UISearchBarDelegate {
     
-    // // searchBar에 입력 시작 시 locationSearchTableView -- O / bookmarkTableView -- X
-    // func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-    //     self.locationSearchTableView.tableViewCellCount = 10 // row count 변경
-    //     self.locationSearchTableView.reloadData() // reload
-    //     self.locationSearchTableView.isHidden = false // 숨김 여부
-    //
-    //     self.bookmarkTableView.isHidden = true
-    // }
-    //
-    // // searchBar에 입력 종료 시 locationSearchTableView -- X / bookmarkTableView -- O
-    // func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-    //     self.locationSearchTableView.isHidden = true
-    //
-    //     self.bookmarkTableView.tableViewCellCount = 5
-    //     self.bookmarkTableView.reloadData()
-    //     self.bookmarkTableView.isHidden = false
-    // }
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.bookmarkTableView.isHidden = true
+    }
     
-}
-
-
-// MARK: - Layout
-
-extension RootViewController {
-    
-    // private func setupConstraints() {
-    //     let subViews = [self.bookmarkTableView, self.locationSearchTableView]
-    //     subViews.forEach{ self.view.addSubview($0) }
-    //
-    //     // bookmarkTableView layout
-    //     self.bookmarkTableView.snp.makeConstraints({
-    //         $0.edges.equalTo(self.view.safeAreaLayoutGuide)
-    //     })
-    //
-    //     // locationSearchTableView layout
-    //     self.locationSearchTableView.snp.makeConstraints({
-    //         $0.edges.equalTo(self.view.safeAreaLayoutGuide)
-    //     })
-    // }
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        self.bookmarkTableView.isHidden = false
+    }
     
 }
 
@@ -149,7 +117,7 @@ extension RootViewController: UITableViewDelegate {
     
     // tab event
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.navigationController?.pushViewController(WeatherDetailViewController(), animated: true)
+        self.navigationController?.pushViewController(weatherDetailViewController, animated: true)
     }
     
 }

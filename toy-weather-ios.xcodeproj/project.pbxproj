@@ -12,18 +12,16 @@
 		04465493282A4A2000CF286B /* CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04465492282A4A2000CF286B /* CALayer.swift */; };
 		04C7FCB32822417400599E98 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C7FCB22822417400599E98 /* Colors.swift */; };
 		04C7FCB52822439B00599E98 /* TemperatureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C7FCB42822439B00599E98 /* TemperatureHelper.swift */; };
-		04C7FCB828225F4F00599E98 /* LocationSearchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C7FCB728225F4F00599E98 /* LocationSearchViewCell.swift */; };
+		04C7FCB828225F4F00599E98 /* LocationSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C7FCB728225F4F00599E98 /* LocationSearchTableViewCell.swift */; };
+		04D3F9A02830CF4E002AB0EA /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D3F99F2830CF4E002AB0EA /* LocationSearchViewController.swift */; };
 		04DD77752820AFC90049A3BD /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD77742820AFC90049A3BD /* RootViewController.swift */; };
 		04DD77772820AFEE0049A3BD /* WeatherDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD77762820AFEE0049A3BD /* WeatherDetailViewController.swift */; };
-		04DD777F28210B250049A3BD /* LocationSearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD777E28210B250049A3BD /* LocationSearchTableView.swift */; };
 		04DD7783282163350049A3BD /* BookmarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD7782282163350049A3BD /* BookmarkTableViewCell.swift */; };
-		04DD7785282209690049A3BD /* BookmarkTableViewEmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD7784282209690049A3BD /* BookmarkTableViewEmptyCell.swift */; };
 		04DD778B28221DFF0049A3BD /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD778A28221DFF0049A3BD /* UIColor.swift */; };
 		04DFC087281BBBFD0089CBED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DFC086281BBBFD0089CBED /* AppDelegate.swift */; };
 		04DFC089281BBBFD0089CBED /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DFC088281BBBFD0089CBED /* SceneDelegate.swift */; };
 		04DFC090281BBBFE0089CBED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04DFC08F281BBBFE0089CBED /* Assets.xcassets */; };
 		04DFC093281BBBFE0089CBED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04DFC091281BBBFE0089CBED /* LaunchScreen.storyboard */; };
-		04F7FA362828972C0089AC77 /* LocationSearchViewEmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F7FA352828972C0089AC77 /* LocationSearchViewEmptyCell.swift */; };
 		04F7FA482829E4EB0089AC77 /* WeatherDetailCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F7FA472829E4EB0089AC77 /* WeatherDetailCollectionView.swift */; };
 		04F7FA4A2829E8F70089AC77 /* WeatherDetailCollectionViewTemperatureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F7FA492829E8F70089AC77 /* WeatherDetailCollectionViewTemperatureCell.swift */; };
 		AA7B2CF0B620FAA2DFC30551 /* Pods_toy_weather_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441D90D3ABBF576D5D563D52 /* Pods_toy_weather_ios.framework */; };
@@ -35,12 +33,11 @@
 		04465492282A4A2000CF286B /* CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALayer.swift; sourceTree = "<group>"; };
 		04C7FCB22822417400599E98 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		04C7FCB42822439B00599E98 /* TemperatureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureHelper.swift; sourceTree = "<group>"; };
-		04C7FCB728225F4F00599E98 /* LocationSearchViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewCell.swift; sourceTree = "<group>"; };
+		04C7FCB728225F4F00599E98 /* LocationSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTableViewCell.swift; sourceTree = "<group>"; };
+		04D3F99F2830CF4E002AB0EA /* LocationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewController.swift; sourceTree = "<group>"; };
 		04DD77742820AFC90049A3BD /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		04DD77762820AFEE0049A3BD /* WeatherDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailViewController.swift; sourceTree = "<group>"; };
-		04DD777E28210B250049A3BD /* LocationSearchTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTableView.swift; sourceTree = "<group>"; };
 		04DD7782282163350049A3BD /* BookmarkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkTableViewCell.swift; sourceTree = "<group>"; };
-		04DD7784282209690049A3BD /* BookmarkTableViewEmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkTableViewEmptyCell.swift; sourceTree = "<group>"; };
 		04DD778A28221DFF0049A3BD /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		04DFC083281BBBFD0089CBED /* toy-weather-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "toy-weather-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04DFC086281BBBFD0089CBED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -48,7 +45,6 @@
 		04DFC08F281BBBFE0089CBED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04DFC092281BBBFE0089CBED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04DFC094281BBBFE0089CBED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		04F7FA352828972C0089AC77 /* LocationSearchViewEmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewEmptyCell.swift; sourceTree = "<group>"; };
 		04F7FA472829E4EB0089AC77 /* WeatherDetailCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailCollectionView.swift; sourceTree = "<group>"; };
 		04F7FA492829E8F70089AC77 /* WeatherDetailCollectionViewTemperatureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailCollectionViewTemperatureCell.swift; sourceTree = "<group>"; };
 		441D90D3ABBF576D5D563D52 /* Pods_toy_weather_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_toy_weather_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,7 +84,7 @@
 		04D3F99E2830CE21002AB0EA /* View */ = {
 			isa = PBXGroup;
 			children = (
-				04DD7786282213A70049A3BD /* BookmarkTableCell */,
+				04DD7782282163350049A3BD /* BookmarkTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -116,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				04DD777B2820F59C0049A3BD /* View */,
+				04D3F99F2830CF4E002AB0EA /* LocationSearchViewController.swift */,
 			);
 			path = LocationSearch;
 			sourceTree = "<group>";
@@ -132,28 +129,9 @@
 		04DD777B2820F59C0049A3BD /* View */ = {
 			isa = PBXGroup;
 			children = (
-				04DD7787282213B30049A3BD /* LocationSearchTable */,
+				04C7FCB728225F4F00599E98 /* LocationSearchTableViewCell.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		04DD7786282213A70049A3BD /* BookmarkTableCell */ = {
-			isa = PBXGroup;
-			children = (
-				04DD7782282163350049A3BD /* BookmarkTableViewCell.swift */,
-				04DD7784282209690049A3BD /* BookmarkTableViewEmptyCell.swift */,
-			);
-			path = BookmarkTableCell;
-			sourceTree = "<group>";
-		};
-		04DD7787282213B30049A3BD /* LocationSearchTable */ = {
-			isa = PBXGroup;
-			children = (
-				04DD777E28210B250049A3BD /* LocationSearchTableView.swift */,
-				04C7FCB728225F4F00599E98 /* LocationSearchViewCell.swift */,
-				04F7FA352828972C0089AC77 /* LocationSearchViewEmptyCell.swift */,
-			);
-			path = LocationSearchTable;
 			sourceTree = "<group>";
 		};
 		04DD778828221D960049A3BD /* Extensions */ = {
@@ -358,17 +336,15 @@
 			files = (
 				04DD77752820AFC90049A3BD /* RootViewController.swift in Sources */,
 				04C7FCB32822417400599E98 /* Colors.swift in Sources */,
-				04DD777F28210B250049A3BD /* LocationSearchTableView.swift in Sources */,
 				04DD77772820AFEE0049A3BD /* WeatherDetailViewController.swift in Sources */,
 				04DD7783282163350049A3BD /* BookmarkTableViewCell.swift in Sources */,
 				04C7FCB52822439B00599E98 /* TemperatureHelper.swift in Sources */,
 				04F7FA4A2829E8F70089AC77 /* WeatherDetailCollectionViewTemperatureCell.swift in Sources */,
-				04F7FA362828972C0089AC77 /* LocationSearchViewEmptyCell.swift in Sources */,
+				04D3F9A02830CF4E002AB0EA /* LocationSearchViewController.swift in Sources */,
 				04465493282A4A2000CF286B /* CALayer.swift in Sources */,
 				04DFC087281BBBFD0089CBED /* AppDelegate.swift in Sources */,
 				04465491282A2DE600CF286B /* WeatherDetailCollectionViewCell.swift in Sources */,
-				04DD7785282209690049A3BD /* BookmarkTableViewEmptyCell.swift in Sources */,
-				04C7FCB828225F4F00599E98 /* LocationSearchViewCell.swift in Sources */,
+				04C7FCB828225F4F00599E98 /* LocationSearchTableViewCell.swift in Sources */,
 				04DFC089281BBBFD0089CBED /* SceneDelegate.swift in Sources */,
 				04F7FA482829E4EB0089AC77 /* WeatherDetailCollectionView.swift in Sources */,
 				0437FD86282E4CF90097C584 /* Enums.swift in Sources */,
