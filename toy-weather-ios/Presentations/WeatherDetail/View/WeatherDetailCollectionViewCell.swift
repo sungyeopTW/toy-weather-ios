@@ -12,11 +12,23 @@ import Then
 
 final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     
-    var indexPath: Int?
+    var temperature = "9/15"
+    var wind = "북서 9m/s"
+    var rainProbability = "90%"
     
-    var subTitleText = "바람의 풍향, 풍속"
-    var titleLabelText = "바람 💨"
-    var contentLabelText = "컨텐츠"
+    
+    // MARK: - Enum
+    
+    enum Text {
+        static let tempSubTitleText = "오늘의 최고, 최저기온"
+        static let tempTitleText = "최고/최저 🌡"
+
+        static let windSubTitleText = "바람의 풍향, 풍속"
+        static let windTitleText = "바람 💨"
+        
+        static let rainProbabilitySubTitleText = "비가 올 확률"
+        static let rainProbabilityTitleText = "강수확률 ☂️"
+    }
     
     
     // MARK: - UI
@@ -56,15 +68,26 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     private func initialize() {
         // just bottom border
         self.layer.addBorder([.bottom], color: .grayBorderColor, width: 1.0)
-        
-        // label text
-        self.subTitleLabel.text = self.subTitleText
-        self.titleLabel.text = self.titleLabelText
-        self.contentLabel.text = self.contentLabelText
     }
     
-    // TODO: 어떻게 IndexPath 가져 올거심 ?
-    
+    func setupLabelText(_ indexPath: Int) {
+        // indexPath에 따라 다른 값
+        switch indexPath {
+        case 1:
+            self.subTitleLabel.text = Text.tempSubTitleText
+            self.titleLabel.text = Text.tempTitleText
+            self.contentLabel.text = "\(self.temperature)\(Symbol.celsius)"
+        case 2:
+            self.subTitleLabel.text = Text.windSubTitleText
+            self.titleLabel.text = Text.windTitleText
+            self.contentLabel.text = self.wind
+        default:
+            self.subTitleLabel.text = Text.rainProbabilitySubTitleText
+            self.titleLabel.text = Text.rainProbabilityTitleText
+            self.contentLabel.text = self.rainProbability
+        }
+    }
+
 }
 
 

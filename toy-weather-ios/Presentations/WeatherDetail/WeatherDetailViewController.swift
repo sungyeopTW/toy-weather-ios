@@ -75,15 +75,29 @@ extension WeatherDetailViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: indexPath[1] == 0
-                ? "WeatherDetailCollectionViewTemperatureCell"
-                : "WeatherDetailCollectionViewCell",
-            for: indexPath
-        )
         
-        return cell
+        if indexPath.row == 0 {
+            
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "WeatherDetailCollectionViewTemperatureCell",
+                for: indexPath
+            )
+            return cell
+            
+        } else {
+            
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "WeatherDetailCollectionViewCell",
+                for: indexPath
+            ) as! WeatherDetailCollectionViewCell
+            
+            cell.setupLabelText(indexPath.row) /// indexPath에 따른 text 구분
+            return cell
+            
+        }
+
     }
+    
 
 }
 
@@ -100,7 +114,7 @@ extension WeatherDetailViewController: UICollectionViewDelegateFlowLayout {
     ) -> CGSize {
         let width = collectionView.frame.width - 32.0
     
-        return CGSize(width: width, height: indexPath[1] == 0 ? width : 120)
+        return CGSize(width: width, height: indexPath.row == 0 ? width : 120)
     }
     
 }

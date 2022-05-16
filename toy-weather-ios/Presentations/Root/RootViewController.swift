@@ -58,7 +58,6 @@ final class RootViewController: UIViewController {
     private func setupNavigationController() {
         // NavigationController
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.backgroundColor = .white
         
         // NavigationItem
         self.navigationItem.title = Text.navigationBarTitle
@@ -80,11 +79,11 @@ final class RootViewController: UIViewController {
 extension RootViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        self.bookmarkTableView.isHidden = true
+        // self.bookmarkTableView.isHidden = true
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        self.bookmarkTableView.isHidden = false
+        // self.bookmarkTableView.isHidden = false
     }
     
 }
