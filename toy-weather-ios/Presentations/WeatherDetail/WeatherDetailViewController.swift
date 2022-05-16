@@ -11,6 +11,14 @@ import SnapKit
 import Then
 
 
+// MARK: - SendIsCelsiusDelegate
+
+protocol SendIsCelsiusDelegate: AnyObject {
+    
+    func sendIsCelsius(isCelsius: Bool)
+    
+}
+
 
 final class WeatherDetailViewController: UIViewController {
     
@@ -79,7 +87,7 @@ final class WeatherDetailViewController: UIViewController {
     }
     
     @objc func tabThermometerButton(_ sender: UIBarButtonItem) {
-        self.isCelsius = !self.isCelsius
+        self.isCelsius.toggle()
         self.weatherDetailCollectionView.reloadData()
     }
     

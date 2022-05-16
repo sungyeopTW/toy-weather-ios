@@ -74,7 +74,7 @@ final class BookmarkTableViewCell: UITableViewCell {
     
     // tabBookmarkButton
     @objc func tabBookmarkButton(_ sender: UIButton) {
-        self.isBookmarked = !self.isBookmarked
+        self.isBookmarked.toggle()
         print("isBookmarked : ", self.isBookmarked)
     }
     

@@ -11,22 +11,12 @@ import SnapKit
 import Then
 
 
-// MARK: - SendIsCelsiusDelegate
-
-protocol SendIsCelsiusDelegate: AnyObject {
-    
-    func sendIsCelsius(isCelsius: Bool)
-    
-}
-
-
 final class RootViewController: UIViewController, SendIsCelsiusDelegate {
     
     var bookmarkCount = 3
     var isCelsius = true
     
     let locationSearchViewController = LocationSearchViewController()
-    let weatherDetailViewController = WeatherDetailViewController()
     
     
     // MARK: - Enum
@@ -71,7 +61,6 @@ final class RootViewController: UIViewController, SendIsCelsiusDelegate {
         self.view = self.bookmarkTableView
         
         self.locationSearchViewController.navigation = self.navigationController
-        weatherDetailViewController.delegate = self // delegate
     }
     
     private func setupNavigationController() {
@@ -93,7 +82,7 @@ final class RootViewController: UIViewController, SendIsCelsiusDelegate {
     
     // tabThermometerButton
     @objc func tabThermometerButton(_ sender: UIBarButtonItem) {
-        self.isCelsius = !self.isCelsius
+        self.isCelsius.toggle()
         self.bookmarkTableView.reloadData()
     }
     
@@ -116,6 +105,8 @@ extension RootViewController: UISearchBarDelegate {
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         self.bookmarkTableView.isHidden = false
+        self.isCelsius = self.locationSearchViewController.isCelsius
+        self.bookmarkTableView.reloadData()
     }
     
 }
@@ -150,6 +141,8 @@ extension RootViewController: UITableViewDelegate {
     
     // tab event
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let weatherDetailViewController = WeatherDetailViewController()
+        weatherDetailViewController.delegate = self // delegate
         weatherDetailViewController.isCelsius = self.isCelsius
         
         self.navigationController?.pushViewController(weatherDetailViewController, animated: true)
