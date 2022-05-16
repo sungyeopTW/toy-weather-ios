@@ -14,8 +14,8 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     
     var isCelsius = true
     
-    var lowestTemperature = "3"
-    var highestTemperature = "15"
+    var lowestTemperature = 3.0
+    var highestTemperature = 15.0
     var wind = "북서 9m/s"
     var rainProbability = "90%"
     
@@ -47,7 +47,7 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     })
     
     private let contentLabel = UILabel().then({
-        $0.font = .systemFont(ofSize: 40.0, weight: .bold)
+        $0.font = .systemFont(ofSize: 35.0, weight: .bold)
         $0.textColor = .black
     })
     
@@ -81,7 +81,7 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
             self.titleLabel.text = Text.tempTitleText
             self.contentLabel.text = isCelsius
             ? "\(self.lowestTemperature)/\(self.highestTemperature)\(Symbol.celsius)"
-            : "\(TemperatureHelper().toFahrenheit(from: self.lowestTemperature))/\(TemperatureHelper().toFahrenheit(from: self.highestTemperature))\(Symbol.fahrenheit)"
+            : "\(TemperatureHelper.toFahrenheit( self.lowestTemperature))/\(TemperatureHelper.toFahrenheit( self.highestTemperature))\(Symbol.fahrenheit)"
         case 2:
             self.subTitleLabel.text = Text.windSubTitleText
             self.titleLabel.text = Text.windTitleText

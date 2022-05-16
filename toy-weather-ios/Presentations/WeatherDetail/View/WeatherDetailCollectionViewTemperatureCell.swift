@@ -13,7 +13,7 @@ import Then
 final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     
     var sky = "비"
-    var temperature = "9"
+    var temperature = 9.0
     
     var isBookmarked = true // 즐찾 여부
     var isCelsius = true // 섭씨 여부
@@ -98,8 +98,8 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
         
         // temperatureButton
         self.temperatureLabel.text = isCelsius
-        ? "\(self.temperature)\(Symbol.celsius)"
-        : "\(TemperatureHelper().toFahrenheit(from: self.temperature))\(Symbol.fahrenheit)"
+        ? "\(Int(self.temperature))\(Symbol.celsius)"
+        : "\(TemperatureHelper.toFahrenheit(self.temperature))\(Symbol.fahrenheit)"
     }
         
     // tabBookmarkButton
