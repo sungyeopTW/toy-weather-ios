@@ -10,7 +10,7 @@ import UIKit
 import Then
 
 
-final class LocationSearchViewController: UIViewController, SendIsCelsiusDelegate {
+final class LocationSearchViewController: UIViewController {
     
     var searchCount = 10
     var isCelsius = true
@@ -44,11 +44,6 @@ final class LocationSearchViewController: UIViewController, SendIsCelsiusDelegat
     
     private func initialize() {
         self.view = self.locationSearchTableView
-    }
-    
-    // sendIsCelsius
-    func sendIsCelsius(isCelsius: Bool) {
-        self.isCelsius = isCelsius
     }
     
 }
@@ -88,6 +83,18 @@ extension LocationSearchViewController: UITableViewDelegate {
             
             navigation.pushViewController(weatherDetailViewController, animated: true)
         }
+    }
+    
+}
+
+
+// MARK: - SendIsCelsiusDelegate
+
+extension LocationSearchViewController: SendIsCelsiusDelegate {
+ 
+    // sendIsCelsius
+    func sendIsCelsius(isCelsius: Bool) {
+        self.isCelsius = isCelsius
     }
     
 }

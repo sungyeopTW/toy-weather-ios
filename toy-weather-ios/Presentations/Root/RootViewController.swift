@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 
-final class RootViewController: UIViewController, SendIsCelsiusDelegate {
+final class RootViewController: UIViewController {
     
     var bookmarkCount = 3
     var isCelsius = true
@@ -86,12 +86,6 @@ final class RootViewController: UIViewController, SendIsCelsiusDelegate {
         self.bookmarkTableView.reloadData()
     }
     
-    // sendIsCelsius
-    func sendIsCelsius(isCelsius: Bool) {
-        self.isCelsius = isCelsius
-        self.bookmarkTableView.reloadData()
-    }
-    
 }
 
 
@@ -157,3 +151,15 @@ extension RootViewController: UITableViewDelegate {
     
 }
 
+
+// MARK: - SendIsCelsiusDelegate
+
+extension RootViewController: SendIsCelsiusDelegate {
+    
+    // sendIsCelsius
+    func sendIsCelsius(isCelsius: Bool) {
+        self.isCelsius = isCelsius
+        self.bookmarkTableView.reloadData()
+    }
+    
+}
