@@ -83,6 +83,7 @@ extension LocationSearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let navigation = self.navigation {
             let weatherDetailViewController = WeatherDetailViewController()
+            weatherDetailViewController.isCelsius = self.isCelsius
             weatherDetailViewController.delegate = self // delegate
             
             navigation.pushViewController(weatherDetailViewController, animated: true)

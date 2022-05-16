@@ -99,10 +99,17 @@ final class RootViewController: UIViewController, SendIsCelsiusDelegate {
 
 extension RootViewController: UISearchBarDelegate {
     
+    // 서치 시작
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         self.bookmarkTableView.isHidden = true
     }
+
+    // 텍스트 입력
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.locationSearchViewController.isCelsius = self.isCelsius
+    }
     
+    // 서치 종료
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         self.bookmarkTableView.isHidden = false
         self.isCelsius = self.locationSearchViewController.isCelsius
