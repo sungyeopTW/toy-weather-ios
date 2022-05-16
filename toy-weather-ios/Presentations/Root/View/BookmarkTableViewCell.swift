@@ -41,7 +41,7 @@ final class BookmarkTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.initialize()
+        // self.initialize()
         self.setupConstraints()
     }
     
@@ -52,13 +52,13 @@ final class BookmarkTableViewCell: UITableViewCell {
     
     // MARK: - Methods
     
-    private func initialize() {
+    func initialize(_ isCelsius: Bool) {
         // selectionStyle
         self.selectionStyle = .none
         
         // label
         self.locationLabel.text = self.location
-        self.temperatureLabel.text = self.isCelsius
+        self.temperatureLabel.text = isCelsius
             ? "\(self.temperature)\(Symbol.celsius)"
             : "\(TemperatureHelper().toFahrenheit(from: self.temperature))\(Symbol.fahrenheit)"
         
@@ -70,12 +70,6 @@ final class BookmarkTableViewCell: UITableViewCell {
             self,
             action: #selector(tabBookmarkButton(_:)),
             for: .touchUpInside)
-    }
-    
-    // tabTemperatureButton
-    @objc func tabTemperatureButton(_ sender: UIButton) {
-        self.isCelsius = !self.isCelsius
-        print("isCelsius : ", self.isCelsius)
     }
     
     // tabBookmarkButton

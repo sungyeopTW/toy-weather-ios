@@ -10,13 +10,27 @@ import UIKit
 import SnapKit
 import Then
 
-final class WeatherDetailViewController: UIViewController {
 
+
+final class WeatherDetailViewController: UIViewController {
+    
+    weak var delegate: SendIsCelsiusDelegate?
+    var isCelsius = true
+    
     
     // MARK: - Enum
     
     enum Text {
         static let navigationBarTitle = "날씨 상세정보 🏖"
+    }
+    
+    
+    // MARK: - Life Cycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.initialize()
     }
     
     
@@ -37,13 +51,18 @@ final class WeatherDetailViewController: UIViewController {
         )
     }
     
+    lazy var backButton = UIBarButtonItem().then {
+        $0.image = UIImage(systemName: "arrow.backward")
+        $0.style = .plain
+        $0.target = self
+        $0.action = #selector(tabBackButton)
+    }
     
-    // MARK: - Life Cycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.initialize()
+    lazy var thermometerButton = UIBarButtonItem().then {
+        $0.image = UIImage(systemName: Image.thermometer)
+        $0.style = .plain
+        $0.target = self
+        $0.action = #selector(tabThermometerButton)
     }
     
     
@@ -53,6 +72,21 @@ final class WeatherDetailViewController: UIViewController {
         self.view = self.weatherDetailCollectionView
         
         self.navigationItem.title = Text.navigationBarTitle
+        self.navigationItem.leftBarButtonItem = self.backButton
+        self.navigationItem.rightBarButtonItem = self.thermometerButton
+        
+        self.weatherDetailCollectionView.reloadData()
+    }
+    
+    @objc func tabThermometerButton(_ sender: UIBarButtonItem) {
+        self.isCelsius = !self.isCelsius
+        self.weatherDetailCollectionView.reloadData()
+    }
+    
+    @objc func tabBackButton(_ sender: UIBarButtonItem) {
+        self.delegate?.sendIsCelsius(isCelsius: self.isCelsius)
+        
+        self.navigationController?.popViewController(animated: true)
     }
         
 }
@@ -75,29 +109,28 @@ extension WeatherDetailViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        
         if indexPath.row == 0 {
-            
-            let cell = collectionView.dequeueReusableCell(
+            if let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "WeatherDetailCollectionViewTemperatureCell",
                 for: indexPath
-            )
-            return cell
-            
+            ) as? WeatherDetailCollectionViewTemperatureCell {
+                cell.initialize(self.isCelsius)
+                
+                return cell
+            }
         } else {
-            
-            let cell = collectionView.dequeueReusableCell(
+            if let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "WeatherDetailCollectionViewCell",
                 for: indexPath
-            ) as! WeatherDetailCollectionViewCell
-            
-            cell.setupLabelText(indexPath.row) /// indexPath에 따른 text 구분
-            return cell
-            
+            ) as? WeatherDetailCollectionViewCell {
+                cell.setupLabelText(indexPath: indexPath.row, isCelsius: self.isCelsius)
+                
+                return cell
+            }
         }
-
+        
+        return UICollectionViewCell()
     }
-    
 
 }
 

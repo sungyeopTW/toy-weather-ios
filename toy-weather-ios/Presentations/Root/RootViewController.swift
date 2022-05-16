@@ -10,9 +10,20 @@ import UIKit
 import SnapKit
 import Then
 
-final class RootViewController: UIViewController {
+
+// MARK: - SendIsCelsiusDelegate
+
+protocol SendIsCelsiusDelegate: AnyObject {
+    
+    func sendIsCelsius(isCelsius: Bool)
+    
+}
+
+
+final class RootViewController: UIViewController, SendIsCelsiusDelegate {
     
     var bookmarkCount = 3
+    var isCelsius = true
     
     let locationSearchViewController = LocationSearchViewController()
     let weatherDetailViewController = WeatherDetailViewController()
@@ -36,6 +47,13 @@ final class RootViewController: UIViewController {
         $0.register(BookmarkTableViewCell.self, forCellReuseIdentifier: "BookmarkTableViewCell")
     }
     
+    lazy var thermometerButton = UIBarButtonItem().then {
+        $0.image = UIImage(systemName: Image.thermometer)
+        $0.style = .plain
+        $0.target = self
+        $0.action = #selector(tabThermometerButton)
+    }
+    
     
     // MARK: - Life Cycle
     
@@ -53,6 +71,7 @@ final class RootViewController: UIViewController {
         self.view = self.bookmarkTableView
         
         self.locationSearchViewController.navigation = self.navigationController
+        weatherDetailViewController.delegate = self // delegate
     }
     
     private func setupNavigationController() {
@@ -69,6 +88,19 @@ final class RootViewController: UIViewController {
             $0.searchBar.placeholder = Text.searchControllerPlaceholder
             $0.hidesNavigationBarDuringPresentation = true
         }
+        self.navigationItem.rightBarButtonItem = self.thermometerButton
+    }
+    
+    // tabThermometerButton
+    @objc func tabThermometerButton(_ sender: UIBarButtonItem) {
+        self.isCelsius = !self.isCelsius
+        self.bookmarkTableView.reloadData()
+    }
+    
+    // sendIsCelsius
+    func sendIsCelsius(isCelsius: Bool) {
+        self.isCelsius = isCelsius
+        self.bookmarkTableView.reloadData()
     }
     
 }
@@ -79,11 +111,11 @@ final class RootViewController: UIViewController {
 extension RootViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        // self.bookmarkTableView.isHidden = true
+        self.bookmarkTableView.isHidden = true
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        // self.bookmarkTableView.isHidden = false
+        self.bookmarkTableView.isHidden = false
     }
     
 }
@@ -100,7 +132,9 @@ extension RootViewController: UITableViewDataSource {
     
     // cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "BookmarkTableViewCell") {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "BookmarkTableViewCell") as? BookmarkTableViewCell {
+            cell.initialize(self.isCelsius)
+            
             return cell
         }
         
@@ -116,6 +150,8 @@ extension RootViewController: UITableViewDelegate {
     
     // tab event
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        weatherDetailViewController.isCelsius = self.isCelsius
+        
         self.navigationController?.pushViewController(weatherDetailViewController, animated: true)
     }
     

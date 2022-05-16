@@ -12,7 +12,10 @@ import Then
 
 final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     
-    var temperature = "9/15"
+    var isCelsius = true
+    
+    var lowestTemperature = "3"
+    var highestTemperature = "15"
     var wind = "북서 9m/s"
     var rainProbability = "90%"
     
@@ -70,13 +73,15 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
         self.layer.addBorder([.bottom], color: .grayBorderColor, width: 1.0)
     }
     
-    func setupLabelText(_ indexPath: Int) {
+    func setupLabelText(indexPath: Int, isCelsius: Bool) {
         // indexPath에 따라 다른 값
         switch indexPath {
         case 1:
             self.subTitleLabel.text = Text.tempSubTitleText
             self.titleLabel.text = Text.tempTitleText
-            self.contentLabel.text = "\(self.temperature)\(Symbol.celsius)"
+            self.contentLabel.text = isCelsius
+            ? "\(self.lowestTemperature)/\(self.highestTemperature)\(Symbol.celsius)"
+            : "\(TemperatureHelper().toFahrenheit(from: self.lowestTemperature))/\(TemperatureHelper().toFahrenheit(from: self.highestTemperature))\(Symbol.fahrenheit)"
         case 2:
             self.subTitleLabel.text = Text.windSubTitleText
             self.titleLabel.text = Text.windTitleText
@@ -87,7 +92,7 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
             self.contentLabel.text = self.rainProbability
         }
     }
-
+    
 }
 
 

@@ -69,7 +69,7 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.initialize()
+        // self.initialize()
         self.setupConstraints()
     }
     
@@ -80,7 +80,9 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     
     // MARK: - Methods
     
-    private func initialize() {
+    func initialize(_ isCelsius: Bool) {
+        self.isCelsius = isCelsius
+        
         // label
         self.subTitleLabel.text = Text.subTitle
         self.titleLabel.text = Text.title
@@ -96,7 +98,7 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
             for: .touchUpInside)
         
         // temperatureButton
-        self.temperatureLabel.text = self.isCelsius
+        self.temperatureLabel.text = isCelsius
         ? "\(self.temperature)\(Symbol.celsius)"
         : "\(TemperatureHelper().toFahrenheit(from: self.temperature))\(Symbol.fahrenheit)"
     }

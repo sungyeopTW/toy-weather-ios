@@ -11,7 +11,9 @@ enum Symbol {
 }
 
 enum Image {
+    static let thermometer = "thermometer"
     static let bookmark = "star.fill"
+    
     static let sunny = "sunny"
     static let clouds = "clouds"
     static let rain = "rain"
