@@ -9,6 +9,7 @@ import UIKit
 
 import Then
 
+
 final class LocationSearchViewController: UIViewController {
     
     var searchCount = 10

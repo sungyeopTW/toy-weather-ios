@@ -69,7 +69,6 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        // self.initialize()
         self.setupConstraints()
     }
     
