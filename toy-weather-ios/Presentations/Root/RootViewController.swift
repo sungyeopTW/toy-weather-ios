@@ -104,8 +104,8 @@ extension RootViewController: UISearchBarDelegate {
         self.view = self.locationSearchTableView
     }
     
-    // 서치 종료
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+    // cancel 클릭 시
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         self.view = self.bookmarkTableView
     }
     
