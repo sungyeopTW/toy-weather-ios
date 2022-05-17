@@ -61,7 +61,8 @@ final class LocationSearchTableViewCell: UITableViewCell {
         self.bookmarkButton.addTarget(
             self,
             action: #selector(tabBookmarkButton),
-            for: .touchUpInside)
+            for: .touchUpInside
+        )
     }
     
     // tabBookmarkButton
