@@ -12,7 +12,7 @@ import Then
 
 final class BookmarkTableViewCell: UITableViewCell {
     
-    var temperature = 16.0
+    var temperature: Celsius = 16.0
     var location = "서울특별시 용산구 용문동"
     
     var isBookmarked = true // 즐찾 여부
@@ -57,9 +57,8 @@ final class BookmarkTableViewCell: UITableViewCell {
         
         // label
         self.locationLabel.text = self.location
-        self.temperatureLabel.text = isCelsius
-            ? "\(self.temperature)\(Symbol.celsius)"
-            : "\(TemperatureHelper.toFahrenheit(self.temperature))\(Symbol.fahrenheit)"
+        self.temperatureLabel.text = self.temperature.convertWithFormat(isCelsius ? .celsius : .fahrenheit)
+            
         
         // bookmarkButton
         self.bookmarkButton.tintColor = self.isBookmarked

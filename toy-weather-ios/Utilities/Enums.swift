@@ -5,12 +5,15 @@
 //  Created by sungyeopTW on 2022/05/13.
 //
 
-enum Symbol {
-    static let celsius = "°C"
-    static let fahrenheit = "°F"
+enum Symbol: String {
+    
+    case celsius = "°C"
+    case fahrenheit = "°F"
+
 }
 
 enum Image {
+    
     static let thermometer = "thermometer"
     static let bookmark = "star.fill"
     
@@ -18,4 +21,5 @@ enum Image {
     static let clouds = "clouds"
     static let rain = "rain"
     static let snow = "snow"
+    
 }

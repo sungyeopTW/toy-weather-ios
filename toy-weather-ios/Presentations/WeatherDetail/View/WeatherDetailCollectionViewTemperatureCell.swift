@@ -97,9 +97,7 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
             for: .touchUpInside)
         
         // temperatureButton
-        self.temperatureLabel.text = isCelsius
-        ? "\(Int(self.temperature))\(Symbol.celsius)"
-        : "\(TemperatureHelper.toFahrenheit(self.temperature))\(Symbol.fahrenheit)"
+        self.temperatureLabel.text = self.temperature.convertWithFormat(isCelsius ? .celsius : .fahrenheit)
     }
         
     // tabBookmarkButton

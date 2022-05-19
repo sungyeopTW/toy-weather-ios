@@ -11,8 +11,8 @@
 		04465491282A2DE600CF286B /* WeatherDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04465490282A2DE600CF286B /* WeatherDetailCollectionViewCell.swift */; };
 		04465493282A4A2000CF286B /* CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04465492282A4A2000CF286B /* CALayer.swift */; };
 		04C7FCB32822417400599E98 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C7FCB22822417400599E98 /* Colors.swift */; };
-		04C7FCB52822439B00599E98 /* TemperatureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C7FCB42822439B00599E98 /* TemperatureHelper.swift */; };
 		04C7FCB828225F4F00599E98 /* LocationSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C7FCB728225F4F00599E98 /* LocationSearchTableViewCell.swift */; };
+		04CEC15428337A0F00505F0E /* Temperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CEC15328337A0F00505F0E /* Temperature.swift */; };
 		04DD77752820AFC90049A3BD /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD77742820AFC90049A3BD /* RootViewController.swift */; };
 		04DD77772820AFEE0049A3BD /* WeatherDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD77762820AFEE0049A3BD /* WeatherDetailViewController.swift */; };
 		04DD7783282163350049A3BD /* BookmarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD7782282163350049A3BD /* BookmarkTableViewCell.swift */; };
@@ -30,8 +30,8 @@
 		04465490282A2DE600CF286B /* WeatherDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		04465492282A4A2000CF286B /* CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALayer.swift; sourceTree = "<group>"; };
 		04C7FCB22822417400599E98 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		04C7FCB42822439B00599E98 /* TemperatureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureHelper.swift; sourceTree = "<group>"; };
 		04C7FCB728225F4F00599E98 /* LocationSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTableViewCell.swift; sourceTree = "<group>"; };
+		04CEC15328337A0F00505F0E /* Temperature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temperature.swift; sourceTree = "<group>"; };
 		04DD77742820AFC90049A3BD /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		04DD77762820AFEE0049A3BD /* WeatherDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailViewController.swift; sourceTree = "<group>"; };
 		04DD7782282163350049A3BD /* BookmarkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkTableViewCell.swift; sourceTree = "<group>"; };
@@ -60,14 +60,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		04C7FCB62822487100599E98 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				04C7FCB42822439B00599E98 /* TemperatureHelper.swift */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
 		04D3F99D2830CD81002AB0EA /* Root */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +110,7 @@
 			children = (
 				04DD778A28221DFF0049A3BD /* UIColor.swift */,
 				04465492282A4A2000CF286B /* CALayer.swift */,
+				04CEC15328337A0F00505F0E /* Temperature.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -156,7 +149,6 @@
 			children = (
 				04DD776D2820A4800049A3BD /* App */,
 				04DD778828221D960049A3BD /* Extensions */,
-				04C7FCB62822487100599E98 /* Helpers */,
 				04DD77702820ACB70049A3BD /* Presentations */,
 				04DD778928221DB10049A3BD /* Utilities */,
 				04DFC094281BBBFE0089CBED /* Info.plist */,
@@ -308,7 +300,6 @@
 				04C7FCB32822417400599E98 /* Colors.swift in Sources */,
 				04DD77772820AFEE0049A3BD /* WeatherDetailViewController.swift in Sources */,
 				04DD7783282163350049A3BD /* BookmarkTableViewCell.swift in Sources */,
-				04C7FCB52822439B00599E98 /* TemperatureHelper.swift in Sources */,
 				04F7FA4A2829E8F70089AC77 /* WeatherDetailCollectionViewTemperatureCell.swift in Sources */,
 				04465493282A4A2000CF286B /* CALayer.swift in Sources */,
 				04DFC087281BBBFD0089CBED /* AppDelegate.swift in Sources */,
@@ -316,6 +307,7 @@
 				04C7FCB828225F4F00599E98 /* LocationSearchTableViewCell.swift in Sources */,
 				04DFC089281BBBFD0089CBED /* SceneDelegate.swift in Sources */,
 				0437FD86282E4CF90097C584 /* Enums.swift in Sources */,
+				04CEC15428337A0F00505F0E /* Temperature.swift in Sources */,
 				04DD778B28221DFF0049A3BD /* UIColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
