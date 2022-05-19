@@ -12,11 +12,26 @@ import Then
 
 final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     
-    var index: Int?
+    var isCelsius = true
     
-    var subTitleText = "바람의 풍향, 풍속"
-    var titleLabelText = "바람 💨"
-    var contentLabelText = "컨텐츠"
+    var lowestTemperature: Celsius = 3.0
+    var highestTemperature: Celsius = 15.0
+    var wind = "북서 9m/s"
+    var rainProbability = "90%"
+    
+    
+    // MARK: - Enum
+    
+    enum Text {
+        static let tempSubTitleText = "오늘의 최고, 최저기온"
+        static let tempTitleText = "최고/최저 🌡"
+
+        static let windSubTitleText = "바람의 풍향, 풍속"
+        static let windTitleText = "바람 💨"
+        
+        static let rainProbabilitySubTitleText = "비가 올 확률"
+        static let rainProbabilityTitleText = "강수확률 ☂️"
+    }
     
     
     // MARK: - UI
@@ -32,7 +47,7 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     })
     
     private let contentLabel = UILabel().then({
-        $0.font = .systemFont(ofSize: 40.0, weight: .bold)
+        $0.font = .systemFont(ofSize: 35.0, weight: .bold)
         $0.textColor = .black
     })
     
@@ -56,11 +71,26 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     private func initialize() {
         // just bottom border
         self.layer.addBorder([.bottom], color: .grayBorderColor, width: 1.0)
-        
-        // label text
-        self.subTitleLabel.text = self.subTitleText
-        self.titleLabel.text = self.titleLabelText
-        self.contentLabel.text = self.contentLabelText
+    }
+    
+    func setupLabelText(indexPath: Int, isCelsius: Bool) {
+        // indexPath에 따라 다른 값
+        switch indexPath {
+        case 1:
+            self.subTitleLabel.text = Text.tempSubTitleText
+            self.titleLabel.text = Text.tempTitleText
+            
+            let format: Symbol = isCelsius ? .celsius : .fahrenheit
+            self.contentLabel.text = "\(self.lowestTemperature.convertWithFormat(format))/\(self.highestTemperature.convertWithFormat(format))"
+        case 2:
+            self.subTitleLabel.text = Text.windSubTitleText
+            self.titleLabel.text = Text.windTitleText
+            self.contentLabel.text = self.wind
+        default:
+            self.subTitleLabel.text = Text.rainProbabilitySubTitleText
+            self.titleLabel.text = Text.rainProbabilityTitleText
+            self.contentLabel.text = self.rainProbability
+        }
     }
     
 }

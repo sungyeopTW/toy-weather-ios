@@ -12,49 +12,56 @@ import Then
 
 final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     
-    var subTitle = "기온 및 기상상황"
-    var title = "기온"
     var sky = "비"
-    var temperature = 9
+    var temperature = 9.0
     
     var isBookmarked = true // 즐찾 여부
     var isCelsius = true // 섭씨 여부
     
     
+    // MARK: - Enum
+    
+    enum Text {
+        static let subTitle = "기온 및 기상상황"
+        static let title = "기온"
+    }
+    
+    
     // MARK: - UI
     
-    private let backgroundImageView = UIImageView().then({
+    private let backgroundImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill /// 비율유지 더 작은 사이즈에 맞춤
         $0.clipsToBounds = true /// image가 imageView보다 크면 맞춰 자름
         $0.layer.cornerRadius = 12.0
-        $0.image = UIImage(named: "rain") /// 날씨에 따라 이미지 변경
-    })
+        $0.image = UIImage(named: Image.rain) /// 날씨에 따라 이미지 변경
+    }
     
-    private let subTitleLabel = UILabel().then({
+    private let subTitleLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 18.0, weight: .bold)
         $0.textColor = .white
-    })
+    }
     
-    private let titleLabel = UILabel().then({
+    private let titleLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 45.0, weight: .bold)
         $0.textColor = .white
-    })
+    }
     
-    private let bookmarkButton = UIButton(frame: .zero).then({
-        $0.setImage(UIImage(systemName: "star.fill"), for: .normal)
+    private let bookmarkButton = UIButton(frame: .zero).then {
+        $0.setImage(UIImage(systemName: Image.bookmark), for: .normal)
         $0.contentHorizontalAlignment = .fill
         $0.contentVerticalAlignment = .fill
         $0.imageView?.contentMode = .scaleAspectFit
-    })
+    }
     
-    private let skyLabel = UILabel().then({
+    private let skyLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 45.0, weight: .bold)
         $0.textColor = .white
-    })
+    }
     
-    private let temperatureButton = UIButton().then({
-        $0.titleLabel?.font = .systemFont(ofSize: 70.0, weight: .bold)
-    })
+    private let temperatureLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 70.0, weight: .bold)
+        $0.textColor = .white
+    }
     
     
     // MARK: - Life Cycle
@@ -62,7 +69,6 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.initialize()
         self.setupConstraints()
     }
     
@@ -73,10 +79,12 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     
     // MARK: - Methods
     
-    private func initialize() {
+    func initialize(_ isCelsius: Bool) {
+        self.isCelsius = isCelsius
+        
         // label
-        self.subTitleLabel.text = self.subTitle
-        self.titleLabel.text = self.title
+        self.subTitleLabel.text = Text.subTitle
+        self.titleLabel.text = Text.title
         self.skyLabel.text = self.sky
         
         // bookmarkButton
@@ -89,28 +97,12 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
             for: .touchUpInside)
         
         // temperatureButton
-        self.temperatureButton.setTitle(
-            self.isCelsius
-                ? "\(self.temperature)°C"
-                : "\(TemperatureHelper().transformTemperatureToFahrenheit(self.temperature))°F",
-            for: .normal
-        )
-        self.temperatureButton.addTarget(
-            self,
-            action: #selector(tabTemperatureButton(_:)),
-            for: .touchUpInside
-        )
+        self.temperatureLabel.text = self.temperature.convertWithFormat(isCelsius ? .celsius : .fahrenheit)
     }
-    
-    // tabTemperatureButton
-    @objc func tabTemperatureButton(_ sender: UIButton) {
-        self.isCelsius = !self.isCelsius
-        print("isCelsius : ", self.isCelsius)
-    }
-    
+        
     // tabBookmarkButton
     @objc func tabBookmarkButton(_ sender: UIButton) {
-        self.isBookmarked = !self.isBookmarked
+        self.isBookmarked.toggle()
         print("isBookmarked : ", self.isBookmarked)
     }
     
@@ -128,7 +120,7 @@ extension WeatherDetailCollectionViewTemperatureCell {
             self.titleLabel,
             self.bookmarkButton,
             self.skyLabel,
-            self.temperatureButton
+            self.temperatureLabel
         ]
         subViews.forEach({ self.addSubview($0) })
         
@@ -159,12 +151,12 @@ extension WeatherDetailCollectionViewTemperatureCell {
         
         // skyLabel layout
         self.skyLabel.snp.makeConstraints({
-            $0.bottom.equalTo(self.temperatureButton.snp.top).offset(10)
+            $0.bottom.equalTo(self.temperatureLabel.snp.top).offset(10)
             $0.trailing.equalToSuperview().offset(-34)
         })
         
         // temperatureButton layout
-        self.temperatureButton.snp.makeConstraints({
+        self.temperatureLabel.snp.makeConstraints({
             $0.bottom.equalToSuperview().offset(-16)
             $0.trailing.equalTo(self.skyLabel).offset(2)
         })

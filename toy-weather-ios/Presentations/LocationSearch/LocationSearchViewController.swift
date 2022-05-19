@@ -2,110 +2,100 @@
 //  LocationSearchViewController.swift
 //  toy-weather-ios
 //
-//  Created by sungyeopTW on 2022/05/03.
+//  Created by sungyeopTW on 2022/05/15.
 //
 
 import UIKit
 
-import SnapKit
 import Then
 
+
 final class LocationSearchViewController: UIViewController {
-    
-    private let locationSearchTableView = LocationSearchTableView()
-    private let bookmarkTableView = BookmarkTableView()
-    
-    
-    // MARK: - Life Cycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.initialize()
-        self.setupNavigationController()
-        self.setupConstraints()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    
-        self.setupNavigationController()
-        self.setupConstraints()
-    }
-    
-    
-    // MARK: - Methods
-    
-    private func initialize() {
-        // navigationController 넘김
-        self.bookmarkTableView.navigation = self.navigationController
-        self.locationSearchTableView.navigation = self.navigationController
-    }
-    
-    private func setupNavigationController() {
-        // NavigationController
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.backgroundColor = .systemBackground
-
-        // SearchController
-        let searchController = UISearchController().then({
-            $0.searchBar.placeholder = "지역을 입력하세요 🗺"
-            $0.hidesNavigationBarDuringPresentation = true
-            $0.searchBar.delegate = self
-        })
-        
-        // NavigationItem
-        self.navigationItem.title = "오늘의 날씨 정보 🧑🏻‍💼"
-        self.navigationItem.hidesSearchBarWhenScrolling = false
-        self.navigationItem.searchController = searchController
-    }
-    
-}
-
-
-// MARK: - LocationSearchBarDelegate
-
-extension LocationSearchViewController: UISearchBarDelegate {
-    
-    // searchBar에 입력 시작 시 locationSearchTableView -- O / bookmarkTableView -- X
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        self.locationSearchTableView.tableViewCellCount = 10 // row count 변경
-        self.locationSearchTableView.reloadData() // reload
-        self.locationSearchTableView.isHidden = false // 숨김 여부
-        
-        self.bookmarkTableView.isHidden = true
-    }
-    
-    // searchBar에 입력 종료 시 locationSearchTableView -- X / bookmarkTableView -- O
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        self.locationSearchTableView.isHidden = true
-        
-        self.bookmarkTableView.tableViewCellCount = 5
-        self.bookmarkTableView.reloadData()
-        self.bookmarkTableView.isHidden = false
-    }
-    
-}
-
-
-// MARK: - Layout
-
-extension LocationSearchViewController {
-    
-    private func setupConstraints() {
-        let subViews = [self.bookmarkTableView, self.locationSearchTableView]
-        subViews.forEach{ self.view.addSubview($0) }
-        
-        // bookmarkTableView layout
-        self.bookmarkTableView.snp.makeConstraints({
-            $0.edges.equalTo(self.view.safeAreaLayoutGuide)
-        })
-        
-        // locationSearchTableView layout
-        self.locationSearchTableView.snp.makeConstraints({
-            $0.edges.equalTo(self.view.safeAreaLayoutGuide)
-        })
-    }
-    
+//
+//     var searchCount = 10
+//     var isCelsius = true
+//     var navigation: UINavigationController?
+//
+//
+//     // MARK: - UI
+//
+//     lazy var locationSearchTableView = UITableView().then {
+//         $0.dataSource = self
+//         $0.delegate = self
+//         $0.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
+//         $0.rowHeight = 50
+//         $0.register(
+//             LocationSearchTableViewCell.self,
+//             forCellReuseIdentifier: "LocationSearchTableViewCell"
+//         )
+//     }
+//
+//
+//     // MARK: - Life Cycle
+//
+//     override func viewDidLoad() {
+//         super.viewDidLoad()
+//
+//         self.initialize()
+//     }
+//
+//
+//     // MARK: - Methods
+//
+//     private func initialize() {
+//         self.view = self.locationSearchTableView
+//     }
+//
+// }
+//
+//
+// // MARK: - LocationSearchTableViewDataSource
+//
+// extension LocationSearchViewController: UITableViewDataSource {
+//
+//     // section당 row
+//     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//         return self.searchCount
+//     }
+//
+//     // cell
+//     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//         if let cell = tableView.dequeueReusableCell(withIdentifier: "LocationSearchTableViewCell") {
+//             return cell
+//         }
+//
+//         return UITableViewCell()
+//     }
+//
+// }
+//
+//
+// // MARK: - LocationSearchTableViewDelegate
+//
+// extension LocationSearchViewController: UITableViewDelegate {
+//
+//     // tab event
+//     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//         if let navigation = self.navigation {
+//             let weatherDetailViewController = WeatherDetailViewController()
+//             weatherDetailViewController.isCelsius = self.isCelsius
+//             weatherDetailViewController.delegate = self // delegate
+//
+//             navigation.pushViewController(weatherDetailViewController, animated: true)
+//         }
+//     }
+//
+// }
+//
+//
+// // MARK: - SendIsCelsiusDelegate
+//
+// extension LocationSearchViewController: SendIsCelsiusDelegate {
+//
+//     // sendIsCelsius
+//     func sendIsCelsius(isCelsius: Bool) {
+//         self.isCelsius = isCelsius
+//     }
+//
+// }
 }
