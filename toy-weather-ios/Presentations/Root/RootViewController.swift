@@ -13,9 +13,11 @@ import Then
 
 final class RootViewController: UIViewController {
     
-    var cityAndCountry: [[String]] = []
+    var allCity: [[String]] = []
+    var filteredCity: [[String]] = []
+    // var bookmarkedCity: [[String]] = [] /// 아직 안씀!
     
-    var searchCount = 10
+    var isSearchActive = false
     var bookmarkCount = 3
     var isCelsius = true
     
@@ -105,19 +107,27 @@ extension RootViewController: UISearchBarDelegate {
     
     // 서치 시작
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        self.csvFileName.parseCSV(to: &cityAndCountry)
+        self.csvFileName.parseCSV(to: &self.allCity)
         
+        self.locationSearchTableView.reloadData()
         self.view = self.locationSearchTableView
-        print(cityAndCountry)
     }
     
     // 서치 중
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchText)
+        self.filteredCity = self.allCity.filter {
+            $0[0].localizedCaseInsensitiveContains(searchText)
+        }
+        
+        self.isSearchActive = true
+        self.locationSearchTableView.reloadData()
     }
     
     // cancel 클릭 시
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.filteredCity = [] /// 초기화
+        self.isSearchActive = false /// 초기화
+        
         self.view = self.bookmarkTableView
     }
     
@@ -130,7 +140,12 @@ extension RootViewController: UITableViewDataSource {
     
     // section당 row
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableView == bookmarkTableView ? self.bookmarkCount : self.cityAndCountry.count
+        switch tableView {
+        case bookmarkTableView:
+            return self.bookmarkCount
+        default:
+            return self.isSearchActive ? self.filteredCity.count : self.allCity.count
+        }
     }
     
     // cell
@@ -145,7 +160,10 @@ extension RootViewController: UITableViewDataSource {
         
         if tableView == locationSearchTableView {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "LocationSearchTableViewCell") as? LocationSearchTableViewCell {
-                cell.initialize(cityAndCountry[indexPath.row])
+                
+                cell.initialize(
+                    isSearchActive ? self.filteredCity[indexPath.row] : self.allCity[indexPath.row]
+                )
                 
                 return cell
             }
