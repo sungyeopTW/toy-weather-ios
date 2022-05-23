@@ -13,9 +13,13 @@ import Then
 
 final class RootViewController: UIViewController {
     
+    var cityAndCountry: [[String]] = []
+    
     var searchCount = 10
     var bookmarkCount = 3
     var isCelsius = true
+    
+    let csvFileName: Url = "LocationSource"
     
     
     // MARK: - Enum
@@ -101,6 +105,8 @@ extension RootViewController: UISearchBarDelegate {
     
     // 서치 시작
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.csvFileName.parseCSV(to: &cityAndCountry)
+        
         self.view = self.locationSearchTableView
     }
     
@@ -118,7 +124,7 @@ extension RootViewController: UITableViewDataSource {
     
     // section당 row
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableView == bookmarkTableView ? self.bookmarkCount : self.searchCount
+        return tableView == bookmarkTableView ? self.bookmarkCount : self.cityAndCountry.count
     }
     
     // cell
@@ -133,6 +139,8 @@ extension RootViewController: UITableViewDataSource {
         
         if tableView == locationSearchTableView {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "LocationSearchTableViewCell") as? LocationSearchTableViewCell {
+                cell.initialize(cityAndCountry[indexPath.row])
+                
                 return cell
             }
         }

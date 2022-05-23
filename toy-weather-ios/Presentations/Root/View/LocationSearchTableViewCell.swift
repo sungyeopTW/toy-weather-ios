@@ -12,7 +12,7 @@ import Then
 
 final class LocationSearchTableViewCell: UITableViewCell {
     
-    var location = "경기도 성남시중원구 중앙동"
+    var location = ""
     
     var isBookmarked = false // 즐찾 여부
     
@@ -36,7 +36,6 @@ final class LocationSearchTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.initialize()
         self.setupConstraints()
     }
     
@@ -47,12 +46,12 @@ final class LocationSearchTableViewCell: UITableViewCell {
     
     // MARK: - Methods
     
-    private func initialize() {
+    func initialize(_ locationData: [String]) {
         // selectionStyle
         self.selectionStyle = .none
         
         // label
-        self.locationLabel.text = self.location
+        self.locationLabel.text = "\(locationData[0]) \(locationData[1]) \(locationData[2])"
         
         // bookmarkButton
         self.bookmarkButton.tintColor = self.isBookmarked
