@@ -22,8 +22,10 @@ extension Url {
                 if let tempArr = encodedData?
                     .components(separatedBy: "\n")
                     .map({ $0.components(separatedBy: ",") }) {
-                        for i in 1...tempArr.count-1 {
-                            dataArr.append(tempArr[i]) /// 0번째 index는 불필요 데이터
+                        for index in 0...tempArr.count - 2 { /// 마지막은 공백
+                            dataArr.append([ /// 전체주소, x, y 만 append
+                                tempArr[index][3], tempArr[index][4], tempArr[index][5]
+                            ])
                         }
                     }
             } catch {

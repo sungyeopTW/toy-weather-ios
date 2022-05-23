@@ -51,7 +51,7 @@ final class LocationSearchTableViewCell: UITableViewCell {
         self.selectionStyle = .none
         
         // label
-        self.locationLabel.text = "\(locationData[0]) \(locationData[1]) \(locationData[2])"
+        self.locationLabel.text = "\(locationData[0])"
         
         // bookmarkButton
         self.bookmarkButton.tintColor = self.isBookmarked

@@ -108,6 +108,12 @@ extension RootViewController: UISearchBarDelegate {
         self.csvFileName.parseCSV(to: &cityAndCountry)
         
         self.view = self.locationSearchTableView
+        print(cityAndCountry)
+    }
+    
+    // 서치 중
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
     }
     
     // cancel 클릭 시
