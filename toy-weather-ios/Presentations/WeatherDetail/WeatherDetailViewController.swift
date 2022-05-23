@@ -11,9 +11,9 @@ import SnapKit
 import Then
 
 
-// MARK: - SendIsCelsiusDelegate
+// MARK: - SendDataFromWeatherDetailViewController
 
-protocol SendIsCelsiusDelegate: AnyObject {
+protocol SendDataFromWeatherDetailViewController: AnyObject {
     
     func sendIsCelsius(isCelsius: Bool)
     
@@ -22,7 +22,8 @@ protocol SendIsCelsiusDelegate: AnyObject {
 
 final class WeatherDetailViewController: UIViewController {
     
-    weak var delegate: SendIsCelsiusDelegate?
+    weak var delegate: SendDataFromWeatherDetailViewController?
+    
     var isCelsius = true
     
     
@@ -122,7 +123,7 @@ extension WeatherDetailViewController: UICollectionViewDataSource {
                 withReuseIdentifier: "WeatherDetailCollectionViewTemperatureCell",
                 for: indexPath
             ) as? WeatherDetailCollectionViewTemperatureCell {
-                cell.initialize(self.isCelsius)
+                cell.getData(self.isCelsius)
                 
                 return cell
             }

@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
+
 final class BookmarkTableViewCell: UITableViewCell {
     
     var temperature: Celsius = 16.0
@@ -41,6 +42,7 @@ final class BookmarkTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        self.initialize()
         self.setupConstraints()
     }
     
@@ -51,23 +53,26 @@ final class BookmarkTableViewCell: UITableViewCell {
     
     // MARK: - Methods
     
-    func initialize(_ isCelsius: Bool) {
+    private func initialize() {
         // selectionStyle
         self.selectionStyle = .none
-        
+            
+        // bookmarkButton
+        self.bookmarkButton.addTarget(
+            self,
+            action: #selector(tabBookmarkButton(_:)),
+            for: .touchUpInside)
+    }
+    
+    func getData(_ isCelsius: Bool) {
         // label
         self.locationLabel.text = self.location
         self.temperatureLabel.text = self.temperature.convertWithFormat(isCelsius ? .celsius : .fahrenheit)
-            
         
         // bookmarkButton
         self.bookmarkButton.tintColor = self.isBookmarked
             ? .yellowBookmarkColor
             : .grayBookmarkColor
-        self.bookmarkButton.addTarget(
-            self,
-            action: #selector(tabBookmarkButton(_:)),
-            for: .touchUpInside)
     }
     
     // tabBookmarkButton

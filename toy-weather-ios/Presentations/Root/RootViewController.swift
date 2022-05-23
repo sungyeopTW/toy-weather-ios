@@ -15,10 +15,10 @@ final class RootViewController: UIViewController {
     
     var allCity: [[String]] = []
     var filteredCity: [[String]] = []
-    // var bookmarkedCity: [[String]] = [] /// 아직 안씀!
+    var bookmarkedCity: [[String]] = []
     
     var isSearchActive = false
-    var bookmarkCount = 3
+    // var bookmarkCount = 3
     var isCelsius = true
     
     let csvFileName: Url = "LocationSource"
@@ -142,7 +142,7 @@ extension RootViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch tableView {
         case bookmarkTableView:
-            return self.bookmarkCount
+            return self.bookmarkedCity.count
         default:
             return self.isSearchActive ? self.filteredCity.count : self.allCity.count
         }
@@ -152,7 +152,7 @@ extension RootViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == bookmarkTableView {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "BookmarkTableViewCell") as? BookmarkTableViewCell {
-                cell.initialize(self.isCelsius)
+                cell.getData(self.isCelsius)
         
                 return cell
             }
@@ -160,8 +160,8 @@ extension RootViewController: UITableViewDataSource {
         
         if tableView == locationSearchTableView {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "LocationSearchTableViewCell") as? LocationSearchTableViewCell {
-                
-                cell.initialize(
+                cell.delegate = self
+                cell.getData(
                     isSearchActive ? self.filteredCity[indexPath.row] : self.allCity[indexPath.row]
                 )
                 
@@ -191,9 +191,9 @@ extension RootViewController: UITableViewDelegate {
 }
 
 
-// MARK: - SendIsCelsiusDelegate
+// MARK: - SendDataFromWeatherDetailViewController
 
-extension RootViewController: SendIsCelsiusDelegate {
+extension RootViewController: SendDataFromWeatherDetailViewController {
     
     // sendIsCelsius
     func sendIsCelsius(isCelsius: Bool) {
@@ -201,4 +201,24 @@ extension RootViewController: SendIsCelsiusDelegate {
         self.bookmarkTableView.reloadData()
     }
     
+}
+
+
+// MARK: - SendDataFromLocationSearchTableViewCell
+
+extension RootViewController: SendDataFromLocationSearchTableViewCell {
+
+    // sendIsBookmarked
+    func sendIsBookmarked(_ isBookmarked: Bool, _ locationCellData: [String]) {
+        if isBookmarked {
+            self.bookmarkedCity.append(locationCellData)
+        } else {
+            self.bookmarkedCity = self.bookmarkedCity.filter({
+                $0[0] != locationCellData[0]
+            })
+        }
+    
+        self.bookmarkTableView.reloadData()
+    }
+
 }

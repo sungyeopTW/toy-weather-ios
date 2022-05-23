@@ -69,6 +69,7 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        self.initialize()
         self.setupConstraints()
     }
     
@@ -79,22 +80,26 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     
     // MARK: - Methods
     
-    func initialize(_ isCelsius: Bool) {
-        self.isCelsius = isCelsius
-        
+    private func initialize() {
         // label
         self.subTitleLabel.text = Text.subTitle
         self.titleLabel.text = Text.title
         self.skyLabel.text = self.sky
         
         // bookmarkButton
-        self.bookmarkButton.tintColor = self.isBookmarked
-            ? .yellowBookmarkColor
-            : .grayBookmarkColor
         self.bookmarkButton.addTarget(
             self,
             action: #selector(tabBookmarkButton),
             for: .touchUpInside)
+    }
+    
+    func getData(_ isCelsius: Bool) {
+        self.isCelsius = isCelsius
+        
+        // bookmarkButton
+        self.bookmarkButton.tintColor = self.isBookmarked
+            ? .yellowBookmarkColor
+            : .grayBookmarkColor
         
         // temperatureButton
         self.temperatureLabel.text = self.temperature.convertWithFormat(isCelsius ? .celsius : .fahrenheit)

@@ -10,10 +10,21 @@ import UIKit
 import SnapKit
 import Then
 
+
+// MARK: - SendDataFromLocationSearchTableViewCell
+
+protocol SendDataFromLocationSearchTableViewCell: AnyObject {
+
+    func sendIsBookmarked(_ isBookmarked: Bool, _ locationCellData: [String])
+
+}
+
+
 final class LocationSearchTableViewCell: UITableViewCell {
     
-    var location = ""
+    weak var delegate: SendDataFromLocationSearchTableViewCell?
     
+    var locationCellData: [String] = []
     var isBookmarked = false // 즐찾 여부
     
     
@@ -36,6 +47,7 @@ final class LocationSearchTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        self.initialize()
         self.setupConstraints()
     }
     
@@ -46,17 +58,11 @@ final class LocationSearchTableViewCell: UITableViewCell {
     
     // MARK: - Methods
     
-    func initialize(_ locationData: [String]) {
+    private func initialize() {
         // selectionStyle
         self.selectionStyle = .none
-        
-        // label
-        self.locationLabel.text = "\(locationData[0])"
-        
+
         // bookmarkButton
-        self.bookmarkButton.tintColor = self.isBookmarked
-            ? .yellowBookmarkColor
-            : .grayBookmarkColor
         self.bookmarkButton.addTarget(
             self,
             action: #selector(tabBookmarkButton),
@@ -64,10 +70,22 @@ final class LocationSearchTableViewCell: UITableViewCell {
         )
     }
     
+    func getData(_ locationData: [String]) {
+        // label
+        self.locationCellData = locationData
+        self.locationLabel.text = locationData[0]
+        
+        // bookmarkButton
+        self.bookmarkButton.tintColor = self.isBookmarked
+            ? .yellowBookmarkColor
+            : .grayBookmarkColor
+    }
+    
     // tabBookmarkButton
     @objc func tabBookmarkButton(_ sender: UIButton) {
         self.isBookmarked.toggle()
-        print("isBookmarked : ", self.isBookmarked)
+        
+        self.delegate?.sendIsBookmarked(self.isBookmarked, self.locationCellData)
     }
     
 }
