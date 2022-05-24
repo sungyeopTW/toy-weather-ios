@@ -14,7 +14,7 @@ import Then
 final class BookmarkTableViewCell: UITableViewCell {
     
     var temperature: Celsius = 16.0
-    var bookmarkedCellData: [String] = []
+    var bookmarkedCellData: City = []
     
     var isBookmarked = true // 즐찾 여부
     var isCelsius = true // 섭씨 여부
@@ -64,12 +64,12 @@ final class BookmarkTableViewCell: UITableViewCell {
             for: .touchUpInside)
     }
     
-    func getData(_ isCelsius: Bool, _ locationData: [String]) {
+    func getData(_ isCelsius: Bool, _ locationData: City) {
         // data
         self.bookmarkedCellData = locationData
         
         // label
-        self.locationLabel.text = locationData[0]
+        self.locationLabel.text = locationData.location
         self.temperatureLabel.text = self.temperature.convertWithFormat(isCelsius ? .celsius : .fahrenheit)
         
         // bookmarkButton

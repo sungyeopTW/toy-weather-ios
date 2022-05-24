@@ -15,7 +15,7 @@ import Then
 
 protocol SendDataFromLocationSearchTableViewCell: AnyObject {
 
-    func sendIsBookmarked(_ isBookmarked: Bool, _ locationCellData: [String])
+    func sendIsBookmarked(_ isBookmarked: Bool, _ locationCellData: City)
 
 }
 
@@ -24,7 +24,7 @@ final class LocationSearchTableViewCell: UITableViewCell {
     
     weak var delegate: SendDataFromLocationSearchTableViewCell?
     
-    var locationCellData: [String] = []
+    var locationCellData: City = []
     var isBookmarked = false // 즐찾 여부
     
     
@@ -70,12 +70,12 @@ final class LocationSearchTableViewCell: UITableViewCell {
         )
     }
     
-    func getData(_ locationData: [String]) {
+    func getData(_ locationData: City) {
         // data
         self.locationCellData = locationData
         
         // label
-        self.locationLabel.text = locationData[0]
+        self.locationLabel.text = locationData.location
         
         // bookmarkButton
         self.bookmarkButton.tintColor = self.isBookmarked

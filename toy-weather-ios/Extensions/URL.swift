@@ -11,9 +11,8 @@ typealias Url = String
 
 extension Url {
      
-    // TODO: inout은 안쓰는 것이 좋음 Array가 복사됨!!!!
-    func parseCSV(to dataArr: inout [[String]]) {
-        // var resultArr
+    func parseCSV() -> [[String]] {
+        var resultArr: [[String]] = []
         
         if let path = Bundle.main.path(forResource: self, ofType: "csv") { /// 파일경로
             let url = URL(fileURLWithPath: path) /// URL
@@ -26,16 +25,24 @@ extension Url {
                     .components(separatedBy: "\n")
                     .map({ $0.components(separatedBy: ",") }) {
                         for index in 0...tempArr.count - 2 { /// 마지막은 공백
-                            dataArr.append([ /// 전체주소, x, y 만 append
-                                tempArr[index][3], tempArr[index][4], tempArr[index][5]
+                            resultArr.append([
+                                tempArr[index][0], /// id
+                                tempArr[index][4], /// 전체 주소
+                                tempArr[index][5], /// x좌표
+                                tempArr[index][6] /// y좌표
                             ])
                         }
                     }
+                
+                return resultArr
+                
             } catch {
                 print("Error reading CSV file")
             }
     
         }
+        
+        return []
     }
     
 }

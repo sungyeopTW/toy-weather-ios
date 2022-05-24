@@ -13,9 +13,9 @@ import Then
 
 final class RootViewController: UIViewController {
     
-    var allCity: [[String]] = []
-    var filteredCity: [[String]] = []
-    var bookmarkedCity: [[String]] = []
+    var allCity: CityArray = []
+    var filteredCity: CityArray = []
+    var bookmarkedCity: CityArray = []
     
     var isSearchActive = false
     var isCelsius = true
@@ -73,7 +73,7 @@ final class RootViewController: UIViewController {
     // MARK: - Methods
     
     private func initialize() {
-        self.csvFileName.parseCSV(to: &self.allCity)
+        self.allCity = self.csvFileName.parseCSV()
         self.view = self.bookmarkTableView
     }
     
@@ -114,7 +114,7 @@ extension RootViewController: UISearchBarDelegate {
     // 서치 중
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.filteredCity = self.allCity.filter {
-            $0[0].localizedCaseInsensitiveContains(searchText)
+            $0.location.localizedCaseInsensitiveContains(searchText)
         }
         
         self.isSearchActive = true
@@ -209,12 +209,12 @@ extension RootViewController: SendDataFromWeatherDetailViewController {
 extension RootViewController: SendDataFromLocationSearchTableViewCell {
 
     // sendIsBookmarked
-    func sendIsBookmarked(_ isBookmarked: Bool, _ locationCellData: [String]) {
+    func sendIsBookmarked(_ isBookmarked: Bool, _ locationCellData: City) {
         if isBookmarked {
             self.bookmarkedCity.append(locationCellData)
         } else {
             self.bookmarkedCity = self.bookmarkedCity.filter({
-                $0[0] != locationCellData[0]
+                $0.id != locationCellData.id
             })
         }
     
