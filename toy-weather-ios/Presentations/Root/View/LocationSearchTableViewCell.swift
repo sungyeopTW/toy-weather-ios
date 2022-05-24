@@ -31,7 +31,7 @@ final class LocationSearchTableViewCell: UITableViewCell {
     // MARK: - UI
     
     private let locationLabel = UILabel().then({
-        $0.font = .systemFont(ofSize: 22.0, weight: .regular)
+        $0.font = .systemFont(ofSize: 18.0, weight: .regular)
     })
     
     private let bookmarkButton = UIButton(frame: .zero).then({
@@ -109,7 +109,7 @@ extension LocationSearchTableViewCell {
         
         // bookmarkButton layout
         self.bookmarkButton.snp.makeConstraints({
-            $0.width.height.equalTo(32)
+            $0.width.height.equalTo(35)
             
             $0.trailing.equalToSuperview().offset(-20)
             $0.centerY.equalToSuperview()

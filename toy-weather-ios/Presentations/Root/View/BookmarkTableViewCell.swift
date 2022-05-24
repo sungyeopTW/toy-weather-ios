@@ -14,7 +14,7 @@ import Then
 final class BookmarkTableViewCell: UITableViewCell {
     
     var temperature: Celsius = 16.0
-    var location = "서울특별시 용산구 용문동"
+    var bookmarkedCellData: [String] = []
     
     var isBookmarked = true // 즐찾 여부
     var isCelsius = true // 섭씨 여부
@@ -22,7 +22,7 @@ final class BookmarkTableViewCell: UITableViewCell {
     
     // MARK: - UI
     private let temperatureLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 40.0, weight: .bold)
+        $0.font = .systemFont(ofSize: 38.0, weight: .bold)
     }
     
     private let bookmarkButton = UIButton(frame: .zero).then {
@@ -33,7 +33,7 @@ final class BookmarkTableViewCell: UITableViewCell {
     }
 
     private let locationLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 20.0, weight: .regular)
+        $0.font = .systemFont(ofSize: 16.0, weight: .regular)
     }
     
     
@@ -64,9 +64,12 @@ final class BookmarkTableViewCell: UITableViewCell {
             for: .touchUpInside)
     }
     
-    func getData(_ isCelsius: Bool) {
+    func getData(_ isCelsius: Bool, _ locationData: [String]) {
+        // data
+        self.bookmarkedCellData = locationData
+        
         // label
-        self.locationLabel.text = self.location
+        self.locationLabel.text = locationData[0]
         self.temperatureLabel.text = self.temperature.convertWithFormat(isCelsius ? .celsius : .fahrenheit)
         
         // bookmarkButton
@@ -102,7 +105,7 @@ extension BookmarkTableViewCell {
         
         // bookmarkButton layout
         self.bookmarkButton.snp.makeConstraints {
-            $0.width.height.equalTo(32)
+            $0.width.height.equalTo(35)
             
             $0.trailing.equalToSuperview().offset(-16)
             $0.top.equalTo(self.temperatureLabel).offset(-10)
