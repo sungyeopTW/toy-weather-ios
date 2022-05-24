@@ -8,7 +8,7 @@
 
 typealias City = [String]
 typealias CityArray = [City]
-typealias BookmarkedCity = [String]
+// typealias BookmarkedIdArray = [String]
 
 extension City {
     

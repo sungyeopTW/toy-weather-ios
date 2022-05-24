@@ -162,7 +162,8 @@ extension RootViewController: UITableViewDataSource {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "LocationSearchTableViewCell") as? LocationSearchTableViewCell {
                 cell.delegate = self
                 cell.getData(
-                    isSearchActive ? self.filteredCity[indexPath.row] : self.allCity[indexPath.row]
+                    locationData: isSearchActive ? self.filteredCity[indexPath.row] : self.allCity[indexPath.row],
+                    bookmarkedCity: bookmarkedCity
                 )
                 
                 return cell
@@ -210,6 +211,8 @@ extension RootViewController: SendDataFromLocationSearchTableViewCell {
 
     // sendIsBookmarked
     func sendIsBookmarked(_ isBookmarked: Bool, _ locationCellData: City) {
+        print(isBookmarked)
+        
         if isBookmarked {
             self.bookmarkedCity.append(locationCellData)
         } else {
@@ -218,6 +221,7 @@ extension RootViewController: SendDataFromLocationSearchTableViewCell {
             })
         }
     
+        self.locationSearchTableView.reloadData()
         self.bookmarkTableView.reloadData()
     }
 
