@@ -13,10 +13,11 @@ import Then
 
 final class BookmarkTableViewCell: UITableViewCell {
     
-    var temperature: Celsius = 16.0
+    weak var delegate: SendDataFromTableViewCell?
+    
     var bookmarkedCellData: City = []
     
-    var isBookmarked = true // 즐찾 여부
+    var temperature: Celsius = 16.0
     var isCelsius = true // 섭씨 여부
     
     
@@ -58,14 +59,13 @@ final class BookmarkTableViewCell: UITableViewCell {
         self.selectionStyle = .none
             
         // bookmarkButton
+        self.bookmarkButton.tintColor = .yellowBookmarkColor
         self.bookmarkButton.addTarget(
             self,
             action: #selector(tabBookmarkButton(_:)),
             for: .touchUpInside)
     }
     
-    
-    // TODO: !!!!!
     func getData(_ isCelsius: Bool, _ locationData: City) {
         // data
         self.bookmarkedCellData = locationData
@@ -73,17 +73,11 @@ final class BookmarkTableViewCell: UITableViewCell {
         // label
         self.locationLabel.text = locationData.location
         self.temperatureLabel.text = self.temperature.convertWithFormat(isCelsius ? .celsius : .fahrenheit)
-        
-        // bookmarkButton
-        self.bookmarkButton.tintColor = self.isBookmarked
-            ? .yellowBookmarkColor
-            : .grayBookmarkColor
     }
     
     // tabBookmarkButton
     @objc func tabBookmarkButton(_ sender: UIButton) {
-        self.isBookmarked.toggle()
-        print("isBookmarked : ", self.isBookmarked)
+        self.delegate?.sendIsBookmarked(false, self.bookmarkedCellData)
     }
     
 }

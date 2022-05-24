@@ -11,18 +11,9 @@ import SnapKit
 import Then
 
 
-// MARK: - SendDataFromLocationSearchTableViewCell
-
-protocol SendDataFromLocationSearchTableViewCell: AnyObject {
-
-    func sendIsBookmarked(_ isBookmarked: Bool, _ locationCellData: City)
-
-}
-
-
 final class LocationSearchTableViewCell: UITableViewCell {
     
-    weak var delegate: SendDataFromLocationSearchTableViewCell?
+    weak var delegate: SendDataFromTableViewCell?
     
     var locationCellData: City = []
     var isBookmarked = false // 즐찾 여부

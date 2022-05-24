@@ -10,6 +10,14 @@ import UIKit
 import SnapKit
 import Then
 
+// MARK: - SendDataFromTableViewCell
+
+protocol SendDataFromTableViewCell: AnyObject {
+    
+    func sendIsBookmarked(_ isBookmarked: Bool, _ cellData: City)
+    
+}
+
 
 final class RootViewController: UIViewController {
     
@@ -149,9 +157,9 @@ extension RootViewController: UITableViewDataSource {
     // cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        // TODO: data를 어떻게 넣어줄 것인지
         if tableView == bookmarkTableView {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "BookmarkTableViewCell") as? BookmarkTableViewCell {
+                cell.delegate = self
                 cell.getData(self.isCelsius, self.bookmarkedCity[indexPath.row])
         
                 return cell
@@ -207,17 +215,17 @@ extension RootViewController: SendDataFromWeatherDetailViewController {
 
 // MARK: - SendDataFromLocationSearchTableViewCell
 
-extension RootViewController: SendDataFromLocationSearchTableViewCell {
+extension RootViewController: SendDataFromTableViewCell {
 
     // sendIsBookmarked
-    func sendIsBookmarked(_ isBookmarked: Bool, _ locationCellData: City) {
+    func sendIsBookmarked(_ isBookmarked: Bool, _ cellData: City) {
         print(isBookmarked)
         
         if isBookmarked {
-            self.bookmarkedCity.append(locationCellData)
+            self.bookmarkedCity.append(cellData)
         } else {
             self.bookmarkedCity = self.bookmarkedCity.filter({
-                $0.id != locationCellData.id
+                $0.id != cellData.id
             })
         }
     
