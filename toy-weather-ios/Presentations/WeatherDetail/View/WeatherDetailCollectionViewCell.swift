@@ -47,7 +47,7 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     })
     
     private let contentLabel = UILabel().then({
-        $0.font = .systemFont(ofSize: 35.0, weight: .bold)
+        $0.font = .systemFont(ofSize: 30.0, weight: .bold)
         $0.textColor = .black
     })
     

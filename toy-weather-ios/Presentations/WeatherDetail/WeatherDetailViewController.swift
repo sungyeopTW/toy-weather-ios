@@ -24,14 +24,8 @@ final class WeatherDetailViewController: UIViewController {
     
     weak var delegate: SendDataFromWeatherDetailViewController?
     
+    var location = "서울특별시 종로구 청운효자동"
     var isCelsius = true
-    
-    
-    // MARK: - Enum
-    
-    enum Text {
-        static let navigationBarTitle = "날씨 상세정보 🏖"
-    }
     
     
     // MARK: - Life Cycle
@@ -60,6 +54,12 @@ final class WeatherDetailViewController: UIViewController {
         )
     }
     
+    private lazy var titleLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 20.0, weight: .bold)
+        $0.textColor = .black
+        $0.adjustsFontSizeToFitWidth = true
+    }
+    
     private lazy var backButton = UIBarButtonItem().then {
         $0.image = UIImage(systemName: "arrow.backward")
         $0.style = .plain
@@ -80,7 +80,10 @@ final class WeatherDetailViewController: UIViewController {
     private func initialize() {
         self.view = self.weatherDetailCollectionView
         
-        self.navigationItem.title = Text.navigationBarTitle
+        self.titleLabel.text = self.location
+        self.navigationItem.largeTitleDisplayMode = .never
+        self.navigationItem.titleView = self.titleLabel
+        
         self.navigationItem.leftBarButtonItem = self.backButton
         self.navigationItem.rightBarButtonItem = self.thermometerButton
         
@@ -156,7 +159,7 @@ extension WeatherDetailViewController: UICollectionViewDelegateFlowLayout {
     ) -> CGSize {
         let width = collectionView.frame.width - 32.0
     
-        return CGSize(width: width, height: indexPath.row == 0 ? width : 120)
+        return CGSize(width: width, height: indexPath.row == 0 ? width + 32 : 120)
     }
     
 }

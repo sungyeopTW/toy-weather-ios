@@ -90,6 +90,7 @@ final class RootViewController: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         // NavigationItem
+        self.navigationItem.largeTitleDisplayMode = .always
         self.navigationItem.title = Text.navigationBarTitle
         self.navigationItem.hidesSearchBarWhenScrolling = false
         self.navigationItem.searchController = UISearchController().then {

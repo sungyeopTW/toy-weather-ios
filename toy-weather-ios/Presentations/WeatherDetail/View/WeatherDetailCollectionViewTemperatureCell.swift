@@ -29,7 +29,7 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     
     // MARK: - UI
     
-    private let backgroundImageView = UIImageView().then {
+    private let imageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill /// 비율유지 더 작은 사이즈에 맞춤
         $0.clipsToBounds = true /// image가 imageView보다 크면 맞춰 자름
         $0.layer.cornerRadius = 12.0
@@ -120,7 +120,7 @@ extension WeatherDetailCollectionViewTemperatureCell {
     
     private func setupConstraints() {
         let subViews = [
-            self.backgroundImageView,
+            self.imageView,
             self.subTitleLabel,
             self.titleLabel,
             self.bookmarkButton,
@@ -130,13 +130,16 @@ extension WeatherDetailCollectionViewTemperatureCell {
         subViews.forEach({ self.addSubview($0) })
         
         // imageView layout
-        self.backgroundImageView.snp.makeConstraints({
-            $0.edges.equalToSuperview()
+        self.imageView.snp.makeConstraints({
+            $0.width.equalToSuperview()
+            $0.height.equalTo(self.snp.width)
+            
+            $0.top.equalToSuperview().offset(32)
         })
         
         // subTitleLabel layout
         self.subTitleLabel.snp.makeConstraints({
-            $0.top.equalToSuperview().offset(32)
+            $0.top.equalTo(self.imageView.snp.top).offset(32)
             $0.leading.equalToSuperview().offset(32)
         })
         
@@ -149,7 +152,7 @@ extension WeatherDetailCollectionViewTemperatureCell {
         // bookmarkButton layout
         self.bookmarkButton.snp.makeConstraints({
             $0.width.height.equalTo(45)
-            
+        
             $0.top.equalTo(self.subTitleLabel.snp.top)
             $0.trailing.equalTo(self.skyLabel.snp.trailing)
         })
