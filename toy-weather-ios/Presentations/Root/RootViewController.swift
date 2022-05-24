@@ -150,9 +150,12 @@ extension RootViewController: UITableViewDataSource {
     
     // cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        // TODO: data를 어떻게 넣어줄 것인지
         if tableView == bookmarkTableView {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "BookmarkTableViewCell") as? BookmarkTableViewCell {
                 cell.getData(self.isCelsius)
+                print(bookmarkedCity)
         
                 return cell
             }

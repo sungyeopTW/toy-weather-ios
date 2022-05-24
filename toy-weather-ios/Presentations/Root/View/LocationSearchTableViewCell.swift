@@ -71,8 +71,10 @@ final class LocationSearchTableViewCell: UITableViewCell {
     }
     
     func getData(_ locationData: [String]) {
-        // label
+        // data
         self.locationCellData = locationData
+        
+        // label
         self.locationLabel.text = locationData[0]
         
         // bookmarkButton
