@@ -18,7 +18,6 @@ final class RootViewController: UIViewController {
     var bookmarkedCity: [[String]] = []
     
     var isSearchActive = false
-    // var bookmarkCount = 3
     var isCelsius = true
     
     let csvFileName: Url = "LocationSource"
@@ -74,6 +73,7 @@ final class RootViewController: UIViewController {
     // MARK: - Methods
     
     private func initialize() {
+        self.csvFileName.parseCSV(to: &self.allCity)
         self.view = self.bookmarkTableView
     }
     
@@ -107,8 +107,6 @@ extension RootViewController: UISearchBarDelegate {
     
     // 서치 시작
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        self.csvFileName.parseCSV(to: &self.allCity)
-        
         self.locationSearchTableView.reloadData()
         self.view = self.locationSearchTableView
     }
