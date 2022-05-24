@@ -44,7 +44,7 @@ final class WeatherDetailViewController: UIViewController {
     
     
     // MARK: - UI
-    lazy var weatherDetailCollectionView = UICollectionView(
+    private lazy var weatherDetailCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: UICollectionViewFlowLayout()
     ).then {
@@ -60,14 +60,14 @@ final class WeatherDetailViewController: UIViewController {
         )
     }
     
-    lazy var backButton = UIBarButtonItem().then {
+    private lazy var backButton = UIBarButtonItem().then {
         $0.image = UIImage(systemName: "arrow.backward")
         $0.style = .plain
         $0.target = self
         $0.action = #selector(tabBackButton)
     }
     
-    lazy var thermometerButton = UIBarButtonItem().then {
+    private lazy var thermometerButton = UIBarButtonItem().then {
         $0.image = UIImage(systemName: Image.thermometer)
         $0.style = .plain
         $0.target = self

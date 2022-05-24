@@ -12,12 +12,12 @@ import Then
 
 final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     
-    var isCelsius = true
+    private var isCelsius = true
     
-    var lowestTemperature: Celsius = 3.0
-    var highestTemperature: Celsius = 15.0
-    var wind = "북서 9m/s"
-    var rainProbability = "90%"
+    private var lowestTemperature: Celsius = 3.0
+    private var highestTemperature: Celsius = 15.0
+    private var wind = "북서 9m/s"
+    private var rainProbability = "90%"
     
     
     // MARK: - Enum

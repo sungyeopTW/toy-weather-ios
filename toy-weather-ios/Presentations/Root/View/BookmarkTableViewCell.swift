@@ -15,10 +15,10 @@ final class BookmarkTableViewCell: UITableViewCell {
     
     weak var delegate: SendDataFromTableViewCell?
     
-    var bookmarkedCellData: City = []
+    private var bookmarkedCellData: City = []
     
-    var temperature: Celsius = 16.0
-    var isCelsius = true // 섭씨 여부
+    private var temperature: Celsius = 16.0
+    private var isCelsius = true // 섭씨 여부
     
     
     // MARK: - UI

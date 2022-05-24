@@ -12,11 +12,11 @@ import Then
 
 final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     
-    var sky = "비"
-    var temperature = 9.0
+    private var sky = "비"
+    private var temperature = 9.0
     
-    var isBookmarked = true // 즐찾 여부
-    var isCelsius = true // 섭씨 여부
+    private var isBookmarked = true // 즐찾 여부
+    private var isCelsius = true // 섭씨 여부
     
     
     // MARK: - Enum

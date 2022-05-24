@@ -15,8 +15,8 @@ final class LocationSearchTableViewCell: UITableViewCell {
     
     weak var delegate: SendDataFromTableViewCell?
     
-    var locationCellData: City = []
-    var isBookmarked = false // 즐찾 여부
+    private var locationCellData: City = []
+    private var isBookmarked = false // 즐찾 여부
     
     
     // MARK: - UI

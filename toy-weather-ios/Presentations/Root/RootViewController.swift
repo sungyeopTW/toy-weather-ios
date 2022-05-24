@@ -21,14 +21,14 @@ protocol SendDataFromTableViewCell: AnyObject {
 
 final class RootViewController: UIViewController {
     
-    var allCity: CityArray = []
-    var filteredCity: CityArray = []
-    var bookmarkedCity: CityArray = []
+    private var allCity: CityArray = []
+    private var filteredCity: CityArray = []
+    private var bookmarkedCity: CityArray = []
     
-    var isSearchActive = false
-    var isCelsius = true
+    private var isSearchActive = false
+    private var isCelsius = true
     
-    let csvFileName: Url = "LocationSource"
+    private let csvFileName: Url = "LocationSource"
     
     
     // MARK: - Enum
@@ -41,7 +41,7 @@ final class RootViewController: UIViewController {
     
     // MARK: - UI
 
-    lazy var bookmarkTableView = UITableView().then {
+    private lazy var bookmarkTableView = UITableView().then {
         $0.dataSource = self /// self를 참조해야 하므로 lazy var
         $0.delegate = self
         $0.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
@@ -49,14 +49,14 @@ final class RootViewController: UIViewController {
         $0.register(BookmarkTableViewCell.self, forCellReuseIdentifier: "BookmarkTableViewCell")
     }
     
-    lazy var thermometerButton = UIBarButtonItem().then {
+    private lazy var thermometerButton = UIBarButtonItem().then {
         $0.image = UIImage(systemName: Image.thermometer)
         $0.style = .plain
         $0.target = self
         $0.action = #selector(tabThermometerButton)
     }
     
-    lazy var locationSearchTableView = UITableView().then {
+    private lazy var locationSearchTableView = UITableView().then {
         $0.dataSource = self
         $0.delegate = self
         $0.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
@@ -219,8 +219,6 @@ extension RootViewController: SendDataFromTableViewCell {
 
     // sendIsBookmarked
     func sendIsBookmarked(_ isBookmarked: Bool, _ cellData: City) {
-        print(isBookmarked)
-        
         if isBookmarked {
             self.bookmarkedCity.append(cellData)
         } else {
