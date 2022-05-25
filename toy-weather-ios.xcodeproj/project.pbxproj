@@ -35,7 +35,7 @@
 		04C7FCB22822417400599E98 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		04C7FCB728225F4F00599E98 /* LocationSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTableViewCell.swift; sourceTree = "<group>"; };
 		04CEC15328337A0F00505F0E /* Temperature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temperature.swift; sourceTree = "<group>"; };
-		04DBB7F5283C7AC80043AFCC /* LocationSource.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LocationSource.csv; path = ../../../../../Desktop/LocationSource.csv; sourceTree = "<group>"; };
+		04DBB7F5283C7AC80043AFCC /* LocationSource.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LocationSource.csv; sourceTree = "<group>"; };
 		04DBB7F7283C7BAB0043AFCC /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		04DD77742820AFC90049A3BD /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		04DD77762820AFEE0049A3BD /* WeatherDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailViewController.swift; sourceTree = "<group>"; };
