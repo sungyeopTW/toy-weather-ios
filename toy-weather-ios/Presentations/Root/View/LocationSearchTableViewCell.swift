@@ -21,16 +21,16 @@ final class LocationSearchTableViewCell: UITableViewCell {
     
     // MARK: - UI
     
-    private let locationLabel = UILabel().then({
+    private let locationLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 18.0, weight: .regular)
-    })
+    }
     
-    private let bookmarkButton = UIButton(frame: .zero).then({
+    private let bookmarkButton = UIButton(frame: .zero).then {
         $0.setImage(UIImage(systemName: Image.bookmark), for: .normal)
         $0.contentHorizontalAlignment = .fill
         $0.contentVerticalAlignment = .fill
         $0.imageView?.contentMode = .scaleAspectFit
-    })
+    }
     
     
     // MARK: - Life Cycle
@@ -54,14 +54,10 @@ final class LocationSearchTableViewCell: UITableViewCell {
         self.selectionStyle = .none
 
         // bookmarkButton
-        self.bookmarkButton.addTarget(
-            self,
-            action: #selector(tabBookmarkButton),
-            for: .touchUpInside
-        )
+        self.bookmarkButton.addTarget(self, action: #selector(tabBookmarkButton), for: .touchUpInside)
     }
     
-    func getData(locationData: City, isBookmarked: Bool) {
+    func getData(_ locationData: City, _ isBookmarked: Bool) {
         // data
         self.locationCellData = locationData
         
@@ -72,15 +68,12 @@ final class LocationSearchTableViewCell: UITableViewCell {
         self.isBookmarked = isBookmarked
         
         // bookmarkButton
-        self.bookmarkButton.tintColor = self.isBookmarked
-            ? .yellowBookmarkColor
-            : .grayBookmarkColor
+        self.bookmarkButton.tintColor = self.isBookmarked ? .yellowBookmarkColor : .grayBookmarkColor
     }
     
     // tabBookmarkButton
     @objc func tabBookmarkButton(_ sender: UIButton) {
         self.isBookmarked.toggle()
-        
         self.delegate?.sendIsBookmarked(self.isBookmarked, self.locationCellData)
     }
     
@@ -96,18 +89,18 @@ extension LocationSearchTableViewCell {
         subViews.forEach { self.contentView.addSubview($0) }
         
         // locationLabel
-        self.locationLabel.snp.makeConstraints({
+        self.locationLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(20)
             $0.centerY.equalToSuperview()
-        })
+        }
         
         // bookmarkButton layout
-        self.bookmarkButton.snp.makeConstraints({
+        self.bookmarkButton.snp.makeConstraints {
             $0.width.height.equalTo(35)
             
             $0.trailing.equalToSuperview().offset(-20)
             $0.centerY.equalToSuperview()
-        })
+        }
     }
     
 }

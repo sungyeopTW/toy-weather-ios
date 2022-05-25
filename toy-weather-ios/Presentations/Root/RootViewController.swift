@@ -42,7 +42,7 @@ final class RootViewController: UIViewController {
     // MARK: - UI
 
     private lazy var bookmarkTableView = UITableView().then {
-        $0.dataSource = self /// self를 참조해야 하므로 lazy var
+        $0.dataSource = self
         $0.delegate = self
         $0.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         $0.rowHeight = 80
@@ -147,44 +147,44 @@ extension RootViewController: UITableViewDataSource {
     
     // section당 row
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch tableView {
-        case bookmarkTableView:
-            return self.bookmarkedCity.count
-        default:
-            return self.isSearchActive ? self.filteredCity.count : self.allCity.count
-        }
+        let cellCount: Int = {
+            switch tableView {
+            case bookmarkTableView:
+                return self.bookmarkedCity.count
+            case locationSearchTableView:
+                return self.isSearchActive ? self.filteredCity.count : self.allCity.count
+            default:
+                fatalError("TableView에 return할 cellCount가 없음")
+            }
+        }()
+        
+        return cellCount
     }
+    
     
     // cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch tableView {
+        case bookmarkTableView:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "BookmarkTableViewCell") as! BookmarkTableViewCell
+            
+            cell.delegate = self
+            cell.getData(self.isCelsius, self.bookmarkedCity[indexPath.row])
+            
+            return cell
+        case locationSearchTableView:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LocationSearchTableViewCell") as! LocationSearchTableViewCell
         
-        if tableView == bookmarkTableView {
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "BookmarkTableViewCell") as? BookmarkTableViewCell {
-                cell.delegate = self
-                cell.getData(self.isCelsius, self.bookmarkedCity[indexPath.row])
-        
-                return cell
-            }
+            let locationData = self.isSearchActive ? self.filteredCity[indexPath.row] : self.allCity[indexPath.row]
+            let isBookmarked = bookmarkedCity.contains(locationData)
+    
+            cell.delegate = self
+            cell.getData(locationData, isBookmarked)
+    
+            return cell
+        default:
+            fatalError("TableView에 return할 cell이 없음")
         }
-        
-        if tableView == locationSearchTableView {
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "LocationSearchTableViewCell") as? LocationSearchTableViewCell {
-                
-                let locationData = self.isSearchActive ? self.filteredCity[indexPath.row] : self.allCity[indexPath.row]
-                
-                let isBookmarked = bookmarkedCity.contains(where: { $0.id == locationData.id })
-                
-                cell.delegate = self
-                cell.getData(
-                    locationData: locationData,
-                    isBookmarked: isBookmarked
-                )
-                
-                return cell
-            }
-        }
-        
-        return UITableViewCell()
     }
     
 }
@@ -205,10 +205,9 @@ extension RootViewController: UITableViewDelegate {
                 return self.bookmarkedCity[indexPath.row]
             }
         }()
+        let isBookmarked = bookmarkedCity.contains(locationData)
         
-        let isBookmarked = bookmarkedCity.contains(where: { $0.id == locationData.id })
-        
-        weatherDetailViewController.delegate = self // delegate
+        weatherDetailViewController.delegate = self
         
         weatherDetailViewController.isCelsius = self.isCelsius
         weatherDetailViewController.locationData = locationData
@@ -224,7 +223,7 @@ extension RootViewController: UITableViewDelegate {
 
 extension RootViewController: SendDataFromWeatherDetailViewController {
     
-    // sendIsCelsius
+    // sendIsCelsiusAndBookmarked
     func sendIsCelsiusAndBookmarked(
         _ isCelsius: Bool,
         _ isBookmarked: Bool,
@@ -232,11 +231,12 @@ extension RootViewController: SendDataFromWeatherDetailViewController {
     ) {
         self.isCelsius = isCelsius
         
-        if isBookmarked {
+        switch isBookmarked {
+        case true:
             if !self.bookmarkedCity.contains(cellData) {
                 self.bookmarkedCity.append(cellData)
             }
-        } else {
+        case false:
             self.bookmarkedCity = self.bookmarkedCity.filter {
                 $0.id != cellData.id
             }
@@ -255,12 +255,15 @@ extension RootViewController: SendDataFromTableViewCell {
 
     // sendIsBookmarked
     func sendIsBookmarked(_ isBookmarked: Bool, _ cellData: City) {
-        if isBookmarked {
-            self.bookmarkedCity.append(cellData)
-        } else {
-            self.bookmarkedCity = self.bookmarkedCity.filter({
+        switch isBookmarked {
+        case true:
+            if !self.bookmarkedCity.contains(cellData) {
+                self.bookmarkedCity.append(cellData)
+            }
+        case false:
+            self.bookmarkedCity = self.bookmarkedCity.filter {
                 $0.id != cellData.id
-            })
+            }
         }
     
         self.locationSearchTableView.reloadData()

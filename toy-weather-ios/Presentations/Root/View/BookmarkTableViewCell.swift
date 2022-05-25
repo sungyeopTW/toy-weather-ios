@@ -60,10 +60,7 @@ final class BookmarkTableViewCell: UITableViewCell {
             
         // bookmarkButton
         self.bookmarkButton.tintColor = .yellowBookmarkColor
-        self.bookmarkButton.addTarget(
-            self,
-            action: #selector(tabBookmarkButton(_:)),
-            for: .touchUpInside)
+        self.bookmarkButton.addTarget(self, action: #selector(tabBookmarkButton(_:)), for: .touchUpInside)
     }
     
     func getData(_ isCelsius: Bool, _ locationData: City) {

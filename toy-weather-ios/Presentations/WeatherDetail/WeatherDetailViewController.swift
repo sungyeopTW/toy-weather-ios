@@ -15,11 +15,7 @@ import Then
 
 protocol SendDataFromWeatherDetailViewController: AnyObject {
     
-    func sendIsCelsiusAndBookmarked(
-        _ isCelsius: Bool,
-        _ isBookmarked: Bool,
-        _ cellData: City
-    )
+    func sendIsCelsiusAndBookmarked(_ isCelsius: Bool, _ isBookmarked: Bool, _ cellData: City)
     
 }
 
@@ -101,11 +97,7 @@ final class WeatherDetailViewController: UIViewController {
     }
     
     @objc func tabBackButton(_ sender: UIBarButtonItem) {
-        self.delegate?.sendIsCelsiusAndBookmarked(
-            self.isCelsius,
-            self.isBookmarked,
-            self.locationData
-        )
+        self.delegate?.sendIsCelsiusAndBookmarked(self.isCelsius, self.isBookmarked, self.locationData)
         
         self.navigationController?.popViewController(animated: true)
     }
@@ -130,31 +122,27 @@ extension WeatherDetailViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        if indexPath.row == 0 {
-            if let cell = collectionView.dequeueReusableCell(
+        switch indexPath.row {
+        case 0:
+            let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "WeatherDetailCollectionViewTemperatureCell",
                 for: indexPath
-            ) as? WeatherDetailCollectionViewTemperatureCell {
-                cell.delegate = self
-                cell.getData(
-                    isCelsius: self.isCelsius,
-                    isBookmarked: self.isBookmarked
-                )
-                
-                return cell
-            }
-        } else {
-            if let cell = collectionView.dequeueReusableCell(
+            ) as! WeatherDetailCollectionViewTemperatureCell
+            
+            cell.delegate = self
+            cell.getData(self.isCelsius, self.isBookmarked)
+        
+            return cell
+        default:
+            let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "WeatherDetailCollectionViewCell",
                 for: indexPath
-            ) as? WeatherDetailCollectionViewCell {
-                cell.setupLabelText(indexPath: indexPath.row, isCelsius: self.isCelsius)
-                
-                return cell
-            }
+            ) as! WeatherDetailCollectionViewCell
+            
+            cell.setupLabelText(indexPath.row, self.isCelsius)
+    
+            return cell
         }
-        
-        return UICollectionViewCell()
     }
 
 }
