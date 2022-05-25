@@ -169,10 +169,15 @@ extension RootViewController: UITableViewDataSource {
         
         if tableView == locationSearchTableView {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "LocationSearchTableViewCell") as? LocationSearchTableViewCell {
+                
+                let locationData = self.isSearchActive ? self.filteredCity[indexPath.row] : self.allCity[indexPath.row]
+                
+                let isBookmarked = bookmarkedCity.contains(where: { $0.id == locationData.id })
+                
                 cell.delegate = self
                 cell.getData(
-                    locationData: isSearchActive ? self.filteredCity[indexPath.row] : self.allCity[indexPath.row],
-                    bookmarkedCity: bookmarkedCity
+                    locationData: locationData,
+                    isBookmarked: isBookmarked
                 )
                 
                 return cell
@@ -192,8 +197,22 @@ extension RootViewController: UITableViewDelegate {
     // tab event
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let weatherDetailViewController = WeatherDetailViewController()
+        
+        let locationData: City = {
+            if tableView == self.locationSearchTableView {
+                return self.isSearchActive ? self.filteredCity[indexPath.row] : self.allCity[indexPath.row]
+            } else {
+                return self.bookmarkedCity[indexPath.row]
+            }
+        }()
+        
+        let isBookmarked = bookmarkedCity.contains(where: { $0.id == locationData.id })
+        
         weatherDetailViewController.delegate = self // delegate
+        
         weatherDetailViewController.isCelsius = self.isCelsius
+        weatherDetailViewController.locationData = locationData
+        weatherDetailViewController.isBookmarked = isBookmarked
         
         self.navigationController?.pushViewController(weatherDetailViewController, animated: true)
     }
@@ -206,15 +225,31 @@ extension RootViewController: UITableViewDelegate {
 extension RootViewController: SendDataFromWeatherDetailViewController {
     
     // sendIsCelsius
-    func sendIsCelsius(isCelsius: Bool) {
+    func sendIsCelsiusAndBookmarked(
+        _ isCelsius: Bool,
+        _ isBookmarked: Bool,
+        _ cellData: City
+    ) {
         self.isCelsius = isCelsius
+        
+        if isBookmarked {
+            if !self.bookmarkedCity.contains(cellData) {
+                self.bookmarkedCity.append(cellData)
+            }
+        } else {
+            self.bookmarkedCity = self.bookmarkedCity.filter {
+                $0.id != cellData.id
+            }
+        }
+        
+        self.locationSearchTableView.reloadData()
         self.bookmarkTableView.reloadData()
     }
     
 }
 
 
-// MARK: - SendDataFromLocationSearchTableViewCell
+// MARK: - SendDataFromTableViewCell
 
 extension RootViewController: SendDataFromTableViewCell {
 

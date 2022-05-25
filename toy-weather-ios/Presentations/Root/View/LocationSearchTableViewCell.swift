@@ -61,7 +61,7 @@ final class LocationSearchTableViewCell: UITableViewCell {
         )
     }
     
-    func getData(locationData: City, bookmarkedCity: CityArray) {
+    func getData(locationData: City, isBookmarked: Bool) {
         // data
         self.locationCellData = locationData
         
@@ -69,7 +69,7 @@ final class LocationSearchTableViewCell: UITableViewCell {
         self.locationLabel.text = locationData.location
         
         // isBookmark
-        self.isBookmarked = bookmarkedCity.contains(where: { $0.id == locationData.id })
+        self.isBookmarked = isBookmarked
         
         // bookmarkButton
         self.bookmarkButton.tintColor = self.isBookmarked

@@ -10,13 +10,25 @@ import UIKit
 import SnapKit
 import Then
 
+
+// MARK: - SendDataFromWeatherDetailCollectionViewCell
+
+protocol SendDataFromWeatherDetailCollectionViewCell: AnyObject {
+    
+    func sendIsBookmarked(_ isBookmarked: Bool)
+    
+}
+
+
 final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     
-    private var sky = "비"
-    private var temperature = 9.0
+    weak var delegate: SendDataFromWeatherDetailCollectionViewCell?
     
     private var isBookmarked = true // 즐찾 여부
     private var isCelsius = true // 섭씨 여부
+    
+    private var sky = "비"
+    private var temperature = 9.0
     
     
     // MARK: - Enum
@@ -93,11 +105,12 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
             for: .touchUpInside)
     }
     
-    func getData(_ isCelsius: Bool) {
+    func getData(isCelsius: Bool, isBookmarked: Bool) {
         self.isCelsius = isCelsius
+        self.isBookmarked = isBookmarked
         
         // bookmarkButton
-        self.bookmarkButton.tintColor = self.isBookmarked
+        self.bookmarkButton.tintColor = isBookmarked
             ? .yellowBookmarkColor
             : .grayBookmarkColor
         
@@ -108,7 +121,8 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     // tabBookmarkButton
     @objc func tabBookmarkButton(_ sender: UIButton) {
         self.isBookmarked.toggle()
-        print("isBookmarked : ", self.isBookmarked)
+        
+        self.delegate?.sendIsBookmarked(self.isBookmarked)
     }
     
 }

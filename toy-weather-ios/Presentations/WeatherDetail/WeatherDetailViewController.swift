@@ -15,7 +15,11 @@ import Then
 
 protocol SendDataFromWeatherDetailViewController: AnyObject {
     
-    func sendIsCelsius(isCelsius: Bool)
+    func sendIsCelsiusAndBookmarked(
+        _ isCelsius: Bool,
+        _ isBookmarked: Bool,
+        _ cellData: City
+    )
     
 }
 
@@ -24,8 +28,9 @@ final class WeatherDetailViewController: UIViewController {
     
     weak var delegate: SendDataFromWeatherDetailViewController?
     
-    var location = "서울특별시 종로구 청운효자동"
+    var locationData: City = []
     var isCelsius = true
+    var isBookmarked = false
     
     
     // MARK: - Life Cycle
@@ -80,10 +85,10 @@ final class WeatherDetailViewController: UIViewController {
     private func initialize() {
         self.view = self.weatherDetailCollectionView
         
-        self.titleLabel.text = self.location
+        self.titleLabel.text = self.locationData.location
+        
         self.navigationItem.largeTitleDisplayMode = .never
         self.navigationItem.titleView = self.titleLabel
-        
         self.navigationItem.leftBarButtonItem = self.backButton
         self.navigationItem.rightBarButtonItem = self.thermometerButton
         
@@ -96,7 +101,11 @@ final class WeatherDetailViewController: UIViewController {
     }
     
     @objc func tabBackButton(_ sender: UIBarButtonItem) {
-        self.delegate?.sendIsCelsius(isCelsius: self.isCelsius)
+        self.delegate?.sendIsCelsiusAndBookmarked(
+            self.isCelsius,
+            self.isBookmarked,
+            self.locationData
+        )
         
         self.navigationController?.popViewController(animated: true)
     }
@@ -126,7 +135,11 @@ extension WeatherDetailViewController: UICollectionViewDataSource {
                 withReuseIdentifier: "WeatherDetailCollectionViewTemperatureCell",
                 for: indexPath
             ) as? WeatherDetailCollectionViewTemperatureCell {
-                cell.getData(self.isCelsius)
+                cell.delegate = self
+                cell.getData(
+                    isCelsius: self.isCelsius,
+                    isBookmarked: self.isBookmarked
+                )
                 
                 return cell
             }
@@ -162,4 +175,17 @@ extension WeatherDetailViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: width, height: indexPath.row == 0 ? width + 32 : 120)
     }
     
+}
+
+// MARK: - SendDataFromWeatherDetailCollectionViewCell
+
+extension WeatherDetailViewController: SendDataFromWeatherDetailCollectionViewCell {
+
+    // sendIsBookmarked
+    func sendIsBookmarked(_ isBookmarked: Bool) {
+        self.isBookmarked = isBookmarked
+        
+        self.weatherDetailCollectionView.reloadData()
+    }
+
 }
