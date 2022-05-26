@@ -5,7 +5,6 @@
 //  Created by sungyeopTW on 2022/05/24.
 //
 
-
 // DataModel of LocationSource.csv
 struct City: Equatable {
     var id: String

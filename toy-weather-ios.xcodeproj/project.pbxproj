@@ -116,7 +116,6 @@
 			children = (
 				04DD778A28221DFF0049A3BD /* UIColor.swift */,
 				04465492282A4A2000CF286B /* CALayer.swift */,
-				04CEC15328337A0F00505F0E /* Temperature.swift */,
 				04EA1A96283B0B2700EC3E18 /* URL.swift */,
 			);
 			path = Extensions;
@@ -168,6 +167,7 @@
 		04EBE4E9283F3F100031A308 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				04CEC15328337A0F00505F0E /* Temperature.swift */,
 				04DBB7F7283C7BAB0043AFCC /* City.swift */,
 			);
 			path = Model;

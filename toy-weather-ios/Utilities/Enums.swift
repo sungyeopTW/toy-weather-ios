@@ -5,12 +5,6 @@
 //  Created by sungyeopTW on 2022/05/13.
 //
 
-enum Symbol: String {
-    
-    case celsius = "°C"
-    case fahrenheit = "°F"
-
-}
 
 enum Image {
     

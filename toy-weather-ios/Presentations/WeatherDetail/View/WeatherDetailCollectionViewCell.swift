@@ -14,8 +14,8 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     
     private var isCelsius = true
     
-    private var lowestTemperature: Celsius = 3.0
-    private var highestTemperature: Celsius = 15.0
+    private var lowestTemperature = Temperature(celsius: 3.0)
+    private var highestTemperature = Temperature(celsius: 15.0)
     private var wind = "북서 9m/s"
     private var rainProbability = "90%"
     
@@ -83,8 +83,9 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
         // indexPath에 따라 다른 값
         switch indexPath {
         case 1:
-            let format: Symbol = isCelsius ? .celsius : .fahrenheit
-            let contentValue = "\(self.lowestTemperature.convertWithFormat(format))/\(self.highestTemperature.convertWithFormat(format))"
+            let format: TemperatureSymbol = isCelsius ? .celsius : .fahrenheit
+            let contentValue = "\(self.lowestTemperature.convertWithFormat(format))" + "/" +
+                               "\(self.highestTemperature.convertWithFormat(format))"
             
             self.configureLabelText(Text.tempSubTitleText, Text.tempTitleText, contentValue)
         case 2:

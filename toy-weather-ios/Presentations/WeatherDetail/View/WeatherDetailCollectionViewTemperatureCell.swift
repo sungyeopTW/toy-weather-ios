@@ -28,8 +28,7 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     private var isCelsius = true // 섭씨 여부
     
     private var sky = "비"
-    private var temperature = 9.0
-    
+    private var temperature = Temperature(celsius: 9.0)
     
     // MARK: - Enum
     
