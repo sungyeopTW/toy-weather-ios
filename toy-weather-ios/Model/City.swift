@@ -7,8 +7,6 @@
 
 
 // DataModel of LocationSource.csv
-typealias CityArray = [City]
-
 struct City {
     var id: String
     var location: String

@@ -11,8 +11,8 @@ typealias Url = String
 
 extension Url {
      
-    func parseCSV() -> CityArray {
-        var resultArr: CityArray = []
+    func parseCSV() -> [City] {
+        var resultArr: [City] = []
         
         if let path = Bundle.main.path(forResource: self, ofType: "csv") { /// 파일경로
             let url = URL(fileURLWithPath: path) /// URL
