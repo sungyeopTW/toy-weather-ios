@@ -7,7 +7,7 @@
 
 
 // DataModel of LocationSource.csv
-struct City {
+struct City: Equatable {
     var id: String
     var location: String
     var x: String
