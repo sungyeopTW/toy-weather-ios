@@ -196,8 +196,6 @@ extension RootViewController: UITableViewDelegate {
     
     // tab event
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let weatherDetailViewController = WeatherDetailViewController()
-        
         let locationData: City = {
             if tableView == self.locationSearchTableView {
                 return self.isSearchActive ? self.filteredCity[indexPath.row] : self.allCity[indexPath.row]
@@ -206,12 +204,9 @@ extension RootViewController: UITableViewDelegate {
             }
         }()
         let isBookmarked = bookmarkedCity.contains(locationData)
+        let weatherDetailViewController = WeatherDetailViewController(locationData, self.isCelsius, isBookmarked)
         
         weatherDetailViewController.delegate = self
-        
-        weatherDetailViewController.isCelsius = self.isCelsius
-        weatherDetailViewController.locationData = locationData
-        weatherDetailViewController.isBookmarked = isBookmarked
         
         self.navigationController?.pushViewController(weatherDetailViewController, animated: true)
     }

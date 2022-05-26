@@ -24,13 +24,24 @@ final class WeatherDetailViewController: UIViewController {
     
     weak var delegate: SendDataFromWeatherDetailViewController?
     
-
-    var locationData: City?
+    var locationData: City
     var isCelsius = true
     var isBookmarked = false
     
     
     // MARK: - Life Cycle
+    
+    init(_ locationData: City, _ isCelsius: Bool, _ isBookmarked: Bool) {
+        self.locationData = locationData
+        self.isCelsius = isCelsius
+        self.isBookmarked = isBookmarked
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +67,7 @@ final class WeatherDetailViewController: UIViewController {
         )
     }
     
-    private lazy var titleLabel = UILabel().then {
+    private var titleLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 20.0, weight: .bold)
         $0.textColor = .black
         $0.adjustsFontSizeToFitWidth = true
@@ -82,7 +93,7 @@ final class WeatherDetailViewController: UIViewController {
     private func initialize() {
         self.view = self.weatherDetailCollectionView
         
-        self.titleLabel.text = self.locationData?.location
+        self.titleLabel.text = self.locationData.location
         
         self.navigationItem.largeTitleDisplayMode = .never
         self.navigationItem.titleView = self.titleLabel
@@ -98,7 +109,7 @@ final class WeatherDetailViewController: UIViewController {
     }
     
     @objc func tabBackButton(_ sender: UIBarButtonItem) {
-        self.delegate?.sendIsCelsiusAndBookmarked(self.isCelsius, self.isBookmarked, self.locationData!)
+        self.delegate?.sendIsCelsiusAndBookmarked(self.isCelsius, self.isBookmarked, self.locationData)
         
         self.navigationController?.popViewController(animated: true)
     }
