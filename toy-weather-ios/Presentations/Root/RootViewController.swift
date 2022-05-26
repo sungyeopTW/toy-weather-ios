@@ -21,9 +21,9 @@ protocol SendDataFromTableViewCell: AnyObject {
 
 final class RootViewController: UIViewController {
     
-    private var allCity: CityArray = []
-    private var filteredCity: CityArray = []
-    private var bookmarkedCity: CityArray = []
+    private var allCity: [City] = []
+    private var filteredCity: [City] = []
+    private var bookmarkedCity: [City] = []
     
     private var isSearchActive = false
     private var isCelsius = true
@@ -176,7 +176,7 @@ extension RootViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "LocationSearchTableViewCell") as! LocationSearchTableViewCell
         
             let locationData = self.isSearchActive ? self.filteredCity[indexPath.row] : self.allCity[indexPath.row]
-            let isBookmarked = bookmarkedCity.contains(locationData)
+            let isBookmarked = bookmarkedCity.contains(where: { $0.id == locationData.id })
     
             cell.delegate = self
             cell.getData(locationData, isBookmarked)
@@ -205,7 +205,7 @@ extension RootViewController: UITableViewDelegate {
                 return self.bookmarkedCity[indexPath.row]
             }
         }()
-        let isBookmarked = bookmarkedCity.contains(locationData)
+        let isBookmarked = bookmarkedCity.contains(where: { $0.id == locationData.id })
         
         weatherDetailViewController.delegate = self
         
@@ -233,7 +233,7 @@ extension RootViewController: SendDataFromWeatherDetailViewController {
         
         switch isBookmarked {
         case true:
-            if !self.bookmarkedCity.contains(cellData) {
+            if !self.bookmarkedCity.contains(where: { $0.id == cellData.id }) {
                 self.bookmarkedCity.append(cellData)
             }
         case false:
@@ -257,7 +257,7 @@ extension RootViewController: SendDataFromTableViewCell {
     func sendIsBookmarked(_ isBookmarked: Bool, _ cellData: City) {
         switch isBookmarked {
         case true:
-            if !self.bookmarkedCity.contains(cellData) {
+            if !self.bookmarkedCity.contains(where: { $0.id == cellData.id }) {
                 self.bookmarkedCity.append(cellData)
             }
         case false:

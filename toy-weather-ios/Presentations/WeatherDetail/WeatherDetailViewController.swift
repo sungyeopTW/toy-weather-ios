@@ -24,7 +24,8 @@ final class WeatherDetailViewController: UIViewController {
     
     weak var delegate: SendDataFromWeatherDetailViewController?
     
-    var locationData: City = []
+
+    var locationData: City?
     var isCelsius = true
     var isBookmarked = false
     
@@ -81,7 +82,7 @@ final class WeatherDetailViewController: UIViewController {
     private func initialize() {
         self.view = self.weatherDetailCollectionView
         
-        self.titleLabel.text = self.locationData.location
+        self.titleLabel.text = self.locationData?.location
         
         self.navigationItem.largeTitleDisplayMode = .never
         self.navigationItem.titleView = self.titleLabel
@@ -97,7 +98,7 @@ final class WeatherDetailViewController: UIViewController {
     }
     
     @objc func tabBackButton(_ sender: UIBarButtonItem) {
-        self.delegate?.sendIsCelsiusAndBookmarked(self.isCelsius, self.isBookmarked, self.locationData)
+        self.delegate?.sendIsCelsiusAndBookmarked(self.isCelsius, self.isBookmarked, self.locationData!)
         
         self.navigationController?.popViewController(animated: true)
     }

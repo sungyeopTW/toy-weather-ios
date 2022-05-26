@@ -118,7 +118,6 @@
 				04465492282A4A2000CF286B /* CALayer.swift */,
 				04CEC15328337A0F00505F0E /* Temperature.swift */,
 				04EA1A96283B0B2700EC3E18 /* URL.swift */,
-				04DBB7F7283C7BAB0043AFCC /* City.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -157,12 +156,21 @@
 			children = (
 				04DD776D2820A4800049A3BD /* App */,
 				04DD778828221D960049A3BD /* Extensions */,
+				04EBE4E9283F3F100031A308 /* Model */,
 				04DD77702820ACB70049A3BD /* Presentations */,
 				04ED19A22837777000F209C5 /* Resources */,
 				04DD778928221DB10049A3BD /* Utilities */,
 				04DFC094281BBBFE0089CBED /* Info.plist */,
 			);
 			path = "toy-weather-ios";
+			sourceTree = "<group>";
+		};
+		04EBE4E9283F3F100031A308 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				04DBB7F7283C7BAB0043AFCC /* City.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		04ED19A22837777000F209C5 /* Resources */ = {

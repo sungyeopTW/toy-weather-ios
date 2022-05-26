@@ -11,8 +11,8 @@ typealias Url = String
 
 extension Url {
      
-    func parseCSV() -> [[String]] {
-        var resultArr: [[String]] = []
+    func parseCSV() -> CityArray {
+        var resultArr: CityArray = []
         
         if let path = Bundle.main.path(forResource: self, ofType: "csv") { /// 파일경로
             let url = URL(fileURLWithPath: path) /// URL
@@ -25,12 +25,14 @@ extension Url {
                     .components(separatedBy: "\n")
                     .map({ $0.components(separatedBy: ",") }) {
                         for index in 0...tempArr.count - 2 { /// 마지막은 공백
-                            resultArr.append([
-                                tempArr[index][0], /// id
-                                tempArr[index][4], /// 전체 주소
-                                tempArr[index][5], /// x좌표
-                                tempArr[index][6] /// y좌표
-                            ])
+                            resultArr.append(
+                                City(
+                                    id: tempArr[index][0], /// id
+                                    location: tempArr[index][4], /// 전체 주소
+                                    x: tempArr[index][5], /// x좌표
+                                    y: tempArr[index][6] /// y좌표
+                                )
+                            )
                         }
                     }
                 

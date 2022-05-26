@@ -15,7 +15,7 @@ final class BookmarkTableViewCell: UITableViewCell {
     
     weak var delegate: SendDataFromTableViewCell?
     
-    private var bookmarkedCellData: City = []
+    private var bookmarkedCellData: City?
     
     private var temperature: Celsius = 16.0
     private var isCelsius = true // 섭씨 여부
@@ -74,7 +74,7 @@ final class BookmarkTableViewCell: UITableViewCell {
     
     // tabBookmarkButton
     @objc func tabBookmarkButton(_ sender: UIButton) {
-        self.delegate?.sendIsBookmarked(false, self.bookmarkedCellData)
+        self.delegate?.sendIsBookmarked(false, self.bookmarkedCellData!)
     }
     
 }
