@@ -23,7 +23,7 @@
 		04DFC089281BBBFD0089CBED /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DFC088281BBBFD0089CBED /* SceneDelegate.swift */; };
 		04DFC090281BBBFE0089CBED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04DFC08F281BBBFE0089CBED /* Assets.xcassets */; };
 		04DFC093281BBBFE0089CBED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04DFC091281BBBFE0089CBED /* LaunchScreen.storyboard */; };
-		04EA1A97283B0B2700EC3E18 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EA1A96283B0B2700EC3E18 /* URL.swift */; };
+		04EA1A97283B0B2700EC3E18 /* CSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EA1A96283B0B2700EC3E18 /* CSV.swift */; };
 		04F7FA4A2829E8F70089AC77 /* WeatherDetailCollectionViewTemperatureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F7FA492829E8F70089AC77 /* WeatherDetailCollectionViewTemperatureCell.swift */; };
 		AA7B2CF0B620FAA2DFC30551 /* Pods_toy_weather_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441D90D3ABBF576D5D563D52 /* Pods_toy_weather_ios.framework */; };
 /* End PBXBuildFile section */
@@ -47,7 +47,7 @@
 		04DFC08F281BBBFE0089CBED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04DFC092281BBBFE0089CBED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04DFC094281BBBFE0089CBED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		04EA1A96283B0B2700EC3E18 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
+		04EA1A96283B0B2700EC3E18 /* CSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSV.swift; sourceTree = "<group>"; };
 		04F7FA492829E8F70089AC77 /* WeatherDetailCollectionViewTemperatureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailCollectionViewTemperatureCell.swift; sourceTree = "<group>"; };
 		441D90D3ABBF576D5D563D52 /* Pods_toy_weather_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_toy_weather_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D16391DA654C9D884859F0D8 /* Pods-toy-weather-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toy-weather-ios.release.xcconfig"; path = "Target Support Files/Pods-toy-weather-ios/Pods-toy-weather-ios.release.xcconfig"; sourceTree = "<group>"; };
@@ -116,7 +116,6 @@
 			children = (
 				04DD778A28221DFF0049A3BD /* UIColor.swift */,
 				04465492282A4A2000CF286B /* CALayer.swift */,
-				04EA1A96283B0B2700EC3E18 /* URL.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -167,8 +166,9 @@
 		04EBE4E9283F3F100031A308 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				04CEC15328337A0F00505F0E /* Temperature.swift */,
+				04EA1A96283B0B2700EC3E18 /* CSV.swift */,
 				04DBB7F7283C7BAB0043AFCC /* City.swift */,
+				04CEC15328337A0F00505F0E /* Temperature.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -325,7 +325,7 @@
 				04DD77752820AFC90049A3BD /* RootViewController.swift in Sources */,
 				04C7FCB32822417400599E98 /* Colors.swift in Sources */,
 				04DD77772820AFEE0049A3BD /* WeatherDetailViewController.swift in Sources */,
-				04EA1A97283B0B2700EC3E18 /* URL.swift in Sources */,
+				04EA1A97283B0B2700EC3E18 /* CSV.swift in Sources */,
 				04DD7783282163350049A3BD /* BookmarkTableViewCell.swift in Sources */,
 				04F7FA4A2829E8F70089AC77 /* WeatherDetailCollectionViewTemperatureCell.swift in Sources */,
 				04465493282A4A2000CF286B /* CALayer.swift in Sources */,

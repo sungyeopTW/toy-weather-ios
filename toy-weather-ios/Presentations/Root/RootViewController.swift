@@ -21,14 +21,12 @@ protocol SendDataFromTableViewCell: AnyObject {
 
 final class RootViewController: UIViewController {
     
-    private var allCity: [City] = []
+    private var allCity = CSV(value: "LocationSource").parseToCityArray()
     private var filteredCity: [City] = []
     private var bookmarkedCity: [City] = []
     
     private var isSearchActive = false
     private var isCelsius = true
-    
-    private let csvFileName: Url = "LocationSource"
     
     
     // MARK: - Enum
@@ -81,7 +79,6 @@ final class RootViewController: UIViewController {
     // MARK: - Methods
     
     private func initialize() {
-        self.allCity = self.csvFileName.parseCSV()
         self.view = self.bookmarkTableView
     }
     
