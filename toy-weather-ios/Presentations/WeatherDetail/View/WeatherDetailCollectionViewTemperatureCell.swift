@@ -110,7 +110,7 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     // tabBookmarkButton
     @objc func tabBookmarkButton(_ sender: UIButton) {
         self.isBookmarked.toggle()
-        self.delegate?.didTabBookmarkButton(self.isBookmarked)
+        self.delegate?.didTabBookmarkButton(self.isBookmarked, on: nil)
     }
     
 }

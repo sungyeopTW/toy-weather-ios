@@ -73,7 +73,7 @@ final class BookmarkTableViewCell: UITableViewCell {
     
     // tabBookmarkButton
     @objc func tabBookmarkButton(_ sender: UIButton) {
-        self.delegate?.didTabBookmarkButtonOnCell(false, on: self.bookmarkedCellData!)
+        self.delegate?.didTabBookmarkButton(false, on: self.bookmarkedCellData!)
     }
     
 }

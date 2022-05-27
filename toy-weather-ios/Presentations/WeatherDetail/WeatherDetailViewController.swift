@@ -101,7 +101,7 @@ final class WeatherDetailViewController: UIViewController {
     
     @objc func tabBackButton(_ sender: UIBarButtonItem) {
         self.delegate?.didTabTemperatureButton(self.isCelsius)
-        self.delegate?.didTabBookmarkButtonOnCell(self.isBookmarked, on: self.locationData)
+        self.delegate?.didTabBookmarkButton(self.isBookmarked, on: self.locationData)
         
         self.navigationController?.popViewController(animated: true)
     }
@@ -174,9 +174,9 @@ extension WeatherDetailViewController: UICollectionViewDelegateFlowLayout {
 
 extension WeatherDetailViewController: ButtonInteractionDelegate {
     
-    func didTabBookmarkButton(_ isBookmarked: Bool) {
+    func didTabBookmarkButton(_ isBookmarked: Bool, on cellData: City?) {
         self.isBookmarked = isBookmarked
-
+    
         self.weatherDetailCollectionView.reloadData()
     }
     

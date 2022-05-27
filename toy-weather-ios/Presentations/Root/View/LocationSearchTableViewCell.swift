@@ -74,7 +74,7 @@ final class LocationSearchTableViewCell: UITableViewCell {
     // tabBookmarkButton
     @objc func tabBookmarkButton(_ sender: UIButton) {
         self.isBookmarked.toggle()
-        self.delegate?.didTabBookmarkButtonOnCell(self.isBookmarked, on: self.locationCellData!)
+        self.delegate?.didTabBookmarkButton(self.isBookmarked, on: self.locationCellData!)
     }
     
 }

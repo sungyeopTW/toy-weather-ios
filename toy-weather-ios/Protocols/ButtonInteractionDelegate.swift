@@ -6,16 +6,12 @@
 //
 
 protocol ButtonInteractionDelegate: AnyObject {
-    func didTabBookmarkButton(_ isBookmarked: Bool)
-    func didTabBookmarkButtonOnCell(_ isBookmarked: Bool, on cellData: City)
-    
+    func didTabBookmarkButton(_ isBookmarked: Bool, on cellData: City?)
     func didTabTemperatureButton(_ isCelsius: Bool)
 }
 
 // for optional
 extension ButtonInteractionDelegate {
-    func didTabBookmarkButton(_ isBookmarked: Bool) {}
-    func didTabBookmarkButtonOnCell(_ isBookmarked: Bool, on cellData: City) {}
-    
+    func didTabBookmarkButton(_ isBookmarked: Bool, on cellData: City?) {}
     func didTabTemperatureButton(_ isCelsius: Bool) {}
 }

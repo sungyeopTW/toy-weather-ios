@@ -211,20 +211,22 @@ extension RootViewController: ButtonInteractionDelegate {
         self.isCelsius = isCelsius
     }
     
-    func didTabBookmarkButtonOnCell(_ isBookmarked: Bool, on cellData: City) {
-        switch isBookmarked {
-        case true:
-            if !self.bookmarkedCity.contains(cellData) {
-                self.bookmarkedCity.append(cellData)
-            }
-        case false:
-            self.bookmarkedCity = self.bookmarkedCity.filter {
-                $0.id != cellData.id
+    func didTabBookmarkButton(_ isBookmarked: Bool, on cellData: City?) {
+        if let cellData = cellData {
+            switch isBookmarked {
+            case true:
+                if !self.bookmarkedCity.contains(cellData) {
+                    self.bookmarkedCity.append(cellData)
+                }
+            case false:
+                self.bookmarkedCity = self.bookmarkedCity.filter {
+                    $0.id != cellData.id
+                }
             }
         }
     
         self.locationSearchTableView.reloadData()
         self.bookmarkTableView.reloadData()
     }
-    
+
 }
