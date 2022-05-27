@@ -13,7 +13,7 @@ import Then
 
 final class LocationSearchTableViewCell: UITableViewCell {
     
-    weak var delegate: SendDataFromTableViewCell?
+    weak var delegate: ButtonInteractionDelegate?
     
     private var locationCellData: City?
     private var isBookmarked = false // 즐찾 여부
@@ -74,7 +74,7 @@ final class LocationSearchTableViewCell: UITableViewCell {
     // tabBookmarkButton
     @objc func tabBookmarkButton(_ sender: UIButton) {
         self.isBookmarked.toggle()
-        self.delegate?.sendIsBookmarked(self.isBookmarked, self.locationCellData!)
+        self.delegate?.didTabBookmarkButtonOnCell(self.isBookmarked, on: self.locationCellData!)
     }
     
 }

@@ -11,18 +11,9 @@ import SnapKit
 import Then
 
 
-// MARK: - SendDataFromWeatherDetailCollectionViewCell
-
-protocol SendDataFromWeatherDetailCollectionViewCell: AnyObject {
-    
-    func sendIsBookmarked(_ isBookmarked: Bool)
-    
-}
-
-
 final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     
-    weak var delegate: SendDataFromWeatherDetailCollectionViewCell?
+    weak var delegate: ButtonInteractionDelegate?
     
     private var isBookmarked = true // 즐찾 여부
     private var isCelsius = true // 섭씨 여부
@@ -119,7 +110,7 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     // tabBookmarkButton
     @objc func tabBookmarkButton(_ sender: UIButton) {
         self.isBookmarked.toggle()
-        self.delegate?.sendIsBookmarked(self.isBookmarked)
+        self.delegate?.didTabBookmarkButton(self.isBookmarked)
     }
     
 }

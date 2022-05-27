@@ -13,7 +13,7 @@ import Then
 
 final class BookmarkTableViewCell: UITableViewCell {
     
-    weak var delegate: SendDataFromTableViewCell?
+    weak var delegate: ButtonInteractionDelegate?
     
     private var bookmarkedCellData: City?
     private var temperature = Temperature(celsius: 16.0)
@@ -73,7 +73,7 @@ final class BookmarkTableViewCell: UITableViewCell {
     
     // tabBookmarkButton
     @objc func tabBookmarkButton(_ sender: UIButton) {
-        self.delegate?.sendIsBookmarked(false, self.bookmarkedCellData!)
+        self.delegate?.didTabBookmarkButtonOnCell(false, on: self.bookmarkedCellData!)
     }
     
 }

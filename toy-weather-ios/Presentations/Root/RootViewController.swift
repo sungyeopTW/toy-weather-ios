@@ -10,14 +10,6 @@ import UIKit
 import SnapKit
 import Then
 
-// MARK: - SendDataFromTableViewCell
-
-protocol SendDataFromTableViewCell: AnyObject {
-    
-    func sendIsBookmarked(_ isBookmarked: Bool, _ cellData: City)
-    
-}
-
 
 final class RootViewController: UIViewController {
     
@@ -211,42 +203,15 @@ extension RootViewController: UITableViewDelegate {
 }
 
 
-// MARK: - SendDataFromWeatherDetailViewController
+// MARK: - ButtonInteractionDelegate
 
-extension RootViewController: SendDataFromWeatherDetailViewController {
+extension RootViewController: ButtonInteractionDelegate {
     
-    // sendIsCelsiusAndBookmarked
-    func sendIsCelsiusAndBookmarked(
-        _ isCelsius: Bool,
-        _ isBookmarked: Bool,
-        _ cellData: City
-    ) {
+    func didTabTemperatureButton(_ isCelsius: Bool) {
         self.isCelsius = isCelsius
-        
-        switch isBookmarked {
-        case true:
-            if !self.bookmarkedCity.contains(cellData) {
-                self.bookmarkedCity.append(cellData)
-            }
-        case false:
-            self.bookmarkedCity = self.bookmarkedCity.filter {
-                $0.id != cellData.id
-            }
-        }
-        
-        self.locationSearchTableView.reloadData()
-        self.bookmarkTableView.reloadData()
     }
     
-}
-
-
-// MARK: - SendDataFromTableViewCell
-
-extension RootViewController: SendDataFromTableViewCell {
-
-    // sendIsBookmarked
-    func sendIsBookmarked(_ isBookmarked: Bool, _ cellData: City) {
+    func didTabBookmarkButtonOnCell(_ isBookmarked: Bool, on cellData: City) {
         switch isBookmarked {
         case true:
             if !self.bookmarkedCity.contains(cellData) {
@@ -261,5 +226,5 @@ extension RootViewController: SendDataFromTableViewCell {
         self.locationSearchTableView.reloadData()
         self.bookmarkTableView.reloadData()
     }
-
+    
 }

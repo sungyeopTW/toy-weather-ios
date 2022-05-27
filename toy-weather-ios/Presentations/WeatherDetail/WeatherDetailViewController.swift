@@ -11,18 +11,9 @@ import SnapKit
 import Then
 
 
-// MARK: - SendDataFromWeatherDetailViewController
-
-protocol SendDataFromWeatherDetailViewController: AnyObject {
-    
-    func sendIsCelsiusAndBookmarked(_ isCelsius: Bool, _ isBookmarked: Bool, _ cellData: City)
-    
-}
-
-
 final class WeatherDetailViewController: UIViewController {
     
-    weak var delegate: SendDataFromWeatherDetailViewController?
+    weak var delegate: ButtonInteractionDelegate?
     
     var locationData: City
     var isCelsius = true
@@ -109,7 +100,8 @@ final class WeatherDetailViewController: UIViewController {
     }
     
     @objc func tabBackButton(_ sender: UIBarButtonItem) {
-        self.delegate?.sendIsCelsiusAndBookmarked(self.isCelsius, self.isBookmarked, self.locationData)
+        self.delegate?.didTabTemperatureButton(self.isCelsius)
+        self.delegate?.didTabBookmarkButtonOnCell(self.isBookmarked, on: self.locationData)
         
         self.navigationController?.popViewController(animated: true)
     }
@@ -177,15 +169,15 @@ extension WeatherDetailViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
-// MARK: - SendDataFromWeatherDetailCollectionViewCell
 
-extension WeatherDetailViewController: SendDataFromWeatherDetailCollectionViewCell {
+// MARK: - ButtonInteractionDelegate
 
-    // sendIsBookmarked
-    func sendIsBookmarked(_ isBookmarked: Bool) {
+extension WeatherDetailViewController: ButtonInteractionDelegate {
+    
+    func didTabBookmarkButton(_ isBookmarked: Bool) {
         self.isBookmarked = isBookmarked
-        
+
         self.weatherDetailCollectionView.reloadData()
     }
-
+    
 }
