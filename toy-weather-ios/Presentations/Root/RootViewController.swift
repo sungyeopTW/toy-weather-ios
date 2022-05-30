@@ -13,9 +13,12 @@ import Then
 
 final class RootViewController: UIViewController {
     
-    var searchCount = 10
-    var bookmarkCount = 3
-    var isCelsius = true
+    private var allCity = CSV(value: "LocationSource").parseToCityArray()
+    private var filteredCity: [City] = []
+    private var bookmarkedCity: [City] = []
+    
+    private var isSearchActive = false
+    private var isCelsius = true
     
     
     // MARK: - Enum
@@ -28,22 +31,22 @@ final class RootViewController: UIViewController {
     
     // MARK: - UI
 
-    lazy var bookmarkTableView = UITableView().then {
-        $0.dataSource = self /// self를 참조해야 하므로 lazy var
+    private lazy var bookmarkTableView = UITableView().then {
+        $0.dataSource = self
         $0.delegate = self
         $0.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         $0.rowHeight = 80
         $0.register(BookmarkTableViewCell.self, forCellReuseIdentifier: "BookmarkTableViewCell")
     }
     
-    lazy var thermometerButton = UIBarButtonItem().then {
+    private lazy var thermometerButton = UIBarButtonItem().then {
         $0.image = UIImage(systemName: Image.thermometer)
         $0.style = .plain
         $0.target = self
         $0.action = #selector(tabThermometerButton)
     }
     
-    lazy var locationSearchTableView = UITableView().then {
+    private lazy var locationSearchTableView = UITableView().then {
         $0.dataSource = self
         $0.delegate = self
         $0.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
@@ -76,6 +79,7 @@ final class RootViewController: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         // NavigationItem
+        self.navigationItem.largeTitleDisplayMode = .always
         self.navigationItem.title = Text.navigationBarTitle
         self.navigationItem.hidesSearchBarWhenScrolling = false
         self.navigationItem.searchController = UISearchController().then {
@@ -101,11 +105,25 @@ extension RootViewController: UISearchBarDelegate {
     
     // 서치 시작
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.locationSearchTableView.reloadData()
         self.view = self.locationSearchTableView
+    }
+    
+    // 서치 중
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.filteredCity = self.allCity.filter {
+            $0.location.localizedCaseInsensitiveContains(searchText)
+        }
+        
+        self.isSearchActive = true
+        self.locationSearchTableView.reloadData()
     }
     
     // cancel 클릭 시
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.filteredCity = [] /// 초기화
+        self.isSearchActive = false /// 초기화
+        
         self.view = self.bookmarkTableView
     }
     
@@ -118,26 +136,44 @@ extension RootViewController: UITableViewDataSource {
     
     // section당 row
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableView == bookmarkTableView ? self.bookmarkCount : self.searchCount
+        let cellCount: Int = {
+            switch tableView {
+            case bookmarkTableView:
+                return self.bookmarkedCity.count
+            case locationSearchTableView:
+                return self.isSearchActive ? self.filteredCity.count : self.allCity.count
+            default:
+                fatalError("TableView에 return할 cellCount가 없음")
+            }
+        }()
+        
+        return cellCount
     }
+    
     
     // cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == bookmarkTableView {
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "BookmarkTableViewCell") as? BookmarkTableViewCell {
-                cell.initialize(self.isCelsius)
+        switch tableView {
+        case bookmarkTableView:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "BookmarkTableViewCell") as! BookmarkTableViewCell
+            
+            cell.delegate = self
+            cell.getData(self.isCelsius, self.bookmarkedCity[indexPath.row])
+            
+            return cell
+        case locationSearchTableView:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LocationSearchTableViewCell") as! LocationSearchTableViewCell
         
-                return cell
-            }
+            let locationData = self.isSearchActive ? self.filteredCity[indexPath.row] : self.allCity[indexPath.row]
+            let isBookmarked = bookmarkedCity.contains(locationData)
+    
+            cell.delegate = self
+            cell.getData(locationData, isBookmarked)
+    
+            return cell
+        default:
+            fatalError("TableView에 return할 cell이 없음")
         }
-        
-        if tableView == locationSearchTableView {
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "LocationSearchTableViewCell") as? LocationSearchTableViewCell {
-                return cell
-            }
-        }
-        
-        return UITableViewCell()
     }
     
 }
@@ -149,9 +185,17 @@ extension RootViewController: UITableViewDelegate {
     
     // tab event
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let weatherDetailViewController = WeatherDetailViewController()
-        weatherDetailViewController.delegate = self // delegate
-        weatherDetailViewController.isCelsius = self.isCelsius
+        let locationData: City = {
+            if tableView == self.locationSearchTableView {
+                return self.isSearchActive ? self.filteredCity[indexPath.row] : self.allCity[indexPath.row]
+            } else {
+                return self.bookmarkedCity[indexPath.row]
+            }
+        }()
+        let isBookmarked = bookmarkedCity.contains(locationData)
+        let weatherDetailViewController = WeatherDetailViewController(locationData, self.isCelsius, isBookmarked)
+        
+        weatherDetailViewController.delegate = self
         
         self.navigationController?.pushViewController(weatherDetailViewController, animated: true)
     }
@@ -159,14 +203,30 @@ extension RootViewController: UITableViewDelegate {
 }
 
 
-// MARK: - SendIsCelsiusDelegate
+// MARK: - ButtonInteractionDelegate
 
-extension RootViewController: SendIsCelsiusDelegate {
+extension RootViewController: ButtonInteractionDelegate {
     
-    // sendIsCelsius
-    func sendIsCelsius(isCelsius: Bool) {
+    func didTabTemperatureButton(_ isCelsius: Bool) {
         self.isCelsius = isCelsius
-        self.bookmarkTableView.reloadData()
     }
     
+    func didTabBookmarkButton(_ isBookmarked: Bool, on cellData: City?) {
+        if let cellData = cellData {
+            switch isBookmarked {
+            case true:
+                if !self.bookmarkedCity.contains(cellData) {
+                    self.bookmarkedCity.append(cellData)
+                }
+            case false:
+                self.bookmarkedCity = self.bookmarkedCity.filter {
+                    $0.id != cellData.id
+                }
+            }
+        }
+    
+        self.locationSearchTableView.reloadData()
+        self.bookmarkTableView.reloadData()
+    }
+
 }

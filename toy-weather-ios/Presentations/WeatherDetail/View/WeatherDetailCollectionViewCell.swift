@@ -12,12 +12,12 @@ import Then
 
 final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     
-    var isCelsius = true
+    private var isCelsius = true
     
-    var lowestTemperature: Celsius = 3.0
-    var highestTemperature: Celsius = 15.0
-    var wind = "북서 9m/s"
-    var rainProbability = "90%"
+    private var lowestTemperature = Temperature(celsius: 3.0)
+    private var highestTemperature = Temperature(celsius: 15.0)
+    private var wind = "북서 9m/s"
+    private var rainProbability = "90%"
     
     
     // MARK: - Enum
@@ -36,20 +36,20 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     
     // MARK: - UI
     
-    private let subTitleLabel = UILabel().then({
+    private let subTitleLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 18.0, weight: .bold)
         $0.textColor = .black
-    })
+    }
     
-    private let titleLabel = UILabel().then({
+    private let titleLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 28.0, weight: .bold)
         $0.textColor = .black
-    })
+    }
     
-    private let contentLabel = UILabel().then({
-        $0.font = .systemFont(ofSize: 35.0, weight: .bold)
+    private let contentLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 30.0, weight: .bold)
         $0.textColor = .black
-    })
+    }
     
     
     // MARK: - Life Cycle
@@ -57,7 +57,6 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.initialize()
         self.setupConstraints()
     }
     
@@ -68,28 +67,27 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Methods
     
-    private func initialize() {
-        // just bottom border
-        self.layer.addBorder([.bottom], color: .grayBorderColor, width: 1.0)
+    private func configureLabelText(_ subTitleValue: String, _ titleValue: String, _ contentValue: String) {
+        self.subTitleLabel.text = subTitleValue
+        self.titleLabel.text = titleValue
+        self.contentLabel.text = contentValue
     }
     
-    func setupLabelText(indexPath: Int, isCelsius: Bool) {
+    func setupLabelText(_ indexPath: Int, _ isCelsius: Bool) {
         // indexPath에 따라 다른 값
         switch indexPath {
         case 1:
-            self.subTitleLabel.text = Text.tempSubTitleText
-            self.titleLabel.text = Text.tempTitleText
+            let format: TemperatureSymbol = isCelsius ? .celsius : .fahrenheit
+            let contentValue = "\(self.lowestTemperature.convertWithFormat(format))" + "/" +
+                               "\(self.highestTemperature.convertWithFormat(format))"
             
-            let format: Symbol = isCelsius ? .celsius : .fahrenheit
-            self.contentLabel.text = "\(self.lowestTemperature.convertWithFormat(format))/\(self.highestTemperature.convertWithFormat(format))"
+            self.configureLabelText(Text.tempSubTitleText, Text.tempTitleText, contentValue)
         case 2:
-            self.subTitleLabel.text = Text.windSubTitleText
-            self.titleLabel.text = Text.windTitleText
-            self.contentLabel.text = self.wind
+            self.configureLabelText(Text.windSubTitleText, Text.windTitleText, self.wind)
+        case 3:
+            self.configureLabelText(Text.rainProbabilitySubTitleText, Text.rainProbabilityTitleText, self.rainProbability)
         default:
-            self.subTitleLabel.text = Text.rainProbabilitySubTitleText
-            self.titleLabel.text = Text.rainProbabilityTitleText
-            self.contentLabel.text = self.rainProbability
+            fatalError("CollectionViewCell의 count가 계획과 다름")
         }
     }
     
@@ -102,25 +100,25 @@ extension WeatherDetailCollectionViewCell {
     
     private func setupConstraints() {
         let subViews = [self.subTitleLabel, self.titleLabel, self.contentLabel]
-        subViews.forEach({ self.addSubview($0) })
+        subViews.forEach { self.addSubview($0) }
         
         // subTitleLabel layout
-        self.subTitleLabel.snp.makeConstraints({
+        self.subTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(16)
             $0.leading.equalToSuperview().offset(16)
-        })
+        }
         
         // // titleLabel layout
-        self.titleLabel.snp.makeConstraints({
+        self.titleLabel.snp.makeConstraints {
             $0.top.equalTo(self.subTitleLabel.snp.bottom)
             $0.leading.equalTo(self.subTitleLabel)
-        })
+        }
         
         // contentLabel layout
-        self.contentLabel.snp.makeConstraints({
+        self.contentLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview().offset(-16)
             $0.trailing.equalToSuperview().offset(-16)
-        })
+        }
     }
     
 }

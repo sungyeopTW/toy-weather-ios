@@ -10,25 +10,27 @@ import UIKit
 import SnapKit
 import Then
 
+
 final class LocationSearchTableViewCell: UITableViewCell {
     
-    var location = "경기도 성남시중원구 중앙동"
+    weak var delegate: ButtonInteractionDelegate?
     
-    var isBookmarked = false // 즐찾 여부
+    private var locationCellData: City?
+    private var isBookmarked = false // 즐찾 여부
     
     
     // MARK: - UI
     
-    private let locationLabel = UILabel().then({
-        $0.font = .systemFont(ofSize: 22.0, weight: .regular)
-    })
+    private let locationLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 18.0, weight: .regular)
+    }
     
-    private let bookmarkButton = UIButton(frame: .zero).then({
+    private let bookmarkButton = UIButton(frame: .zero).then {
         $0.setImage(UIImage(systemName: Image.bookmark), for: .normal)
         $0.contentHorizontalAlignment = .fill
         $0.contentVerticalAlignment = .fill
         $0.imageView?.contentMode = .scaleAspectFit
-    })
+    }
     
     
     // MARK: - Life Cycle
@@ -50,25 +52,29 @@ final class LocationSearchTableViewCell: UITableViewCell {
     private func initialize() {
         // selectionStyle
         self.selectionStyle = .none
+
+        // bookmarkButton
+        self.bookmarkButton.addTarget(self, action: #selector(tabBookmarkButton), for: .touchUpInside)
+    }
+    
+    func getData(_ locationData: City, _ isBookmarked: Bool) {
+        // data
+        self.locationCellData = locationData
         
         // label
-        self.locationLabel.text = self.location
+        self.locationLabel.text = locationData.location
+        
+        // isBookmark
+        self.isBookmarked = isBookmarked
         
         // bookmarkButton
-        self.bookmarkButton.tintColor = self.isBookmarked
-            ? .yellowBookmarkColor
-            : .grayBookmarkColor
-        self.bookmarkButton.addTarget(
-            self,
-            action: #selector(tabBookmarkButton),
-            for: .touchUpInside
-        )
+        self.bookmarkButton.tintColor = self.isBookmarked ? .yellowBookmarkColor : .grayBookmarkColor
     }
     
     // tabBookmarkButton
     @objc func tabBookmarkButton(_ sender: UIButton) {
         self.isBookmarked.toggle()
-        print("isBookmarked : ", self.isBookmarked)
+        self.delegate?.didTabBookmarkButton(self.isBookmarked, on: self.locationCellData!)
     }
     
 }
@@ -83,18 +89,18 @@ extension LocationSearchTableViewCell {
         subViews.forEach { self.contentView.addSubview($0) }
         
         // locationLabel
-        self.locationLabel.snp.makeConstraints({
+        self.locationLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(20)
             $0.centerY.equalToSuperview()
-        })
+        }
         
         // bookmarkButton layout
-        self.bookmarkButton.snp.makeConstraints({
-            $0.width.height.equalTo(32)
+        self.bookmarkButton.snp.makeConstraints {
+            $0.width.height.equalTo(35)
             
             $0.trailing.equalToSuperview().offset(-20)
             $0.centerY.equalToSuperview()
-        })
+        }
     }
     
 }
