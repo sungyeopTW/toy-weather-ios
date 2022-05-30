@@ -57,7 +57,6 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.initialize()
         self.setupConstraints()
     }
     
@@ -67,11 +66,6 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     
     
     // MARK: - Methods
-    
-    private func initialize() {
-        // just bottom border
-        self.layer.addBorder([.bottom], color: .grayBorderColor, width: 1.0)
-    }
     
     private func configureLabelText(_ subTitleValue: String, _ titleValue: String, _ contentValue: String) {
         self.subTitleLabel.text = subTitleValue
