@@ -26,7 +26,7 @@ final class BookmarkTableViewCell: UITableViewCell {
     }
     
     private let bookmarkButton = UIButton(frame: .zero).then {
-        $0.setImage(UIImage(systemName: Image.bookmark), for: .normal)
+        $0.setImage(UIImage(systemName: "star.fill"), for: .normal)
         $0.contentHorizontalAlignment = .fill
         $0.contentVerticalAlignment = .fill
         $0.imageView?.contentMode = .scaleAspectFit

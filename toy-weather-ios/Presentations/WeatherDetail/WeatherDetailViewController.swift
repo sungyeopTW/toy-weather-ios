@@ -16,9 +16,15 @@ final class WeatherDetailViewController: UIViewController {
     weak var delegate: ButtonInteractionDelegate?
     
     var locationData: City
+    var weatherData: [WeatherItem] = []
+    
     var isCelsius = true
     var isBookmarked = false
     
+    private var temperature = Temperature(celsius: 0)
+    private var sky: Sky = .initial
+    private var windDirection: Compass = .initial
+    private var windSpeed = 0
     
     // MARK: - Life Cycle
     
@@ -38,6 +44,7 @@ final class WeatherDetailViewController: UIViewController {
         super.viewDidLoad()
         
         self.initialize()
+        self.fetchUltraSrtData(locationData)
     }
     
     
@@ -72,7 +79,7 @@ final class WeatherDetailViewController: UIViewController {
     }
     
     private lazy var thermometerButton = UIBarButtonItem().then {
-        $0.image = UIImage(systemName: Image.thermometer)
+        $0.image = UIImage(systemName: "thermometer")
         $0.style = .plain
         $0.target = self
         $0.action = #selector(tabThermometerButton)
@@ -92,6 +99,45 @@ final class WeatherDetailViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = self.thermometerButton
         
         self.weatherDetailCollectionView.reloadData()
+    }
+    
+    // 초단기예보 -- for 강수형태, 하늘상태, 현재기온, 풍향, 풍속
+    private func fetchUltraSrtData(_ locationData: City) {
+        let endPoint = WeatherManager.endPoint(.ultraSrtFcst, locationData)
+        let session = URLSession(configuration: .default)
+        
+        session.dataTask(with: endPoint) { data, response, error in
+            if let data = data {
+                do {
+                    let apiData = try JSONDecoder().decode(WeatherData.self, from: data)
+                    let itemArray = apiData.response.body.items.item
+    
+                    let neartime = itemArray[0].fcstTime
+                    let resultData = itemArray.filter {
+                        if $0.fcstTime == neartime {
+                            switch $0.category {
+                            case "PTY", "SKY", "T1H", "VEC", "WSD": /// 강수형태,  하늘상태, 현재기온, 풍향, 풍속
+                                return true
+                            default:
+                                return false
+                            }
+                        }
+                        return false
+                    }
+                    
+                    self.temperature = Temperature(celsius: Double(resultData[2].fcstValue) ?? 0)
+                    self.sky = WeatherManager.skyStatus(resultData[0].fcstValue, resultData[1].fcstValue)
+                    self.windDirection = WeatherManager.windStatus(resultData[3].fcstValue)
+                    self.windSpeed = Int(resultData[4].fcstValue) ?? 0
+
+                    DispatchQueue.main.async { /// 메인쓰레드~~
+                        self.weatherDetailCollectionView.reloadData()
+                    }
+                } catch {
+                    fatalError("[fetching중 에러 발생] : \(error)")
+                }
+            }
+        }.resume()
     }
     
     @objc func tabThermometerButton(_ sender: UIBarButtonItem) {
@@ -134,7 +180,12 @@ extension WeatherDetailViewController: UICollectionViewDataSource {
             ) as! WeatherDetailCollectionViewTemperatureCell
             
             cell.delegate = self
-            cell.getData(self.isCelsius, self.isBookmarked)
+            cell.getData(
+                self.isCelsius,
+                self.isBookmarked,
+                self.temperature,
+                self.sky
+            )
         
             return cell
         default:
@@ -143,7 +194,12 @@ extension WeatherDetailViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as! WeatherDetailCollectionViewCell
             
-            cell.setupLabelText(indexPath.row, self.isCelsius)
+            cell.getData(
+                indexPath.row,
+                self.isCelsius,
+                self.windDirection,
+                self.windSpeed
+            )
     
             return cell
         }

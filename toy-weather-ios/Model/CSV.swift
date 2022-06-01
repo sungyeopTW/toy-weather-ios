@@ -30,13 +30,13 @@ struct CSV {
                                     location: tmp[index][4], /// 전체 주소
                                     x: tmp[index][5], /// x좌표
                                     y: tmp[index][6] /// y좌표
+                                        .trimmingCharacters(in: CharacterSet.newlines) /// 개행문자 제거
                                 )
                             )
                         }
                     }
                 
                 return result
-                
             } catch {
                 print("Error reading CSV file")
             }

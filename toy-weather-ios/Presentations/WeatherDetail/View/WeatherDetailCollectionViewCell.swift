@@ -16,7 +16,6 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     
     private var lowestTemperature = Temperature(celsius: 3.0)
     private var highestTemperature = Temperature(celsius: 15.0)
-    private var wind = "북서 9m/s"
     private var rainProbability = "90%"
     
     
@@ -73,17 +72,24 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
         self.contentLabel.text = contentValue
     }
     
-    func setupLabelText(_ indexPath: Int, _ isCelsius: Bool) {
+    func getData(
+        _ indexPath: Int,
+        _ isCelsius: Bool,
+        _ windDirection: Compass,
+        _ windSpeed: Int
+    ) {
         // indexPath에 따라 다른 값
         switch indexPath {
         case 1:
             let format: TemperatureSymbol = isCelsius ? .celsius : .fahrenheit
-            let contentValue = "\(self.lowestTemperature.convertWithFormat(format))" + "/" +
+            let temperatureContent = "\(self.lowestTemperature.convertWithFormat(format))" + "/" +
                                "\(self.highestTemperature.convertWithFormat(format))"
             
-            self.configureLabelText(Text.tempSubTitleText, Text.tempTitleText, contentValue)
+            self.configureLabelText(Text.tempSubTitleText, Text.tempTitleText, temperatureContent)
         case 2:
-            self.configureLabelText(Text.windSubTitleText, Text.windTitleText, self.wind)
+            let windContent = "\(windDirection.rawValue) \(windSpeed)m/s"
+            
+            self.configureLabelText(Text.windSubTitleText, Text.windTitleText, windContent)
         case 3:
             self.configureLabelText(Text.rainProbabilitySubTitleText, Text.rainProbabilityTitleText, self.rainProbability)
         default:

@@ -40,7 +40,7 @@ final class RootViewController: UIViewController {
     }
     
     private lazy var thermometerButton = UIBarButtonItem().then {
-        $0.image = UIImage(systemName: Image.thermometer)
+        $0.image = UIImage(systemName: "thermometer")
         $0.style = .plain
         $0.target = self
         $0.action = #selector(tabThermometerButton)
