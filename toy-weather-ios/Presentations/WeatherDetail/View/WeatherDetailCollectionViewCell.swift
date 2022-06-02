@@ -81,8 +81,8 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
         switch indexPath {
         case 1:
             let format: TemperatureSymbol = isCelsius ? .celsius : .fahrenheit
-            let temperatureContent = "\(lowestTemperature.convertWithFormat(format))" + "/" +
-                               "\(highestTemperature.convertWithFormat(format))"
+            let temperatureContent = "\(highestTemperature.convertWithFormat(format))" + "/" +
+                               "\(lowestTemperature.convertWithFormat(format))"
             
             self.configureLabelText(Text.tempSubTitleText, Text.tempTitleText, temperatureContent)
         case 2:
