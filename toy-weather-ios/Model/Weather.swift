@@ -34,7 +34,7 @@ struct WeatherItem: Codable {
 }
 
 
-// MARK: - enum
+// MARK: - Enum
 
 // 예보종류
 enum FcstType: String {

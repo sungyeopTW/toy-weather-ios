@@ -71,22 +71,20 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     func updateCellWithDatas(
         _ indexPath: Int,
         _ isCelsius: Bool,
-        _ lowestTemperature: Temperature,
-        _ highestTemperature: Temperature,
-        _ windDirection: Compass,
-        _ windSpeed: Int,
+        _ temperature: [String: Temperature],
+        _ wind: (Compass, Int),
         _ rainProbability: String
     ) {
         // indexPath에 따라 다른 값
         switch indexPath {
         case 1:
             let format: TemperatureSymbol = isCelsius ? .celsius : .fahrenheit
-            let temperatureContent = "\(highestTemperature.convertWithFormat(format))" + "/" +
-                               "\(lowestTemperature.convertWithFormat(format))"
+            let temperatureContent = "\(temperature["highest"]!.convertWithFormat(format))" + "/" +
+                               "\(temperature["lowest"]!.convertWithFormat(format))"
             
             self.configureLabelText(Text.tempSubTitleText, Text.tempTitleText, temperatureContent)
         case 2:
-            let windContent = "\(windDirection.rawValue) \(windSpeed)m/s"
+            let windContent = "\(wind.0.rawValue) \(wind.1)m/s"
             
             self.configureLabelText(Text.windSubTitleText, Text.windTitleText, windContent)
         case 3:

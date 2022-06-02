@@ -14,7 +14,6 @@ import Then
 final class WeatherDetailViewController: UIViewController {
     
     weak var delegate: ButtonInteractionDelegate?
-    let session = URLSession(configuration: .default)
     
     var locationData: City
     var weatherData: [WeatherItem] = []
@@ -22,13 +21,15 @@ final class WeatherDetailViewController: UIViewController {
     var isCelsius = true
     var isBookmarked = false
     
-    private var temperature = Temperature(celsius: 0)
-    private var sky: Sky = .initial
-    private var lowestTemperature = Temperature(celsius: 0)
-    private var highestTemperature = Temperature(celsius: 0)
-    private var windDirection: Compass = .initial
-    private var windSpeed = 0
-    private var rainProbability: String = ""
+    private var sky: Sky = .initial /// 하늘상태
+    private var temperature: [String: Temperature] = [
+        "current": Temperature(celsius: 0), /// 현재기온
+        "highest": Temperature(celsius: 0), /// 최고기온
+        "lowest": Temperature(celsius: 0) /// 최저기온
+    ]
+    private var wind: (Compass, Int) = (.initial, 0) /// (풍향, 풍속)
+    private var rainProbability: String = "" /// 강수확률
+    
     
     // MARK: - Life Cycle
     
@@ -110,11 +111,10 @@ final class WeatherDetailViewController: UIViewController {
     // 초단기예보 -- for 강수형태, 하늘상태, 현재기온, 풍향, 풍속
     private func fetchUltraSrtData() {
         WeatherManager.fetchWeatherDetailUltraSrtData(self.locationData) { [weak self] temperature, sky, windDirection, windSpeed in
-            self?.temperature = temperature
+            self?.temperature["current"] = temperature
             self?.sky = sky
-            self?.windDirection = windDirection
-            self?.windSpeed = windSpeed
-
+            self?.wind = (windDirection, windSpeed)
+            
             DispatchQueue.main.async {
                 self?.weatherDetailCollectionView.reloadData()
             }
@@ -123,9 +123,9 @@ final class WeatherDetailViewController: UIViewController {
     
     // 단기예보 -- for 최저기온, 최고기온, 강수확률
     private func fetchVilageData() {
-        WeatherManager.fetchWeatherDetailVilageData(self.locationData) { [weak self] lowestTemperature, highestTemperature, rainProbability in
-            self?.lowestTemperature = lowestTemperature
-            self?.highestTemperature = highestTemperature
+        WeatherManager.fetchWeatherDetailVilageData(self.locationData) { [weak self] highestTemperature, lowestTemperature, rainProbability in
+            self?.temperature["highest"] = highestTemperature
+            self?.temperature["lowest"] = lowestTemperature
             self?.rainProbability = rainProbability
             
             DispatchQueue.main.async {
@@ -177,7 +177,7 @@ extension WeatherDetailViewController: UICollectionViewDataSource {
             cell.updateCellWithDatas(
                 self.isCelsius,
                 self.isBookmarked,
-                self.temperature,
+                self.temperature["current"]!,
                 self.sky
             )
         
@@ -191,10 +191,8 @@ extension WeatherDetailViewController: UICollectionViewDataSource {
             cell.updateCellWithDatas(
                 indexPath.row,
                 self.isCelsius,
-                self.lowestTemperature,
-                self.highestTemperature,
-                self.windDirection,
-                self.windSpeed,
+                self.temperature,
+                self.wind,
                 self.rainProbability
             )
     

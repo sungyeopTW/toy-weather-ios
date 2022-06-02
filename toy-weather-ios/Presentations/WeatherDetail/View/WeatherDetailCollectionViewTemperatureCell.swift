@@ -17,8 +17,6 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     
     private var isBookmarked = true // 즐찾 여부
     private var isCelsius = true // 섭씨 여부
-    private var sky: Sky = .initial
-    private var temperature = Temperature(celsius: 0)
     
     
     // MARK: - Enum
@@ -102,8 +100,6 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     ) {
         self.isCelsius = isCelsius
         self.isBookmarked = isBookmarked
-        self.temperature = temperature
-        self.sky = sky
         
         // backGroundImageView
         self.backgroundImageView.image = UIImage(named: self.backGroundImageName(sky))
@@ -115,7 +111,8 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
         self.bookmarkButton.tintColor = isBookmarked ? .yellowBookmarkColor : .grayBookmarkColor
         
         // temperatureButton
-        self.temperatureLabel.text = self.temperature.convertWithFormat(isCelsius ? .celsius : .fahrenheit)
+        self.temperatureLabel.text = temperature.convertWithFormat(isCelsius ? .celsius : .fahrenheit)
+
     }
     
     private func backGroundImageName(_ sky: Sky) -> String {

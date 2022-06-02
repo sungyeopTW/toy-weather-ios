@@ -236,8 +236,8 @@ struct WeatherManager {
                     }
                     
                     completion(
-                        Temperature(celsius: Double(resultData[1].fcstValue) ?? 0),
                         Temperature(celsius: Double(resultData[2].fcstValue) ?? 0),
+                        Temperature(celsius: Double(resultData[1].fcstValue) ?? 0),
                         "\(resultData[0].fcstValue)%"
                     )
                     
