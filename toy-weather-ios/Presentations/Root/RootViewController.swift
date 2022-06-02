@@ -16,6 +16,7 @@ final class RootViewController: UIViewController {
     private var allCity = CSV(value: "LocationSource").parseToCityArray()
     private var filteredCity: [City] = []
     private var bookmarkedCity: [City] = []
+    private var temperatureWithBookmarkedCityId: [String: Temperature] = [:]
     
     private var isSearchActive = false
     private var isCelsius = true
@@ -66,6 +67,12 @@ final class RootViewController: UIViewController {
         self.initialize()
         self.setupNavigationController()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    
+        self.fetchUltraSrtData(bookmarkedCity)
+    }
 
     
     // MARK: - Methods
@@ -88,6 +95,44 @@ final class RootViewController: UIViewController {
             $0.hidesNavigationBarDuringPresentation = true
         }
         self.navigationItem.rightBarButtonItem = self.thermometerButton
+    }
+    
+    // 초단기예보 -- 현재기온
+    private func fetchUltraSrtData(_ bookmarkedCity: [City]) {
+        let session = URLSession(configuration: .default)
+    
+        if !bookmarkedCity.isEmpty { /// 즐찾이 있으면
+            for locationData in bookmarkedCity { /// 각각
+                let endPoint = WeatherManager.endPoint(.ultraSrtFcst, locationData)
+    
+                session.dataTask(with: endPoint) { data, response, error in
+                    if let data = data {
+                        do {
+                            let apiData = try JSONDecoder().decode(WeatherData.self, from: data)
+                            let itemArray = apiData.response.body.items.item
+    
+                            let neartime = itemArray[0].fcstTime
+                            let resultData = itemArray.filter {
+                                if $0.fcstTime == neartime {
+                                    return $0.category == "T1H" ? true : false
+                                }
+                                return false
+                            }
+    
+                            self.temperatureWithBookmarkedCityId[locationData.id] = Temperature(celsius: Double(resultData[0].fcstValue) ?? 0)
+    
+                        } catch {
+                            fatalError("[초단기예보 fetching중 에러 발생] : \(error)")
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.bookmarkTableView.reloadData()
+                        }
+                    }
+                }.resume()
+            }
+        }
+    
     }
     
     // tabThermometerButton
@@ -124,6 +169,8 @@ extension RootViewController: UISearchBarDelegate {
         self.filteredCity = [] /// 초기화
         self.isSearchActive = false /// 초기화
         
+        self.fetchUltraSrtData(bookmarkedCity)
+        
         self.view = self.bookmarkTableView
     }
     
@@ -158,7 +205,15 @@ extension RootViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "BookmarkTableViewCell") as! BookmarkTableViewCell
             
             cell.delegate = self
-            cell.getData(self.isCelsius, self.bookmarkedCity[indexPath.row])
+            
+            let currentCity = self.bookmarkedCity[indexPath.row]
+            let temperature = self.temperatureWithBookmarkedCityId[currentCity.id] ?? Temperature(celsius: 0)
+            
+            cell.getData(
+                self.isCelsius,
+                currentCity,
+                temperature
+            )
             
             return cell
         case locationSearchTableView:
