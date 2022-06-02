@@ -14,10 +14,6 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     
     private var isCelsius = true
     
-    private var lowestTemperature = Temperature(celsius: 3.0)
-    private var highestTemperature = Temperature(celsius: 15.0)
-    private var rainProbability = "90%"
-    
     
     // MARK: - Enum
     
@@ -75,15 +71,18 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     func getData(
         _ indexPath: Int,
         _ isCelsius: Bool,
+        _ lowestTemperature: Temperature,
+        _ highestTemperature: Temperature,
         _ windDirection: Compass,
-        _ windSpeed: Int
+        _ windSpeed: Int,
+        _ rainProbability: String
     ) {
         // indexPath에 따라 다른 값
         switch indexPath {
         case 1:
             let format: TemperatureSymbol = isCelsius ? .celsius : .fahrenheit
-            let temperatureContent = "\(self.lowestTemperature.convertWithFormat(format))" + "/" +
-                               "\(self.highestTemperature.convertWithFormat(format))"
+            let temperatureContent = "\(lowestTemperature.convertWithFormat(format))" + "/" +
+                               "\(highestTemperature.convertWithFormat(format))"
             
             self.configureLabelText(Text.tempSubTitleText, Text.tempTitleText, temperatureContent)
         case 2:
@@ -91,7 +90,7 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
             
             self.configureLabelText(Text.windSubTitleText, Text.windTitleText, windContent)
         case 3:
-            self.configureLabelText(Text.rainProbabilitySubTitleText, Text.rainProbabilityTitleText, self.rainProbability)
+            self.configureLabelText(Text.rainProbabilitySubTitleText, Text.rainProbabilityTitleText, rainProbability)
         default:
             fatalError("CollectionViewCell의 count가 계획과 다름")
         }

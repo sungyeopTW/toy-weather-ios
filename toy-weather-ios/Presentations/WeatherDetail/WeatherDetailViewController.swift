@@ -14,6 +14,7 @@ import Then
 final class WeatherDetailViewController: UIViewController {
     
     weak var delegate: ButtonInteractionDelegate?
+    let session = URLSession(configuration: .default)
     
     var locationData: City
     var weatherData: [WeatherItem] = []
@@ -23,8 +24,11 @@ final class WeatherDetailViewController: UIViewController {
     
     private var temperature = Temperature(celsius: 0)
     private var sky: Sky = .initial
+    private var lowestTemperature = Temperature(celsius: 0)
+    private var highestTemperature = Temperature(celsius: 0)
     private var windDirection: Compass = .initial
     private var windSpeed = 0
+    private var rainProbability: String = ""
     
     // MARK: - Life Cycle
     
@@ -45,6 +49,7 @@ final class WeatherDetailViewController: UIViewController {
         
         self.initialize()
         self.fetchUltraSrtData(locationData)
+        self.fetchVilageData(locationData)
     }
     
     
@@ -104,7 +109,6 @@ final class WeatherDetailViewController: UIViewController {
     // 초단기예보 -- for 강수형태, 하늘상태, 현재기온, 풍향, 풍속
     private func fetchUltraSrtData(_ locationData: City) {
         let endPoint = WeatherManager.endPoint(.ultraSrtFcst, locationData)
-        let session = URLSession(configuration: .default)
         
         session.dataTask(with: endPoint) { data, response, error in
             if let data = data {
@@ -134,7 +138,43 @@ final class WeatherDetailViewController: UIViewController {
                         self.weatherDetailCollectionView.reloadData()
                     }
                 } catch {
-                    fatalError("[fetching중 에러 발생] : \(error)")
+                    fatalError("[초단기예보 fetching중 에러 발생] : \(error)")
+                }
+            }
+        }.resume()
+    }
+    
+    // 단기예보 -- for 최저기온, 최고기온, 강수확률
+    private func fetchVilageData(_ locationData: City) {
+        let endPoint = WeatherManager.endPoint(.vilageFcst, locationData)
+        
+        session.dataTask(with: endPoint) { data, response, error in
+            if let data = data {
+                do {
+                    let apiData = try JSONDecoder().decode(WeatherData.self, from: data)
+                    let itemArray = apiData.response.body.items.item
+                    
+                    let resultData = itemArray.filter {
+                        switch $0.category {
+                        case "TMX", "TMN": /// 최고기온, 최저기온
+                            return true
+                        case "POP": /// 강수확률
+                            return $0.fcstTime == "0000" ? true : false
+                        default:
+                            return false
+                        }
+                    }
+                    
+                    self.lowestTemperature = Temperature(celsius: Double(resultData[1].fcstValue) ?? 0)
+                    self.highestTemperature = Temperature(celsius: Double(resultData[2].fcstValue) ?? 0)
+                    self.rainProbability = "\(resultData[0].fcstValue)%"
+                    
+                    DispatchQueue.main.async {
+                        self.weatherDetailCollectionView.reloadData()
+                    }
+                    
+                } catch {
+                    fatalError("[단기예보 fetching중 에러 발생] : \(error)")
                 }
             }
         }.resume()
@@ -197,8 +237,11 @@ extension WeatherDetailViewController: UICollectionViewDataSource {
             cell.getData(
                 indexPath.row,
                 self.isCelsius,
+                self.lowestTemperature,
+                self.highestTemperature,
                 self.windDirection,
-                self.windSpeed
+                self.windSpeed,
+                self.rainProbability
             )
     
             return cell
