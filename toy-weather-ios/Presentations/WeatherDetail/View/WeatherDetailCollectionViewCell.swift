@@ -90,7 +90,7 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
         case 3:
             self.configureLabelText(Text.rainProbabilitySubTitleText, Text.rainProbabilityTitleText, rainProbability)
         default:
-            fatalError("CollectionViewCell의 count가 계획과 다름")
+            print("CollectionViewCell의 count가 계획과 다른 에러")
         }
     }
     

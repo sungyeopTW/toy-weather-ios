@@ -163,7 +163,8 @@ extension RootViewController: UITableViewDataSource {
             case locationSearchTableView:
                 return self.isSearchActive ? self.filteredCity.count : self.allCity.count
             default:
-                fatalError("TableView에 return할 cellCount가 없음")
+                print("TableView에 return할 cellCount가 없음")
+                return 0
             }
         }()
         
@@ -200,7 +201,8 @@ extension RootViewController: UITableViewDataSource {
     
             return cell
         default:
-            fatalError("TableView에 return할 cell이 없음")
+            print("TableView에 return할 cell이 없음")
+            return UITableViewCell()
         }
     }
     

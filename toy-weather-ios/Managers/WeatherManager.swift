@@ -87,7 +87,8 @@ struct WeatherManager {
         case "3", "6", "7":
             return .snow
         default:
-            fatalError("[하늘상태 계산 중 에러 발생] : 예상외의 pty 또는 sky가 들어옴")
+            print("[하늘상태 계산 중 에러 발생] : 예상외의 pty 또는 sky가 들어옴")
+            return .initial
         }
     }
     
