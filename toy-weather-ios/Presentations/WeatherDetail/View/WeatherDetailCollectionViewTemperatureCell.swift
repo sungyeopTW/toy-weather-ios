@@ -94,7 +94,7 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
         )
     }
     
-    func getData(
+    func updateCellWithDatas(
         _ isCelsius: Bool,
         _ isBookmarked: Bool,
         _ temperature: Temperature,

@@ -48,8 +48,9 @@ final class WeatherDetailViewController: UIViewController {
         super.viewDidLoad()
         
         self.initialize()
-        self.fetchUltraSrtData(locationData)
-        self.fetchVilageData(locationData)
+        
+        self.fetchUltraSrtData()
+        self.fetchVilageData()
     }
     
     
@@ -107,77 +108,30 @@ final class WeatherDetailViewController: UIViewController {
     }
     
     // 초단기예보 -- for 강수형태, 하늘상태, 현재기온, 풍향, 풍속
-    private func fetchUltraSrtData(_ locationData: City) {
-        let endPoint = WeatherManager.endPoint(.ultraSrtFcst, locationData)
-        
-        session.dataTask(with: endPoint) { data, response, error in
-            if let data = data {
-                do {
-                    let apiData = try JSONDecoder().decode(WeatherData.self, from: data)
-                    let itemArray = apiData.response.body.items.item
-    
-                    let neartime = itemArray[0].fcstTime
-                    let resultData = itemArray.filter {
-                        if $0.fcstTime == neartime {
-                            switch $0.category {
-                            case "PTY", "SKY", "T1H", "VEC", "WSD": /// 강수형태,  하늘상태, 현재기온, 풍향, 풍속
-                                return true
-                            default:
-                                return false
-                            }
-                        }
-                        return false
-                    }
-                    
-                    self.temperature = Temperature(celsius: Double(resultData[2].fcstValue) ?? 0)
-                    self.sky = WeatherManager.skyStatus(resultData[0].fcstValue, resultData[1].fcstValue)
-                    self.windDirection = WeatherManager.windStatus(resultData[3].fcstValue)
-                    self.windSpeed = Int(resultData[4].fcstValue) ?? 0
+    private func fetchUltraSrtData() {
+        WeatherManager.fetchWeatherDetailUltraSrtData(self.locationData) { [weak self] temperature, sky, windDirection, windSpeed in
+            self?.temperature = temperature
+            self?.sky = sky
+            self?.windDirection = windDirection
+            self?.windSpeed = windSpeed
 
-                    DispatchQueue.main.async { /// 메인쓰레드~~
-                        self.weatherDetailCollectionView.reloadData()
-                    }
-                } catch {
-                    fatalError("[초단기예보 fetching중 에러 발생] : \(error)")
-                }
+            DispatchQueue.main.async {
+                self?.weatherDetailCollectionView.reloadData()
             }
-        }.resume()
+        }
     }
     
     // 단기예보 -- for 최저기온, 최고기온, 강수확률
-    private func fetchVilageData(_ locationData: City) {
-        let endPoint = WeatherManager.endPoint(.vilageFcst, locationData)
-        
-        session.dataTask(with: endPoint) { data, response, error in
-            if let data = data {
-                do {
-                    let apiData = try JSONDecoder().decode(WeatherData.self, from: data)
-                    let itemArray = apiData.response.body.items.item
-                    
-                    let resultData = itemArray.filter {
-                        switch $0.category {
-                        case "TMX", "TMN": /// 최고기온, 최저기온
-                            return true
-                        case "POP": /// 강수확률
-                            return $0.fcstTime == "0000" ? true : false
-                        default:
-                            return false
-                        }
-                    }
-                    
-                    self.lowestTemperature = Temperature(celsius: Double(resultData[1].fcstValue) ?? 0)
-                    self.highestTemperature = Temperature(celsius: Double(resultData[2].fcstValue) ?? 0)
-                    self.rainProbability = "\(resultData[0].fcstValue)%"
-                    
-                    DispatchQueue.main.async {
-                        self.weatherDetailCollectionView.reloadData()
-                    }
-                    
-                } catch {
-                    fatalError("[단기예보 fetching중 에러 발생] : \(error)")
-                }
+    private func fetchVilageData() {
+        WeatherManager.fetchWeatherDetailVilageData(self.locationData) { [weak self] lowestTemperature, highestTemperature, rainProbability in
+            self?.lowestTemperature = lowestTemperature
+            self?.highestTemperature = highestTemperature
+            self?.rainProbability = rainProbability
+            
+            DispatchQueue.main.async {
+                self?.weatherDetailCollectionView.reloadData()
             }
-        }.resume()
+        }
     }
     
     @objc func tabThermometerButton(_ sender: UIBarButtonItem) {
@@ -220,7 +174,7 @@ extension WeatherDetailViewController: UICollectionViewDataSource {
             ) as! WeatherDetailCollectionViewTemperatureCell
             
             cell.delegate = self
-            cell.getData(
+            cell.updateCellWithDatas(
                 self.isCelsius,
                 self.isBookmarked,
                 self.temperature,
@@ -234,7 +188,7 @@ extension WeatherDetailViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as! WeatherDetailCollectionViewCell
             
-            cell.getData(
+            cell.updateCellWithDatas(
                 indexPath.row,
                 self.isCelsius,
                 self.lowestTemperature,

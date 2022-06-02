@@ -61,7 +61,7 @@ final class BookmarkTableViewCell: UITableViewCell {
         self.bookmarkButton.addTarget(self, action: #selector(tabBookmarkButton(_:)), for: .touchUpInside)
     }
     
-    func getData(
+    func updateCellWithDatas(
         _ isCelsius: Bool,
         _ locationData: City,
         _ temperature: Temperature

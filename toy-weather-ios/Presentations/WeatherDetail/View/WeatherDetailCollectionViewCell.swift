@@ -68,7 +68,7 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
         self.contentLabel.text = contentValue
     }
     
-    func getData(
+    func updateCellWithDatas(
         _ indexPath: Int,
         _ isCelsius: Bool,
         _ lowestTemperature: Temperature,

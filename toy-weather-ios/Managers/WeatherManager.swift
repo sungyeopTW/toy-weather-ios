@@ -120,4 +120,131 @@ struct WeatherManager {
             return .north
         }
     }
+    
+    
+    // MARK: - Fetch Methods
+    
+    static let session = URLSession(configuration: .default)
+    
+    // fetchBookmarkedCityData
+    static func fetchBookmarkedCityData(
+        _ bookmarkedCity: [City],
+        _ completion: @escaping (_ locationId: String, _ temperature: Temperature) -> Void
+    ) {
+        if !bookmarkedCity.isEmpty { /// 즐찾이 있으면
+            for locationData in bookmarkedCity { /// 각각
+                let endPoint = self.endPoint(.ultraSrtFcst, locationData)
+    
+                session.dataTask(with: endPoint) { data, response, error in
+                    if let data = data {
+                        do {
+                            let apiData = try JSONDecoder().decode(WeatherData.self, from: data)
+                            let itemArray = apiData.response.body.items.item
+    
+                            let neartime = itemArray[0].fcstTime
+                            let resultData = itemArray.filter {
+                                if $0.fcstTime == neartime {
+                                    return $0.category == "T1H" ? true : false
+                                }
+                                return false
+                            }
+                            
+                            completion(
+                                locationData.id,
+                                Temperature(celsius: Double(resultData[0].fcstValue) ?? 0)
+                            )
+                        } catch {
+                            print("error :", error)
+                        }
+                    }
+                }.resume()
+            }
+        }
+    }
+    
+    // fetchWeatherDetailUltraSrtData
+    static func fetchWeatherDetailUltraSrtData(
+        _ locationData: City,
+        _ completion: @escaping (
+            _ temperature: Temperature,
+            _ sky: Sky,
+            _ windDirection: Compass,
+            _ windSpeed: Int
+        ) -> Void
+    ) {
+        let endPoint = self.endPoint(.ultraSrtFcst, locationData)
+        
+        session.dataTask(with: endPoint) { data, response, error in
+            if let data = data {
+                do {
+                    let apiData = try JSONDecoder().decode(WeatherData.self, from: data)
+                    let itemArray = apiData.response.body.items.item
+    
+                    let neartime = itemArray[0].fcstTime
+                    let resultData = itemArray.filter {
+                        if $0.fcstTime == neartime {
+                            switch $0.category {
+                            case "PTY", "SKY", "T1H", "VEC", "WSD": /// 강수형태,  하늘상태, 현재기온, 풍향, 풍속
+                                return true
+                            default:
+                                return false
+                            }
+                        }
+                        return false
+                    }
+                    
+                    completion(
+                        Temperature(celsius: Double(resultData[2].fcstValue) ?? 0),
+                        self.skyStatus(resultData[0].fcstValue, resultData[1].fcstValue),
+                        self.windStatus(resultData[3].fcstValue),
+                        Int(resultData[4].fcstValue) ?? 0
+                    )
+
+                } catch {
+                    print("error :", error)
+                }
+            }
+        }.resume()
+    }
+    
+    // fetchWeatherDetailVilageData
+    static func fetchWeatherDetailVilageData(
+        _ locationData: City,
+        _ completion: @escaping (
+            _ lowestTemperature: Temperature,
+            _ highestTemperature: Temperature,
+            _ rainProbability: String
+        ) -> Void
+    ) {
+        let endPoint = self.endPoint(.vilageFcst, locationData)
+        
+        session.dataTask(with: endPoint) { data, response, error in
+            if let data = data {
+                do {
+                    let apiData = try JSONDecoder().decode(WeatherData.self, from: data)
+                    let itemArray = apiData.response.body.items.item
+                    
+                    let resultData = itemArray.filter {
+                        switch $0.category {
+                        case "TMX", "TMN": /// 최고기온, 최저기온
+                            return true
+                        case "POP": /// 강수확률
+                            return $0.fcstTime == "0000" ? true : false
+                        default:
+                            return false
+                        }
+                    }
+                    
+                    completion(
+                        Temperature(celsius: Double(resultData[1].fcstValue) ?? 0),
+                        Temperature(celsius: Double(resultData[2].fcstValue) ?? 0),
+                        "\(resultData[0].fcstValue)%"
+                    )
+                    
+                } catch {
+                    print("error :", error)
+                }
+            }
+        }.resume()
+    }
 }
