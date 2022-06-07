@@ -33,6 +33,10 @@ struct WeatherManager {
             else if currentHour == 23 && currentMinute < 10 {
                 return Date().dateOfYesterday()
             }
+        } else {
+            if currentHour == 0 { /// 0시이면 전날
+                return Date().dateOfYesterday()
+            }
         }
         
         return Date().dateOfToday()
