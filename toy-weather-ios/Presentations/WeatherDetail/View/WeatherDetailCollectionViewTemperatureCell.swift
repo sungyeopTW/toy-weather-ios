@@ -112,7 +112,7 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
         self.bookmarkButton.tintColor = isBookmarked ? .yellowBookmarkColor : .grayBookmarkColor
         
         // temperatureButton
-        self.temperatureLabel.text = weather.temperature[.currentTemperature]!.convertWithFormat(
+        self.temperatureLabel.text = weather.currentTemperature.convertWithFormat(
             isCelsius ? .celsius : .fahrenheit
         )
     }

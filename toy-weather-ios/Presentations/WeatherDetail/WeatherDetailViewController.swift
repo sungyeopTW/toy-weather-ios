@@ -105,9 +105,9 @@ final class WeatherDetailViewController: UIViewController {
     private func fetchUltraSrtData() {
         WeatherManager.fetchWeatherDetailUltraSrtData(self.locationData) { [weak self] temperature, sky, windDirection, windSpeed in
             self?.weather.sky = sky
-            self?.weather.temperature[.currentTemperature] = temperature
-            self?.weather.wind[.windDirection] = windDirection.rawValue
-            self?.weather.wind[.windSpeed] = windSpeed
+            self?.weather.currentTemperature = temperature
+            self?.weather.windDirection = windDirection
+            self?.weather.windSpeed = windSpeed
         
             DispatchQueue.main.async {
                 self?.weatherDetailCollectionView.reloadData()
@@ -118,9 +118,9 @@ final class WeatherDetailViewController: UIViewController {
     // 단기예보 -- for 최저기온, 최고기온, 강수확률
     private func fetchVilageData() {
         WeatherManager.fetchWeatherDetailVilageData(self.locationData) { [weak self] highestTemperature, lowestTemperature, rainProbability in
-            self?.weather.temperature[.highestTemperature] = highestTemperature
-            self?.weather.temperature[.lowestTempeerature] = lowestTemperature
-            self?.weather.rain[.rainProbability] = rainProbability
+            self?.weather.highestTemperature = highestTemperature
+            self?.weather.lowestTemperature = lowestTemperature
+            self?.weather.rainProbability = rainProbability
             
             DispatchQueue.main.async {
                 self?.weatherDetailCollectionView.reloadData()

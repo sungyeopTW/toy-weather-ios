@@ -81,17 +81,12 @@ enum Compass: String {
 struct WeatherModel {
     var sky: Sky = .initial
     
-    var temperature: [WeatherCategory: Temperature] = [
-        .currentTemperature: Temperature(celsius: 0),
-        .highestTemperature: Temperature(celsius: 0),
-        .lowestTempeerature: Temperature(celsius: 0)
-    ]
-    var wind: [WeatherCategory: String] = [
-        .windDirection: Compass.initial.rawValue,
-        .windSpeed: "m/s"
-    ]
-    var rain: [WeatherCategory: String] = [
-        .rainProbability: "%"
-    ]
+    var currentTemperature = Temperature(celsius: 0)
+    var highestTemperature = Temperature(celsius: 0)
+    var lowestTemperature = Temperature(celsius: 0)
     
+    var windDirection: Compass = .initial
+    var windSpeed = "m/s"
+    
+    var rainProbability = "%"
 }
