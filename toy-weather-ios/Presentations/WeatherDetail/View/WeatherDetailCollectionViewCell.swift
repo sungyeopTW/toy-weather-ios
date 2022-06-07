@@ -71,24 +71,26 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     func updateCellWithDatas(
         _ indexPath: Int,
         _ isCelsius: Bool,
-        _ temperature: [String: Temperature],
-        _ wind: (Compass, Int),
-        _ rainProbability: String
+        _ weather: WeatherModel
     ) {
         // indexPath에 따라 다른 값
         switch indexPath {
         case 1:
             let format: TemperatureSymbol = isCelsius ? .celsius : .fahrenheit
-            let temperatureContent = "\(temperature["highest"]!.convertWithFormat(format))" + "/" +
-                               "\(temperature["lowest"]!.convertWithFormat(format))"
+            let temperatureContent = "\(weather.temperature[.highestTemperature]!.convertWithFormat(format))"
+                            + "/" + "\(weather.temperature[.lowestTempeerature]!.convertWithFormat(format))"
             
             self.configureLabelText(Text.tempSubTitleText, Text.tempTitleText, temperatureContent)
         case 2:
-            let windContent = "\(wind.0.rawValue) \(wind.1)m/s"
+            let windContent = "\(weather.wind[.windDirection]!) \(weather.wind[.windSpeed]!)"
             
             self.configureLabelText(Text.windSubTitleText, Text.windTitleText, windContent)
         case 3:
-            self.configureLabelText(Text.rainProbabilitySubTitleText, Text.rainProbabilityTitleText, rainProbability)
+            self.configureLabelText(
+                Text.rainProbabilitySubTitleText,
+                Text.rainProbabilityTitleText,
+                weather.rain[.rainProbability]!
+            )
         default:
             print("CollectionViewCell의 count가 계획과 다른 에러")
         }

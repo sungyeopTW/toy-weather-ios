@@ -75,3 +75,23 @@ enum Compass: String {
     case west = "서"
     case northWest = "북서"
 }
+
+
+// MARK: - Model
+struct WeatherModel {
+    var sky: Sky = .initial
+    
+    var temperature: [WeatherCategory: Temperature] = [
+        .currentTemperature: Temperature(celsius: 0),
+        .highestTemperature: Temperature(celsius: 0),
+        .lowestTempeerature: Temperature(celsius: 0)
+    ]
+    var wind: [WeatherCategory: String] = [
+        .windDirection: Compass.initial.rawValue,
+        .windSpeed: "m/s"
+    ]
+    var rain: [WeatherCategory: String] = [
+        .rainProbability: "%"
+    ]
+    
+}

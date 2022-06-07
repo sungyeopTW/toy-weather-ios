@@ -95,24 +95,26 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     func updateCellWithDatas(
         _ isCelsius: Bool,
         _ isBookmarked: Bool,
-        _ temperature: Temperature,
-        _ sky: Sky
+        _ weather: WeatherModel
     ) {
         self.isCelsius = isCelsius
         self.isBookmarked = isBookmarked
         
         // backGroundImageView
-        self.backgroundImageView.image = UIImage(named: self.backGroundImageName(sky))
+        self.backgroundImageView.image = UIImage(
+            named: self.backGroundImageName(Sky(rawValue: weather.sky.rawValue) ?? .initial)
+        )
         
         // skyLabel
-        self.skyLabel.text = sky.rawValue
+        self.skyLabel.text = weather.sky.rawValue
         
         // bookmarkButton
         self.bookmarkButton.tintColor = isBookmarked ? .yellowBookmarkColor : .grayBookmarkColor
         
         // temperatureButton
-        self.temperatureLabel.text = temperature.convertWithFormat(isCelsius ? .celsius : .fahrenheit)
-
+        self.temperatureLabel.text = weather.temperature[.currentTemperature]!.convertWithFormat(
+            isCelsius ? .celsius : .fahrenheit
+        )
     }
     
     private func backGroundImageName(_ sky: Sky) -> String {

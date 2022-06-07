@@ -21,14 +21,7 @@ final class WeatherDetailViewController: UIViewController {
     var isCelsius = true
     var isBookmarked = false
     
-    private var sky: Sky = .initial /// 하늘상태
-    private var temperature: [String: Temperature] = [
-        "current": Temperature(celsius: 0), /// 현재기온
-        "highest": Temperature(celsius: 0), /// 최고기온
-        "lowest": Temperature(celsius: 0) /// 최저기온
-    ]
-    private var wind: (Compass, Int) = (.initial, 0) /// (풍향, 풍속)
-    private var rainProbability: String = "" /// 강수확률
+    private var weather = WeatherModel()
     
     
     // MARK: - Life Cycle
@@ -111,9 +104,10 @@ final class WeatherDetailViewController: UIViewController {
     // 초단기예보 -- for 강수형태, 하늘상태, 현재기온, 풍향, 풍속
     private func fetchUltraSrtData() {
         WeatherManager.fetchWeatherDetailUltraSrtData(self.locationData) { [weak self] temperature, sky, windDirection, windSpeed in
-            self?.temperature["current"] = temperature
-            self?.sky = sky
-            self?.wind = (windDirection, windSpeed)
+            self?.weather.sky = sky
+            self?.weather.temperature[.currentTemperature] = temperature
+            self?.weather.wind[.windDirection] = windDirection.rawValue
+            self?.weather.wind[.windSpeed] = windSpeed
         
             DispatchQueue.main.async {
                 self?.weatherDetailCollectionView.reloadData()
@@ -124,9 +118,9 @@ final class WeatherDetailViewController: UIViewController {
     // 단기예보 -- for 최저기온, 최고기온, 강수확률
     private func fetchVilageData() {
         WeatherManager.fetchWeatherDetailVilageData(self.locationData) { [weak self] highestTemperature, lowestTemperature, rainProbability in
-            self?.temperature["highest"] = highestTemperature
-            self?.temperature["lowest"] = lowestTemperature
-            self?.rainProbability = rainProbability
+            self?.weather.temperature[.highestTemperature] = highestTemperature
+            self?.weather.temperature[.lowestTempeerature] = lowestTemperature
+            self?.weather.rain[.rainProbability] = rainProbability
             
             DispatchQueue.main.async {
                 self?.weatherDetailCollectionView.reloadData()
@@ -177,8 +171,7 @@ extension WeatherDetailViewController: UICollectionViewDataSource {
             cell.updateCellWithDatas(
                 self.isCelsius,
                 self.isBookmarked,
-                self.temperature["current"]!,
-                self.sky
+                self.weather
             )
         
             return cell
@@ -191,9 +184,7 @@ extension WeatherDetailViewController: UICollectionViewDataSource {
             cell.updateCellWithDatas(
                 indexPath.row,
                 self.isCelsius,
-                self.temperature,
-                self.wind,
-                self.rainProbability
+                self.weather
             )
     
             return cell

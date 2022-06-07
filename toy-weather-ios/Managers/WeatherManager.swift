@@ -172,7 +172,7 @@ struct WeatherManager {
             _ temperature: Temperature,
             _ sky: Sky,
             _ windDirection: Compass,
-            _ windSpeed: Int
+            _ windSpeed: String
         ) -> Void
     ) {
         let endPoint = self.endPoint(.ultraSrtFcst, locationData)
@@ -204,12 +204,12 @@ struct WeatherManager {
                             }
                         }
                     }
-                                        
+                                     
                     completion(
                         Temperature(celsius: Double(resultData[.currentTemperature]!) ?? 0),
                         self.skyStatus(resultData[.rainfallType]!, resultData[.sky]!),
                         self.windStatus(resultData[.windDirection]!),
-                        Int(resultData[.windSpeed]!) ?? 0
+                        "\(resultData[.windSpeed]!)m/s"
                     )
                 } catch {
                     print("error :", error)
