@@ -42,6 +42,18 @@ enum FcstType: String {
     case vilageFcst = "getVilageFcst"
 }
 
+// 날씨 카테고리
+enum WeatherCategory: String {
+    case sky = "SKY"
+    case currentTemperature = "T1H"
+    case highestTemperature = "TMX"
+    case lowestTempeerature = "TMN"
+    case windDirection = "VEC"
+    case windSpeed = "WSD"
+    case rainfallType = "PTY"
+    case rainProbability = "POP"
+}
+
 // 하늘상태
 enum Sky: String {
     case initial = ""

@@ -143,16 +143,18 @@ struct WeatherManager {
                             let itemArray = apiData.response.body.items.item
     
                             let neartime = itemArray[0].fcstTime
-                            let resultData = itemArray.filter {
-                                if $0.fcstTime == neartime {
-                                    return $0.category == "T1H" ? true : false
+                            var resultData: [WeatherCategory: String] = [:]
+                            
+                            itemArray.forEach {
+                                if $0.fcstTime == neartime
+                                    && $0.category == WeatherCategory.currentTemperature.rawValue {
+                                    resultData[.currentTemperature] = $0.fcstValue
                                 }
-                                return false
                             }
                             
                             completion(
                                 locationData.id,
-                                Temperature(celsius: Double(resultData[0].fcstValue) ?? 0)
+                                Temperature(celsius: Double(resultData[.currentTemperature]!) ?? 0)
                             )
                         } catch {
                             print("error :", error)
@@ -182,25 +184,33 @@ struct WeatherManager {
                     let itemArray = apiData.response.body.items.item
     
                     let neartime = itemArray[0].fcstTime
-                    let resultData = itemArray.filter {
+                    var resultData: [WeatherCategory: String] = [:]
+                    
+                    itemArray.forEach {
                         if $0.fcstTime == neartime {
                             switch $0.category {
-                            case "PTY", "SKY", "T1H", "VEC", "WSD": /// 강수형태,  하늘상태, 현재기온, 풍향, 풍속
-                                return true
+                            case WeatherCategory.sky.rawValue: /// 하늘
+                                resultData[.sky] = $0.fcstValue
+                            case WeatherCategory.currentTemperature.rawValue: /// 현재기온
+                                resultData[.currentTemperature] = $0.fcstValue
+                            case WeatherCategory.windDirection.rawValue: /// 풍향
+                                resultData[.windDirection] = $0.fcstValue
+                            case WeatherCategory.windSpeed.rawValue: /// 풍속
+                                resultData[.windSpeed] = $0.fcstValue
+                            case WeatherCategory.rainfallType.rawValue: /// 강우타입
+                                resultData[.rainfallType] = $0.fcstValue
                             default:
-                                return false
+                                return
                             }
                         }
-                        return false
                     }
-                    
+                                        
                     completion(
-                        Temperature(celsius: Double(resultData[2].fcstValue) ?? 0),
-                        self.skyStatus(resultData[0].fcstValue, resultData[1].fcstValue),
-                        self.windStatus(resultData[3].fcstValue),
-                        Int(resultData[4].fcstValue) ?? 0
+                        Temperature(celsius: Double(resultData[.currentTemperature]!) ?? 0),
+                        self.skyStatus(resultData[.rainfallType]!, resultData[.sky]!),
+                        self.windStatus(resultData[.windDirection]!),
+                        Int(resultData[.windSpeed]!) ?? 0
                     )
-
                 } catch {
                     print("error :", error)
                 }
@@ -225,21 +235,25 @@ struct WeatherManager {
                     let apiData = try JSONDecoder().decode(WeatherData.self, from: data)
                     let itemArray = apiData.response.body.items.item
                     
-                    let resultData = itemArray.filter {
+                    var resultData: [WeatherCategory: String] = [:]
+                    
+                    itemArray.forEach {
                         switch $0.category {
-                        case "TMX", "TMN": /// 최고기온, 최저기온
-                            return true
-                        case "POP": /// 강수확률
-                            return $0.fcstTime == "0000" ? true : false
+                        case WeatherCategory.highestTemperature.rawValue: /// 최고기온
+                            resultData[.highestTemperature] = $0.fcstValue
+                        case WeatherCategory.lowestTempeerature.rawValue: /// 최저기온
+                            resultData[.lowestTempeerature] = $0.fcstValue
+                        case WeatherCategory.rainProbability.rawValue: /// 강수확률
+                            resultData[.rainProbability] = $0.fcstValue
                         default:
-                            return false
+                            return
                         }
                     }
                     
                     completion(
-                        Temperature(celsius: Double(resultData[2].fcstValue) ?? 0),
-                        Temperature(celsius: Double(resultData[1].fcstValue) ?? 0),
-                        "\(resultData[0].fcstValue)%"
+                        Temperature(celsius: Double(resultData[.highestTemperature]!) ?? 0),
+                        Temperature(celsius: Double(resultData[.lowestTempeerature]!) ?? 0),
+                        "\(resultData[.rainProbability]!)%"
                     )
                     
                 } catch {

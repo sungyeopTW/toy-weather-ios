@@ -114,7 +114,7 @@ final class WeatherDetailViewController: UIViewController {
             self?.temperature["current"] = temperature
             self?.sky = sky
             self?.wind = (windDirection, windSpeed)
-            
+        
             DispatchQueue.main.async {
                 self?.weatherDetailCollectionView.reloadData()
             }
