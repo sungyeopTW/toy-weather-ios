@@ -131,99 +131,68 @@ struct WeatherManager {
     
     static let session = URLSession(configuration: .default)
     
-    // fetchBookmarkedCityData
-    static func fetchBookmarkedCityData(
-        _ bookmarkedCity: [City],
-        _ completion: @escaping (_ locationId: String, _ temperature: Temperature) -> Void
-    ) {
-        if !bookmarkedCity.isEmpty { /// 즐찾이 있으면
-            for locationData in bookmarkedCity { /// 각각
-                let endPoint = self.endPoint(.ultraSrtFcst, locationData)
-    
-                session.dataTask(with: endPoint) { data, response, error in
-                    if let data = data {
-                        do {
-                            let apiData = try JSONDecoder().decode(WeatherData.self, from: data)
-                            let itemArray = apiData.response.body.items.item
-    
-                            let neartime = itemArray[0].fcstTime
-                            var resultData: [WeatherCategory: String] = [:]
-                            
-                            itemArray.forEach {
-                                if $0.fcstTime == neartime
-                                    && $0.category == WeatherCategory.currentTemperature.rawValue {
-                                    resultData[.currentTemperature] = $0.fcstValue
-                                }
-                            }
-                            
-                            completion(
-                                locationData.id,
-                                Temperature(celsius: Double(resultData[.currentTemperature]!) ?? 0)
-                            )
-                        } catch {
-                            print("error :", error)
-                        }
-                    }
-                }.resume()
-            }
-        }
-    }
-    
-    // fetchWeatherDetailUltraSrtData
-    static func fetchWeatherDetailUltraSrtData(
-        _ locationData: City,
+    // fetchUltraSrtData
+    static func fetchUltraSrtData(
+        _ locationDatas: [City],
         _ completion: @escaping (
+            _ locationId: String,
             _ temperature: Temperature,
             _ sky: Sky,
             _ windDirection: Compass,
             _ windSpeed: String
         ) -> Void
     ) {
-        let endPoint = self.endPoint(.ultraSrtFcst, locationData)
-        
-        session.dataTask(with: endPoint) { data, response, error in
-            if let data = data {
-                do {
-                    let apiData = try JSONDecoder().decode(WeatherData.self, from: data)
-                    let itemArray = apiData.response.body.items.item
-    
-                    let neartime = itemArray[0].fcstTime
-                    var resultData: [WeatherCategory: String] = [:]
-                    
-                    itemArray.forEach {
-                        if $0.fcstTime == neartime {
-                            switch $0.category {
-                            case WeatherCategory.sky.rawValue: /// 하늘
-                                resultData[.sky] = $0.fcstValue
-                            case WeatherCategory.currentTemperature.rawValue: /// 현재기온
-                                resultData[.currentTemperature] = $0.fcstValue
-                            case WeatherCategory.windDirection.rawValue: /// 풍향
-                                resultData[.windDirection] = $0.fcstValue
-                            case WeatherCategory.windSpeed.rawValue: /// 풍속
-                                resultData[.windSpeed] = $0.fcstValue
-                            case WeatherCategory.rainfallType.rawValue: /// 강우타입
-                                resultData[.rainfallType] = $0.fcstValue
-                            default:
-                                return
+        if !locationDatas.isEmpty {
+            for locationData in locationDatas {
+                let endPoint = self.endPoint(.ultraSrtFcst, locationData)
+                
+                session.dataTask(with: endPoint) { data, response, error in
+                    if let data = data {
+                        do {
+                            let apiData = try JSONDecoder().decode(WeatherData.self, from: data)
+                            let itemArray = apiData.response.body.items.item
+            
+                            let neartime = itemArray[0].fcstTime
+                            var resultData: [WeatherCategory: String] = [:]
+                            
+                            itemArray.forEach {
+                                if $0.fcstTime == neartime {
+                                    switch $0.category {
+                                    case WeatherCategory.sky.rawValue: /// 하늘
+                                        resultData[.sky] = $0.fcstValue
+                                    case WeatherCategory.currentTemperature.rawValue: /// 현재기온
+                                        resultData[.currentTemperature] = $0.fcstValue
+                                    case WeatherCategory.windDirection.rawValue: /// 풍향
+                                        resultData[.windDirection] = $0.fcstValue
+                                    case WeatherCategory.windSpeed.rawValue: /// 풍속
+                                        resultData[.windSpeed] = $0.fcstValue
+                                    case WeatherCategory.rainfallType.rawValue: /// 강우타입
+                                        resultData[.rainfallType] = $0.fcstValue
+                                    default:
+                                        return
+                                    }
+                                }
                             }
+                                             
+                            completion(
+                                locationData.id,
+                                Temperature(celsius: Double(resultData[.currentTemperature]!) ?? 0),
+                                self.skyStatus(resultData[.rainfallType]!, resultData[.sky]!),
+                                self.windStatus(resultData[.windDirection]!),
+                                "\(resultData[.windSpeed]!)m/s"
+                            )
+                        } catch {
+                            print("error :", error)
                         }
                     }
-                                     
-                    completion(
-                        Temperature(celsius: Double(resultData[.currentTemperature]!) ?? 0),
-                        self.skyStatus(resultData[.rainfallType]!, resultData[.sky]!),
-                        self.windStatus(resultData[.windDirection]!),
-                        "\(resultData[.windSpeed]!)m/s"
-                    )
-                } catch {
-                    print("error :", error)
-                }
+                }.resume()
+
             }
-        }.resume()
+        }
     }
     
-    // fetchWeatherDetailVilageData
-    static func fetchWeatherDetailVilageData(
+    // fetchVilageData
+    static func fetchVilageData(
         _ locationData: City,
         _ completion: @escaping (
             _ lowestTemperature: Temperature,

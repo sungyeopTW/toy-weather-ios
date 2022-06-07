@@ -99,7 +99,7 @@ final class RootViewController: UIViewController {
     
     // 초단기예보 -- 현재기온
     private func fetchUltraSrtData() {
-        WeatherManager.fetchBookmarkedCityData(self.bookmarkedCity) { [weak self] locationId, temperature in
+        WeatherManager.fetchUltraSrtData(bookmarkedCity) { [weak self] locationId, temperature, sky, windDirection, windSpeed in
             self?.temperatureWithBookmarkedCityId[locationId] = temperature
             
             DispatchQueue.main.async {

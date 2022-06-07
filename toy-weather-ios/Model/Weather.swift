@@ -78,7 +78,7 @@ enum Compass: String {
 
 
 // MARK: - Model
-struct WeatherModel {
+struct WeatherModel {    
     var sky: Sky = .initial
     
     var currentTemperature = Temperature(celsius: 0)

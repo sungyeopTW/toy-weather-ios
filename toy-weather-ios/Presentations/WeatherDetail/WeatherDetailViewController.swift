@@ -49,6 +49,7 @@ final class WeatherDetailViewController: UIViewController {
     
     
     // MARK: - UI
+    
     private lazy var weatherDetailCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: UICollectionViewFlowLayout()
@@ -101,9 +102,9 @@ final class WeatherDetailViewController: UIViewController {
         self.weatherDetailCollectionView.reloadData()
     }
     
-    // 초단기예보 -- for 강수형태, 하늘상태, 현재기온, 풍향, 풍속
+    // 초단기예보 -- for 하늘상태, 현재기온, 풍향, 풍속
     private func fetchUltraSrtData() {
-        WeatherManager.fetchWeatherDetailUltraSrtData(self.locationData) { [weak self] temperature, sky, windDirection, windSpeed in
+        WeatherManager.fetchUltraSrtData([self.locationData]) { [weak self] locationId, temperature, sky, windDirection, windSpeed in
             self?.weather.sky = sky
             self?.weather.currentTemperature = temperature
             self?.weather.windDirection = windDirection
@@ -115,9 +116,9 @@ final class WeatherDetailViewController: UIViewController {
         }
     }
     
-    // 단기예보 -- for 최저기온, 최고기온, 강수확률
+    // 단기예보 -- for 최고기온, 최저기온, 강수확률
     private func fetchVilageData() {
-        WeatherManager.fetchWeatherDetailVilageData(self.locationData) { [weak self] highestTemperature, lowestTemperature, rainProbability in
+        WeatherManager.fetchVilageData(self.locationData) { [weak self] highestTemperature, lowestTemperature, rainProbability in
             self?.weather.highestTemperature = highestTemperature
             self?.weather.lowestTemperature = lowestTemperature
             self?.weather.rainProbability = rainProbability
