@@ -34,7 +34,7 @@ struct WeatherManager {
                 return Date().dateOfYesterday()
             }
         } else {
-            if currentHour == 0 { /// 0시이면 전날
+            if currentHour == 0 && currentMinute < 45 { /// 0시45 이전이면 전날
                 return Date().dateOfYesterday()
             }
         }
