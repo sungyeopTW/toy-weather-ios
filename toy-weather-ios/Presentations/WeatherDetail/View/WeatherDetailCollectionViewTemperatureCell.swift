@@ -18,8 +18,6 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     private var isBookmarked = true // 즐찾 여부
     private var isCelsius = true // 섭씨 여부
     
-    private var sky = "비"
-    private var temperature = Temperature(celsius: 9.0)
     
     // MARK: - Enum
     
@@ -35,7 +33,6 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
         $0.contentMode = .scaleAspectFill /// 비율유지 더 작은 사이즈에 맞춤
         $0.clipsToBounds = true /// image가 imageView보다 크면 맞춰 자름
         $0.layer.cornerRadius = 12.0
-        $0.image = UIImage(named: Image.rain) /// 날씨에 따라 이미지 변경
     }
     
     private let subTitleLabel = UILabel().then {
@@ -49,7 +46,7 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
     }
     
     private let bookmarkButton = UIButton(frame: .zero).then {
-        $0.setImage(UIImage(systemName: Image.bookmark), for: .normal)
+        $0.setImage(UIImage(systemName: "star.fill"), for: .normal)
         $0.contentHorizontalAlignment = .fill
         $0.contentVerticalAlignment = .fill
         $0.imageView?.contentMode = .scaleAspectFit
@@ -86,7 +83,6 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
         // label
         self.subTitleLabel.text = Text.subTitle
         self.titleLabel.text = Text.title
-        self.skyLabel.text = self.sky /// 추후 data fetching시 변경필요
         
         // bookmarkButton
         self.bookmarkButton.addTarget(
@@ -96,15 +92,44 @@ final class WeatherDetailCollectionViewTemperatureCell: UICollectionViewCell {
         )
     }
     
-    func getData(_ isCelsius: Bool, _ isBookmarked: Bool) {
+    func updateCellWithDatas(
+        _ isCelsius: Bool,
+        _ isBookmarked: Bool,
+        _ weather: WeatherModel
+    ) {
         self.isCelsius = isCelsius
         self.isBookmarked = isBookmarked
+        
+        // backGroundImageView
+        self.backgroundImageView.image = UIImage(
+            named: self.backGroundImageName(Sky(rawValue: weather.sky.rawValue) ?? .initial)
+        )
+        
+        // skyLabel
+        self.skyLabel.text = weather.sky.rawValue
         
         // bookmarkButton
         self.bookmarkButton.tintColor = isBookmarked ? .yellowBookmarkColor : .grayBookmarkColor
         
         // temperatureButton
-        self.temperatureLabel.text = self.temperature.convertWithFormat(isCelsius ? .celsius : .fahrenheit)
+        self.temperatureLabel.text = weather.currentTemperature.convertWithFormat(
+            isCelsius ? .celsius : .fahrenheit
+        )
+    }
+    
+    private func backGroundImageName(_ sky: Sky) -> String {
+        switch sky {
+        case .initial:
+            return "whiteBg"
+        case .sunny:
+            return "sunny"
+        case .clouds:
+            return "clouds"
+        case .rain:
+            return "rain"
+        case .snow:
+            return "snow"
+        }
     }
         
     // tabBookmarkButton

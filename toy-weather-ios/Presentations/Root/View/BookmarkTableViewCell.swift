@@ -16,7 +16,6 @@ final class BookmarkTableViewCell: UITableViewCell {
     weak var delegate: ButtonInteractionDelegate?
     
     private var bookmarkedCellData: City?
-    private var temperature = Temperature(celsius: 16.0)
     private var isCelsius = true // 섭씨 여부
     
     
@@ -26,7 +25,7 @@ final class BookmarkTableViewCell: UITableViewCell {
     }
     
     private let bookmarkButton = UIButton(frame: .zero).then {
-        $0.setImage(UIImage(systemName: Image.bookmark), for: .normal)
+        $0.setImage(UIImage(systemName: "star.fill"), for: .normal)
         $0.contentHorizontalAlignment = .fill
         $0.contentVerticalAlignment = .fill
         $0.imageView?.contentMode = .scaleAspectFit
@@ -62,13 +61,17 @@ final class BookmarkTableViewCell: UITableViewCell {
         self.bookmarkButton.addTarget(self, action: #selector(tabBookmarkButton(_:)), for: .touchUpInside)
     }
     
-    func getData(_ isCelsius: Bool, _ locationData: City) {
+    func updateCellWithDatas(
+        _ isCelsius: Bool,
+        _ locationData: City,
+        _ temperature: Temperature
+    ) {
         // data
         self.bookmarkedCellData = locationData
         
         // label
         self.locationLabel.text = locationData.location
-        self.temperatureLabel.text = self.temperature.convertWithFormat(isCelsius ? .celsius : .fahrenheit)
+        self.temperatureLabel.text = temperature.convertWithFormat(isCelsius ? .celsius : .fahrenheit)
     }
     
     // tabBookmarkButton

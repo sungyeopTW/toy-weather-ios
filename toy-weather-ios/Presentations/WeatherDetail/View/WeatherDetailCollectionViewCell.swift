@@ -14,11 +14,6 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
     
     private var isCelsius = true
     
-    private var lowestTemperature = Temperature(celsius: 3.0)
-    private var highestTemperature = Temperature(celsius: 15.0)
-    private var wind = "북서 9m/s"
-    private var rainProbability = "90%"
-    
     
     // MARK: - Enum
     
@@ -73,21 +68,31 @@ final class WeatherDetailCollectionViewCell: UICollectionViewCell {
         self.contentLabel.text = contentValue
     }
     
-    func setupLabelText(_ indexPath: Int, _ isCelsius: Bool) {
+    func updateCellWithDatas(
+        _ indexPath: Int,
+        _ isCelsius: Bool,
+        _ weather: WeatherModel
+    ) {
         // indexPath에 따라 다른 값
         switch indexPath {
         case 1:
             let format: TemperatureSymbol = isCelsius ? .celsius : .fahrenheit
-            let contentValue = "\(self.lowestTemperature.convertWithFormat(format))" + "/" +
-                               "\(self.highestTemperature.convertWithFormat(format))"
+            let temperatureContent = "\(weather.highestTemperature.convertWithFormat(format))"
+                            + "/" + "\(weather.lowestTemperature.convertWithFormat(format))"
             
-            self.configureLabelText(Text.tempSubTitleText, Text.tempTitleText, contentValue)
+            self.configureLabelText(Text.tempSubTitleText, Text.tempTitleText, temperatureContent)
         case 2:
-            self.configureLabelText(Text.windSubTitleText, Text.windTitleText, self.wind)
+            let windContent = "\(weather.windDirection.rawValue) \(weather.windSpeed)"
+            
+            self.configureLabelText(Text.windSubTitleText, Text.windTitleText, windContent)
         case 3:
-            self.configureLabelText(Text.rainProbabilitySubTitleText, Text.rainProbabilityTitleText, self.rainProbability)
+            self.configureLabelText(
+                Text.rainProbabilitySubTitleText,
+                Text.rainProbabilityTitleText,
+                weather.rainProbability
+            )
         default:
-            fatalError("CollectionViewCell의 count가 계획과 다름")
+            print("CollectionViewCell의 count가 계획과 다른 에러")
         }
     }
     

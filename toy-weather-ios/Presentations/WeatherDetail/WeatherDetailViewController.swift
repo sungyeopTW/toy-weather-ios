@@ -16,8 +16,12 @@ final class WeatherDetailViewController: UIViewController {
     weak var delegate: ButtonInteractionDelegate?
     
     var locationData: City
+    var weatherData: [WeatherItem] = []
+    
     var isCelsius = true
     var isBookmarked = false
+    
+    private var weather = WeatherModel()
     
     
     // MARK: - Life Cycle
@@ -38,10 +42,14 @@ final class WeatherDetailViewController: UIViewController {
         super.viewDidLoad()
         
         self.initialize()
+        
+        self.fetchUltraSrtData()
+        self.fetchVilageData()
     }
     
     
     // MARK: - UI
+    
     private lazy var weatherDetailCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: UICollectionViewFlowLayout()
@@ -72,7 +80,7 @@ final class WeatherDetailViewController: UIViewController {
     }
     
     private lazy var thermometerButton = UIBarButtonItem().then {
-        $0.image = UIImage(systemName: Image.thermometer)
+        $0.image = UIImage(systemName: "thermometer")
         $0.style = .plain
         $0.target = self
         $0.action = #selector(tabThermometerButton)
@@ -92,6 +100,33 @@ final class WeatherDetailViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = self.thermometerButton
         
         self.weatherDetailCollectionView.reloadData()
+    }
+    
+    // 초단기예보 -- for 하늘상태, 현재기온, 풍향, 풍속
+    private func fetchUltraSrtData() {
+        WeatherManager.fetchUltraSrtData([self.locationData]) { [weak self] locationId, temperature, sky, windDirection, windSpeed in
+            self?.weather.sky = sky
+            self?.weather.currentTemperature = temperature
+            self?.weather.windDirection = windDirection
+            self?.weather.windSpeed = windSpeed
+        
+            DispatchQueue.main.async {
+                self?.weatherDetailCollectionView.reloadData()
+            }
+        }
+    }
+    
+    // 단기예보 -- for 최고기온, 최저기온, 강수확률
+    private func fetchVilageData() {
+        WeatherManager.fetchVilageData(self.locationData) { [weak self] highestTemperature, lowestTemperature, rainProbability in
+            self?.weather.highestTemperature = highestTemperature
+            self?.weather.lowestTemperature = lowestTemperature
+            self?.weather.rainProbability = rainProbability
+            
+            DispatchQueue.main.async {
+                self?.weatherDetailCollectionView.reloadData()
+            }
+        }
     }
     
     @objc func tabThermometerButton(_ sender: UIBarButtonItem) {
@@ -134,7 +169,11 @@ extension WeatherDetailViewController: UICollectionViewDataSource {
             ) as! WeatherDetailCollectionViewTemperatureCell
             
             cell.delegate = self
-            cell.getData(self.isCelsius, self.isBookmarked)
+            cell.updateCellWithDatas(
+                self.isCelsius,
+                self.isBookmarked,
+                self.weather
+            )
         
             return cell
         default:
@@ -143,7 +182,11 @@ extension WeatherDetailViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as! WeatherDetailCollectionViewCell
             
-            cell.setupLabelText(indexPath.row, self.isCelsius)
+            cell.updateCellWithDatas(
+                indexPath.row,
+                self.isCelsius,
+                self.weather
+            )
     
             return cell
         }

@@ -16,6 +16,7 @@ final class RootViewController: UIViewController {
     private var allCity = CSV(value: "LocationSource").parseToCityArray()
     private var filteredCity: [City] = []
     private var bookmarkedCity: [City] = []
+    private var temperatureWithBookmarkedCityId: [String: Temperature] = [:]
     
     private var isSearchActive = false
     private var isCelsius = true
@@ -40,7 +41,7 @@ final class RootViewController: UIViewController {
     }
     
     private lazy var thermometerButton = UIBarButtonItem().then {
-        $0.image = UIImage(systemName: Image.thermometer)
+        $0.image = UIImage(systemName: "thermometer")
         $0.style = .plain
         $0.target = self
         $0.action = #selector(tabThermometerButton)
@@ -66,6 +67,12 @@ final class RootViewController: UIViewController {
         self.initialize()
         self.setupNavigationController()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    
+        self.fetchUltraSrtData()
+    }
 
     
     // MARK: - Methods
@@ -88,6 +95,17 @@ final class RootViewController: UIViewController {
             $0.hidesNavigationBarDuringPresentation = true
         }
         self.navigationItem.rightBarButtonItem = self.thermometerButton
+    }
+    
+    // 초단기예보 -- 현재기온
+    private func fetchUltraSrtData() {
+        WeatherManager.fetchUltraSrtData(bookmarkedCity) { [weak self] locationId, temperature, sky, windDirection, windSpeed in
+            self?.temperatureWithBookmarkedCityId[locationId] = temperature
+            
+            DispatchQueue.main.async {
+                self?.bookmarkTableView.reloadData()
+            }
+        }
     }
     
     // tabThermometerButton
@@ -124,6 +142,8 @@ extension RootViewController: UISearchBarDelegate {
         self.filteredCity = [] /// 초기화
         self.isSearchActive = false /// 초기화
         
+        self.fetchUltraSrtData()
+        
         self.view = self.bookmarkTableView
     }
     
@@ -143,7 +163,8 @@ extension RootViewController: UITableViewDataSource {
             case locationSearchTableView:
                 return self.isSearchActive ? self.filteredCity.count : self.allCity.count
             default:
-                fatalError("TableView에 return할 cellCount가 없음")
+                print("TableView에 return할 cellCount가 없음")
+                return 0
             }
         }()
         
@@ -158,7 +179,15 @@ extension RootViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "BookmarkTableViewCell") as! BookmarkTableViewCell
             
             cell.delegate = self
-            cell.getData(self.isCelsius, self.bookmarkedCity[indexPath.row])
+            
+            let currentCity = self.bookmarkedCity[indexPath.row]
+            let temperature = self.temperatureWithBookmarkedCityId[currentCity.id] ?? Temperature(celsius: 0)
+            
+            cell.updateCellWithDatas(
+                self.isCelsius,
+                currentCity,
+                temperature
+            )
             
             return cell
         case locationSearchTableView:
@@ -168,11 +197,12 @@ extension RootViewController: UITableViewDataSource {
             let isBookmarked = bookmarkedCity.contains(locationData)
     
             cell.delegate = self
-            cell.getData(locationData, isBookmarked)
+            cell.updateCellWithDatas(locationData, isBookmarked)
     
             return cell
         default:
-            fatalError("TableView에 return할 cell이 없음")
+            print("TableView에 return할 cell이 없음")
+            return UITableViewCell()
         }
     }
     

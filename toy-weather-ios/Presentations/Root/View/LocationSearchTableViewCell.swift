@@ -26,7 +26,7 @@ final class LocationSearchTableViewCell: UITableViewCell {
     }
     
     private let bookmarkButton = UIButton(frame: .zero).then {
-        $0.setImage(UIImage(systemName: Image.bookmark), for: .normal)
+        $0.setImage(UIImage(systemName: "star.fill"), for: .normal)
         $0.contentHorizontalAlignment = .fill
         $0.contentVerticalAlignment = .fill
         $0.imageView?.contentMode = .scaleAspectFit
@@ -57,15 +57,12 @@ final class LocationSearchTableViewCell: UITableViewCell {
         self.bookmarkButton.addTarget(self, action: #selector(tabBookmarkButton), for: .touchUpInside)
     }
     
-    func getData(_ locationData: City, _ isBookmarked: Bool) {
-        // data
+    func updateCellWithDatas(_ locationData: City, _ isBookmarked: Bool) {
         self.locationCellData = locationData
-        
-        // label
-        self.locationLabel.text = locationData.location
-        
-        // isBookmark
         self.isBookmarked = isBookmarked
+        
+        // locationLabel
+        self.locationLabel.text = locationData.location
         
         // bookmarkButton
         self.bookmarkButton.tintColor = self.isBookmarked ? .yellowBookmarkColor : .grayBookmarkColor
