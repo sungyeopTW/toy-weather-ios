@@ -17,6 +17,7 @@ import Then
 final class RootViewController: UIViewController, ReactorKit.View {
     
     var disposeBag = DisposeBag()
+    var isCelsius: Bool = UserDefaultManager.loadIsCelsius()
 
     enum Text {
         static let navigationBarTitle = "오늘의 날씨 정보 🧑🏻‍💼"
@@ -31,6 +32,8 @@ final class RootViewController: UIViewController, ReactorKit.View {
     private lazy var thermometerButton = UIBarButtonItem().then {
         $0.image = UIImage(systemName: "thermometer")
         $0.style = .plain
+        $0.target = self
+        $0.action = #selector(tapThermometerButton)
     }
     
     private lazy var bookmarkTableView = UITableView().then {
@@ -46,22 +49,13 @@ final class RootViewController: UIViewController, ReactorKit.View {
     }
     
 
-    // MARK: - Life Cycle
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.setupNavigationController()
-    }
-
-
     // MARK: - Bind
     
     func bind(reactor: RootViewReactor) {
+        // didLoaded
+        self.setupNavigationController()
+        self.reactor?.action.onNext(.landing)
+        
         // [searchController] 서치 시작
         self.searchController.searchBar.rx.textDidBeginEditing
             .map { _ in Reactor.Action.toggleSearch }
@@ -92,7 +86,7 @@ final class RootViewController: UIViewController, ReactorKit.View {
         reactor.state.map { $0.bookmarkedCityList }
             .bind(to: self.bookmarkTableView.rx.items(cellIdentifier: "BookmarkTableViewCell", cellType: BookmarkTableViewCell.self)) { index, item, cell in
                 
-                cell.temperatureLabel.text = item.weather.currentTemperature.convertWithFormat(.celsius)
+                cell.temperatureLabel.text = item.weather.currentTemperature.convertWithFormat(self.isCelsius ? .celsius : .fahrenheit)
                 cell.locationLabel.text = item.location
                 cell.bookmarkButton.tintColor = item.isBookmarked ? .yellowBookmarkColor : .grayBookmarkColor
                 
@@ -130,8 +124,13 @@ final class RootViewController: UIViewController, ReactorKit.View {
         self.navigationItem.hidesSearchBarWhenScrolling = false
         self.navigationItem.rightBarButtonItem = self.thermometerButton
         self.navigationItem.searchController = self.searchController
+    }
+    
+    @objc func tapThermometerButton(_ sender: UIBarButtonItem) {
+        self.isCelsius.toggle()
+        self.bookmarkTableView.reloadData()
         
-        // print(CityManager.cityList)
+        UserDefaultManager.saveIsCelsius(self.isCelsius) /// userDefault에 저장
     }
     
 }
@@ -150,33 +149,6 @@ final class RootViewController: UIViewController, ReactorKit.View {
 //     // tabThermometerButton
 //     @objc func tabThermometerButton(_ sender: UIBarButtonItem) {
 //         self.isCelsius.toggle()
-//         self.bookmarkTableView.reloadData()
-//     }
-//
-// }
-// // MARK: - ButtonInteractionDelegate
-//
-// extension RootViewController: ButtonInteractionDelegate {
-//
-//     func didTabTemperatureButton(_ isCelsius: Bool) {
-//         self.isCelsius = isCelsius
-//     }
-//
-//     func didTabBookmarkButton(_ isBookmarked: Bool, on cellData: City?) {
-//         if let cellData = cellData {
-//             switch isBookmarked {
-//             case true:
-//                 if !self.bookmarkedCity.contains(cellData) {
-//                     self.bookmarkedCity.append(cellData)
-//                 }
-//             case false:
-//                 self.bookmarkedCity = self.bookmarkedCity.filter {
-//                     $0.id != cellData.id
-//                 }
-//             }
-//         }
-//
-//         self.locationSearchTableView.reloadData()
 //         self.bookmarkTableView.reloadData()
 //     }
 //

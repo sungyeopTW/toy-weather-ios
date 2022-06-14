@@ -15,17 +15,11 @@ import Then
 
 final class BookmarkTableViewCell: UITableViewCell {
     
-    weak var delegate: ButtonInteractionDelegate?
-    
     var disposeBag = DisposeBag()
-    
-    // var test: City?
-    
-    // private var bookmarkedCellData: City?
-    // private var isCelsius = true // 섭씨 여부
     
     
     // MARK: - UI
+    
     let temperatureLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 38.0, weight: .bold)
     }
@@ -48,40 +42,12 @@ final class BookmarkTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.initialize()
+        self.selectionStyle = .none
         self.setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    // MARK: - Methods
-    
-    private func initialize() {
-        // selectionStyle
-        self.selectionStyle = .none
-            
-        // bookmarkButton
-        // self.bookmarkButton.addTarget(self, action: #selector(tabBookmarkButton(_:)), for: .touchUpInside)
-    }
-    
-    func updateCellWithDatas(
-        _ isCelsius: Bool,
-        _ locationData: City,
-        _ temperature: Temperature
-    ) {
-        // data
-        // self.bookmarkedCellData = locationData
-        
-        // label
-        // self.temperatureLabel.text = temperature.convertWithFormat(isCelsius ? .celsius : .fahrenheit)
-    }
-    
-    // tabBookmarkButton
-    @objc func tabBookmarkButton(_ sender: UIButton) {
-        // self.delegate?.didTabBookmarkButton(false, on: self.bookmarkedCellData!)
     }
     
 }

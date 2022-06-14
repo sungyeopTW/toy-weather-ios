@@ -57,7 +57,7 @@ enum WeatherCategory: String {
 }
 
 // 하늘상태
-enum Sky: String {
+enum Sky: String, Codable {
     case initial = ""
     case sunny = "맑음"
     case clouds = "흐림"
@@ -66,7 +66,7 @@ enum Sky: String {
 }
 
 // 방위
-enum Compass: String {
+enum Compass: String, Codable {
     case initial = ""
     case north = "북"
     case northEast = "북동"
@@ -80,7 +80,7 @@ enum Compass: String {
 
 
 // MARK: - Model
-struct WeatherModel {
+struct WeatherModel: Codable {
     var sky: Sky = .initial
 
     var currentTemperature = Temperature(celsius: 0)
@@ -92,20 +92,3 @@ struct WeatherModel {
 
     var rainProbability = "%"
 }
-
-
-// // MARK: - SectionModel
-//
-// struct WeatherSectionModel {
-//     var header: String
-//     var items: [Item]
-// }
-//
-// extension WeatherSectionModel: SectionModelType {
-//     typealias Item = WeatherModel
-//
-//     init(original: WeatherSectionModel, items: [Item]) {
-//         self = original
-//         self.items = items
-//     }
-// }

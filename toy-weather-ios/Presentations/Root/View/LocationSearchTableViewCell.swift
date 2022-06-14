@@ -15,8 +15,6 @@ import Then
 
 final class LocationSearchTableViewCell: UITableViewCell {
     
-    // weak var delegate: ButtonInteractionDelegate?
-    
     var disposeBag = DisposeBag()
     
     
@@ -27,7 +25,6 @@ final class LocationSearchTableViewCell: UITableViewCell {
     }
     
     let bookmarkButton = UIButton(frame: .zero).then {
-        $0.tintColor = .grayStarColor
         $0.setImage(UIImage(systemName: "star.fill"), for: .normal)
         $0.contentHorizontalAlignment = .fill
         $0.contentVerticalAlignment = .fill
@@ -40,36 +37,12 @@ final class LocationSearchTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.initialize()
+        self.selectionStyle = .none
         self.setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    // MARK: - Methods
-    
-    private func initialize() {
-        // selectionStyle
-        self.selectionStyle = .none
-
-        // bookmarkButton
-        self.bookmarkButton.addTarget(self, action: #selector(tabBookmarkButton), for: .touchUpInside)
-    }
-    
-    func updateCellWithDatas(_ locationData: City, _ isBookmarked: Bool) {
-        // self.isBookmarked = isBookmarked
-        
-        // bookmarkButton
-        // self.bookmarkButton.tintColor = self.isBookmarked ? .yellowBookmarkColor : .grayBookmarkColor
-    }
-    
-    // tabBookmarkButton
-    @objc func tabBookmarkButton(_ sender: UIButton) {
-        // self.isBookmarked.toggle()
-        // self.delegate?.didTabBookmarkButton(self.isBookmarked, on: self.locationCellData!)
     }
     
 }

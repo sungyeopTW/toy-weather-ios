@@ -12,6 +12,7 @@ final class RootViewReactor: Reactor {
     // MARK: - Enum & State
     
     enum Action {
+        case landing
         case toggleSearch
         case search(String)
         case bookmark(String, String?)
@@ -40,6 +41,8 @@ final class RootViewReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .landing:
+            return .just(.filterBookmarkedCityList(CityManager.getBookmarkedCityList()))
         case .toggleSearch:
             return .of(
                 .toggleIsSearchActive,
@@ -68,6 +71,7 @@ final class RootViewReactor: Reactor {
         var newState = state
         
         switch mutation {
+            
         case .filterSearchedCityList(let searchedCityList):
             newState.searchedCityList = searchedCityList
         case .toggleIsSearchActive:

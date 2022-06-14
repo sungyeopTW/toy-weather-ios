@@ -15,12 +15,9 @@ import Foundation
 
 struct CityManager {
     
-    // static var cityList = parseAllCityList()
-     static var userDefaultData = cityListFromUserDefault()
-     static var parsedData = parseAllCityList()
-    static var cityList = parsedData
-    // static var cityList = userDefaultData.isEmpty ? parseAllCityList() : userDefaultData
-    
+    static var cityList = UserDefaultManager.loadCityList().isEmpty
+                    ? parseAllCityList()
+                    : UserDefaultManager.loadCityList()
 
     
     // MARK: - Parse
@@ -28,7 +25,6 @@ struct CityManager {
     // 모든 CityList 가져옴
     private static func parseAllCityList() -> [City] {
         var result: [City] = []
-
         
         if let path = Bundle.main.path(forResource: "LocationSource", ofType: "csv") { /// 경로
             let url = URL(fileURLWithPath: path) /// URL
@@ -49,7 +45,7 @@ struct CityManager {
                                     y: tmp[index][6] /// y좌표
                                         .trimmingCharacters(in: CharacterSet.newlines), /// 개행문자 제거
                                     weather: WeatherModel(), /// 날씨
-                                    isBookmarked: false /// 즐겨찾기 여부 TODO: 가능 ??
+                                    isBookmarked: false /// 즐겨찾기 여부
                                 )
                             )
                         }
@@ -62,23 +58,6 @@ struct CityManager {
         }
         
         return []
-    }
-    
-    
-    // MARK: - UserDefault
-    
-    // cityList 저장
-    private static func saveToUserDefault(_ cityList: [City]) {
-        // let encode = JSONEncoder(cityList)
-        // let data =
-        
-        UserDefaults.standard.set(cityList, forKey: "cityList")
-    }
-    
-    // cityList 가져오기
-    private static func cityListFromUserDefault() -> [City] {
-        guard let cityList = UserDefaults.standard.array(forKey: "cityList") as? [City] else { return [] }
-        return cityList
     }
     
     
@@ -101,8 +80,7 @@ struct CityManager {
         guard let index = self.cityList.firstIndex(where: { $0.id == id }) else { return }
         
         self.cityList[index].isBookmarked.toggle()
-        // self.saveToUserDefault(self.cityList) /// userDefault에 저장
-        // print(id, index, self.cityList[index].isBookmarked)
+        UserDefaultManager.saveCityList(self.cityList)  /// userDefault에 저장
     }
 }
 
