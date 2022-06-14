@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RxSwift
+
 import SnapKit
 import Then
 
@@ -15,23 +17,28 @@ final class BookmarkTableViewCell: UITableViewCell {
     
     weak var delegate: ButtonInteractionDelegate?
     
-    private var bookmarkedCellData: City?
-    private var isCelsius = true // 섭씨 여부
+    var disposeBag = DisposeBag()
+    
+    // var test: City?
+    
+    // private var bookmarkedCellData: City?
+    // private var isCelsius = true // 섭씨 여부
     
     
     // MARK: - UI
-    private let temperatureLabel = UILabel().then {
+    let temperatureLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 38.0, weight: .bold)
     }
     
-    private let bookmarkButton = UIButton(frame: .zero).then {
+    let bookmarkButton = UIButton(frame: .zero).then {
         $0.setImage(UIImage(systemName: "star.fill"), for: .normal)
         $0.contentHorizontalAlignment = .fill
         $0.contentVerticalAlignment = .fill
         $0.imageView?.contentMode = .scaleAspectFit
+        $0.tintColor = .yellowBookmarkColor
     }
 
-    private let locationLabel = UILabel().then {
+    let locationLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 16.0, weight: .regular)
     }
     
@@ -57,8 +64,7 @@ final class BookmarkTableViewCell: UITableViewCell {
         self.selectionStyle = .none
             
         // bookmarkButton
-        self.bookmarkButton.tintColor = .yellowBookmarkColor
-        self.bookmarkButton.addTarget(self, action: #selector(tabBookmarkButton(_:)), for: .touchUpInside)
+        // self.bookmarkButton.addTarget(self, action: #selector(tabBookmarkButton(_:)), for: .touchUpInside)
     }
     
     func updateCellWithDatas(
@@ -67,16 +73,15 @@ final class BookmarkTableViewCell: UITableViewCell {
         _ temperature: Temperature
     ) {
         // data
-        self.bookmarkedCellData = locationData
+        // self.bookmarkedCellData = locationData
         
         // label
-        self.locationLabel.text = locationData.location
-        self.temperatureLabel.text = temperature.convertWithFormat(isCelsius ? .celsius : .fahrenheit)
+        // self.temperatureLabel.text = temperature.convertWithFormat(isCelsius ? .celsius : .fahrenheit)
     }
     
     // tabBookmarkButton
     @objc func tabBookmarkButton(_ sender: UIButton) {
-        self.delegate?.didTabBookmarkButton(false, on: self.bookmarkedCellData!)
+        // self.delegate?.didTabBookmarkButton(false, on: self.bookmarkedCellData!)
     }
     
 }

@@ -7,25 +7,27 @@
 
 import UIKit
 
+import RxSwift
+
 import SnapKit
 import Then
 
 
 final class LocationSearchTableViewCell: UITableViewCell {
     
-    weak var delegate: ButtonInteractionDelegate?
+    // weak var delegate: ButtonInteractionDelegate?
     
-    private var locationCellData: City?
-    private var isBookmarked = false // 즐찾 여부
+    var disposeBag = DisposeBag()
     
     
     // MARK: - UI
     
-    private let locationLabel = UILabel().then {
+    let locationLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 18.0, weight: .regular)
     }
     
-    private let bookmarkButton = UIButton(frame: .zero).then {
+    let bookmarkButton = UIButton(frame: .zero).then {
+        $0.tintColor = .grayStarColor
         $0.setImage(UIImage(systemName: "star.fill"), for: .normal)
         $0.contentHorizontalAlignment = .fill
         $0.contentVerticalAlignment = .fill
@@ -58,20 +60,16 @@ final class LocationSearchTableViewCell: UITableViewCell {
     }
     
     func updateCellWithDatas(_ locationData: City, _ isBookmarked: Bool) {
-        self.locationCellData = locationData
-        self.isBookmarked = isBookmarked
-        
-        // locationLabel
-        self.locationLabel.text = locationData.location
+        // self.isBookmarked = isBookmarked
         
         // bookmarkButton
-        self.bookmarkButton.tintColor = self.isBookmarked ? .yellowBookmarkColor : .grayBookmarkColor
+        // self.bookmarkButton.tintColor = self.isBookmarked ? .yellowBookmarkColor : .grayBookmarkColor
     }
     
     // tabBookmarkButton
     @objc func tabBookmarkButton(_ sender: UIButton) {
-        self.isBookmarked.toggle()
-        self.delegate?.didTabBookmarkButton(self.isBookmarked, on: self.locationCellData!)
+        // self.isBookmarked.toggle()
+        // self.delegate?.didTabBookmarkButton(self.isBookmarked, on: self.locationCellData!)
     }
     
 }

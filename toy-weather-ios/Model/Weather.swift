@@ -5,6 +5,8 @@
 //  Created by sungyeopTW on 2022/05/30.
 //
 
+import RxDataSources
+
 
 // MARK: - Codable
 
@@ -78,15 +80,32 @@ enum Compass: String {
 
 
 // MARK: - Model
-struct WeatherModel {    
+struct WeatherModel {
     var sky: Sky = .initial
-    
+
     var currentTemperature = Temperature(celsius: 0)
     var highestTemperature = Temperature(celsius: 0)
     var lowestTemperature = Temperature(celsius: 0)
-    
+
     var windDirection: Compass = .initial
     var windSpeed = "m/s"
-    
+
     var rainProbability = "%"
 }
+
+
+// // MARK: - SectionModel
+//
+// struct WeatherSectionModel {
+//     var header: String
+//     var items: [Item]
+// }
+//
+// extension WeatherSectionModel: SectionModelType {
+//     typealias Item = WeatherModel
+//
+//     init(original: WeatherSectionModel, items: [Item]) {
+//         self = original
+//         self.items = items
+//     }
+// }
