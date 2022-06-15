@@ -17,7 +17,7 @@ import Then
 final class RootViewController: UIViewController, ReactorKit.View {
     
     var disposeBag = DisposeBag()
-    var isCelsius: Bool = UserDefaultManager.loadIsCelsius()
+    var isCelsius: Bool = UserDefaultsManager.loadIsCelsius()
 
     enum Text {
         static let navigationBarTitle = "오늘의 날씨 정보 🧑🏻‍💼"
@@ -48,13 +48,20 @@ final class RootViewController: UIViewController, ReactorKit.View {
         $0.register(LocationSearchTableViewCell.self, forCellReuseIdentifier: "LocationSearchTableViewCell")
     }
     
+    
+    // MARK: - LifeCycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.setupNavigationController()
+        self.reactor?.action.onNext(.refresh(nil, nil))
+    }
+    
 
     // MARK: - Bind
     
     func bind(reactor: RootViewReactor) {
-        // didLoaded
-        self.setupNavigationController()
-        self.reactor?.action.onNext(.landing)
         
         // [searchController] 서치 시작
         self.searchController.searchBar.rx.textDidBeginEditing
@@ -93,7 +100,7 @@ final class RootViewController: UIViewController, ReactorKit.View {
                 // [BookmarkTableViewCell] 즐겨찾기 버튼
                 cell.disposeBag = DisposeBag() /// 중복방지!
                 cell.bookmarkButton.rx.tap
-                    .map { _ in Reactor.Action.bookmark(item.id, nil) }
+                    .map { _ in Reactor.Action.refresh(item.id, nil) }
                     .bind(to: reactor.action)
                     .disposed(by: cell.disposeBag)
             }
@@ -109,7 +116,7 @@ final class RootViewController: UIViewController, ReactorKit.View {
                 // [LocationSearchTableViewCell] 즐겨찾기 버튼
                 cell.disposeBag = DisposeBag() /// 중복방지!
                 cell.bookmarkButton.rx.tap
-                    .map { _ in Reactor.Action.bookmark(item.id, self?.searchController.searchBar.text) }
+                    .map { _ in Reactor.Action.refresh(item.id, self?.searchController.searchBar.text) }
                     .bind(to: reactor.action)
                     .disposed(by: cell.disposeBag)
             }
@@ -118,7 +125,7 @@ final class RootViewController: UIViewController, ReactorKit.View {
     
     
     // MARK: - Methods
-
+    
     private func setupNavigationController() {
         self.navigationItem.title = Text.navigationBarTitle
         self.navigationItem.hidesSearchBarWhenScrolling = false
@@ -130,26 +137,7 @@ final class RootViewController: UIViewController, ReactorKit.View {
         self.isCelsius.toggle()
         self.bookmarkTableView.reloadData()
         
-        UserDefaultManager.saveIsCelsius(self.isCelsius) /// userDefault에 저장
+        UserDefaultsManager.saveIsCelsius(self.isCelsius) /// userDefault에 저장
     }
     
 }
-//     // MARK: - Methods
-//     // 초단기예보 -- 현재기온
-//     private func fetchUltraSrtData() {
-//         WeatherManager.fetchUltraSrtData(bookmarkedCity) { [weak self] locationId, temperature, sky, windDirection, windSpeed in
-//             self?.temperatureWithBookmarkedCityId[locationId] = temperature
-//
-//             DispatchQueue.main.async {
-//                 self?.bookmarkTableView.reloadData()
-//             }
-//         }
-//     }
-//
-//     // tabThermometerButton
-//     @objc func tabThermometerButton(_ sender: UIBarButtonItem) {
-//         self.isCelsius.toggle()
-//         self.bookmarkTableView.reloadData()
-//     }
-//
-// }

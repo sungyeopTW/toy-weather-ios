@@ -1,5 +1,5 @@
 //
-//  UserDefaultManager.swift
+//  UserDefaultsManager.swift
 //  toy-weather-ios
 //
 //  Created by sungyeopTW on 2022/06/14.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserDefaultManager {
+struct UserDefaultsManager {
     
     // cityList 저장
     static func saveCityList(_ cityList: [City]) {

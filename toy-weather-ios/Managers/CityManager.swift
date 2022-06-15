@@ -7,6 +7,8 @@
 
 import Foundation
 
+import ReactorKit
+
 /*
      - cityList라는 하나의 데이터소스에 만들고,
      - 그 데이터 소스를 원하는대로 가공하는 메소드를 만들고,
@@ -15,9 +17,9 @@ import Foundation
 
 struct CityManager {
     
-    static var cityList = UserDefaultManager.loadCityList().isEmpty
+    private static var allCityList = UserDefaultsManager.loadCityList().isEmpty
                     ? parseAllCityList()
-                    : UserDefaultManager.loadCityList()
+                    : UserDefaultsManager.loadCityList()
 
     
     // MARK: - Parse
@@ -61,32 +63,73 @@ struct CityManager {
     }
     
     
-    // MARK: - Methods
+    // MARK: - Filter CityList
     
     // 모든 cityList
-    private static func getAllCityList() -> [City] { return self.cityList }
+    private static func getAllCityList() -> [City] { return self.allCityList }
     
-    // 검색결과 cityList
-    static func getSearchedCityList(from text: String) -> [City] {
-        if text.isEmpty { return cityList }
-        else { return self.cityList.filter { $0.location.contains(text) } }
+    // 즐겨찾기 cityList 필터
+    static func getBookmarkedCityList() -> [City] { return self.allCityList.filter { $0.isBookmarked }}
+    
+    // 검색결과 cityList 필터
+    private static func getSearchedCityList(from text: String = "") -> [City] {
+        if text.isEmpty { return allCityList }
+        else { return self.allCityList.filter { $0.location.contains(text) } }
     }
     
-    // 즐겨찾기 cityList
-    static func getBookmarkedCityList() -> [City] { return self.cityList.filter { $0.isBookmarked } }
+    // 검색결과 + 즐겨찾기 cityList 필터
+    static func filterCityLists(_ text: String = "") -> ([City], [City]) {
+        let bookmarkedCityList = self.getBookmarkedCityList()
+        let searchedCityList: [City] = {
+            if text.isEmpty { return allCityList }
+            else { return self.getSearchedCityList(from: text) }
+        }()
+        
+        return (bookmarkedCityList, searchedCityList)
+    }
+    
+    
+    // MARK: - Methods
     
     // 즐겨찾기 기능
     static func bookmark(id: String) {
-        guard let index = self.cityList.firstIndex(where: { $0.id == id }) else { return }
+        guard let index = self.allCityList.firstIndex(where: { $0.id == id }) else { return }
         
-        self.cityList[index].isBookmarked.toggle()
-        UserDefaultManager.saveCityList(self.cityList)  /// userDefault에 저장
+        self.allCityList[index].isBookmarked.toggle()
+        UserDefaultsManager.saveCityList(self.allCityList)  /// userDefault에 저장
     }
+    
+    // allCity에서 index 찾기
+    private static func findIndex(_ city: City) -> Array<City>.Index {
+        return self.allCityList.firstIndex(of: city)!
+    }
+    
+    
+    // MARK: - Fetch
+    
+    // 초단기예보 to CityList
+    static func updateUltraSrtDataOnCityList(_ cityList: [City]) -> Observable<City> {
+        return .create { observer -> Disposable in
+            var completedCount = 0
+            let disposables = cityList.map { city in
+                return WeatherManager.fetchUltraSrtData(of: city)
+                    .subscribe(
+                        onNext: { weather in
+                            let index = self.findIndex(city)
+                            self.allCityList[index].weather.sky = weather.sky /// bilageData가 덮어쓰이지 않도록
+                            self.allCityList[index].weather.currentTemperature = weather.currentTemperature
+                            self.allCityList[index].weather.windDirection = weather.windDirection
+                            self.allCityList[index].weather.windSpeed = weather.windSpeed
+                            observer.onNext(self.allCityList[index])
+                        },
+                        onError: observer.onError,
+                        onCompleted: {
+                            completedCount < cityList.count ? completedCount += 1 : observer.onCompleted()
+                        })
+            }
+            
+            return Disposables.create(disposables)
+        }
+    }
+    
 }
-
-
-// 날씨데이터 추가
-// static func fetchWeather(id: String) {
-//     guard let index = self.cityList.firstIndex(where: { $0.id == id }) else { return }
-//     self.cityList[index].weather
-// }

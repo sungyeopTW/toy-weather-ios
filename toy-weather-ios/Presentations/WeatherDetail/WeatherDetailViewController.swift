@@ -43,7 +43,7 @@ final class WeatherDetailViewController: UIViewController {
         
         self.initialize()
         
-        self.fetchUltraSrtData()
+        // self.fetchUltraSrtData()
         self.fetchVilageData()
     }
     
@@ -103,18 +103,18 @@ final class WeatherDetailViewController: UIViewController {
     }
     
     // 초단기예보 -- for 하늘상태, 현재기온, 풍향, 풍속
-    private func fetchUltraSrtData() {
-        WeatherManager.fetchUltraSrtData([self.locationData]) { [weak self] locationId, temperature, sky, windDirection, windSpeed in
-            self?.weather.sky = sky
-            self?.weather.currentTemperature = temperature
-            self?.weather.windDirection = windDirection
-            self?.weather.windSpeed = windSpeed
-        
-            DispatchQueue.main.async {
-                self?.weatherDetailCollectionView.reloadData()
-            }
-        }
-    }
+    // private func fetchUltraSrtData() {
+    //     WeatherManager.fetchUltraSrtData([self.locationData]) { [weak self] locationId, temperature, sky, windDirection, windSpeed in
+    //         self?.weather.sky = sky
+    //         self?.weather.currentTemperature = temperature
+    //         self?.weather.windDirection = windDirection
+    //         self?.weather.windSpeed = windSpeed
+    //
+    //         DispatchQueue.main.async {
+    //             self?.weatherDetailCollectionView.reloadData()
+    //         }
+    //     }
+    // }
     
     // 단기예보 -- for 최고기온, 최저기온, 강수확률
     private func fetchVilageData() {

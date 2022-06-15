@@ -12,16 +12,14 @@ final class RootViewReactor: Reactor {
     // MARK: - Enum & State
     
     enum Action {
-        case landing
+        case refresh(_ bookmarkId: String?, _ searchText: String?)
         case toggleSearch
-        case search(String)
-        case bookmark(String, String?)
+        case search(_ searchText: String)
     }
     
     enum Mutation {
         case toggleIsSearchActive
-        case filterSearchedCityList([City])
-        case filterBookmarkedCityList([City])
+        case filter(_ filteredCityLists: ([City], [City]))
     }
     
     struct State {
@@ -36,34 +34,33 @@ final class RootViewReactor: Reactor {
         bookmarkedCityList: []
     )
     
-    
     // MARK: - Mutate
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .landing:
-            return .just(.filterBookmarkedCityList(CityManager.getBookmarkedCityList()))
-        case .toggleSearch:
-            return .of(
-                .toggleIsSearchActive,
-                .filterSearchedCityList(CityManager.getSearchedCityList(from: ""))
-            )
-        case .search(let text):
-            return .just(.filterSearchedCityList(CityManager.getSearchedCityList(from: text)))
-        case .bookmark(let id, let text):
-            CityManager.bookmark(id: id)
+        case .refresh(let id, let searchText):
+            if let id = id { CityManager.bookmark(id: id) }
             
-            if let text = text {
-                return .of(
-                    .filterBookmarkedCityList(CityManager.getBookmarkedCityList()),
-                    .filterSearchedCityList(CityManager.getSearchedCityList(from: text))
-                )
-            } else {
-                return .just(.filterBookmarkedCityList(CityManager.getBookmarkedCityList()))
-            }
+            return .concat([
+                .just(.filter(CityManager.filterCityLists(searchText ?? ""))),
+                CityManager.updateUltraSrtDataOnCityList(CityManager.getBookmarkedCityList()).map { _ in
+                    .filter(CityManager.filterCityLists(searchText ?? ""))
+                }
+            ])
+        case .toggleSearch:
+            return .concat([
+                .just(.toggleIsSearchActive),
+                .just(.filter(CityManager.filterCityLists()))
+            ])
+        case .search(let searchText):
+            return .just(.filter(CityManager.filterCityLists(searchText)))
         }
     }
     
+    // reduce로 넘어갈 때 메인쓰레드로~~~
+    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+        return mutation.observe(on: MainScheduler.instance)
+    }
     
     // MARK: - Reduce
     
@@ -71,13 +68,11 @@ final class RootViewReactor: Reactor {
         var newState = state
         
         switch mutation {
-            
-        case .filterSearchedCityList(let searchedCityList):
-            newState.searchedCityList = searchedCityList
         case .toggleIsSearchActive:
             newState.isSearchActive.toggle()
-        case .filterBookmarkedCityList(let bookmarkedCityList):
-            newState.bookmarkedCityList = bookmarkedCityList
+        case .filter(let filteredCityLists):
+            newState.bookmarkedCityList = filteredCityLists.0
+            newState.searchedCityList = filteredCityLists.1
         }
         
         return newState
