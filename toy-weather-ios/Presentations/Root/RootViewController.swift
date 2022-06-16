@@ -46,6 +46,7 @@ final class RootViewController: UIViewController, ReactorKit.View {
         $0.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         $0.rowHeight = 50
         $0.register(LocationSearchTableViewCell.self, forCellReuseIdentifier: "LocationSearchTableViewCell")
+        $0.keyboardDismissMode = .onDrag
     }
     
     
@@ -65,7 +66,7 @@ final class RootViewController: UIViewController, ReactorKit.View {
         
         // [searchController] 서치 시작
         self.searchController.searchBar.rx.textDidBeginEditing
-            .map { _ in Reactor.Action.toggleSearch }
+            .map { _ in Reactor.Action.toggleSearch(true, self.searchController.searchBar.text) }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
 
@@ -78,8 +79,17 @@ final class RootViewController: UIViewController, ReactorKit.View {
         
         // [searchController] cancel 클릭
         self.searchController.searchBar.rx.cancelButtonClicked
-            .map { _ in Reactor.Action.toggleSearch }
+            .map { _ in Reactor.Action.toggleSearch(false, nil) }
             .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
+        // [BookmarkTableView] cell 클릭
+        let weatherDetailViewController = WeatherDetailViewController()
+        self.bookmarkTableView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let self = self else { return }
+                self.navigationController?.pushViewController(weatherDetailViewController, animated: true)
+            })
             .disposed(by: self.disposeBag)
             
         // [RootViewController.View] bind with `isSearchActive`

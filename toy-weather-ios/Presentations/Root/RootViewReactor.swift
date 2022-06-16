@@ -13,12 +13,12 @@ final class RootViewReactor: Reactor {
     
     enum Action {
         case refresh(_ bookmarkId: String?, _ searchText: String?)
-        case toggleSearch
+        case toggleSearch(_ isSearch: Bool, _ searchText: String?)
         case search(_ searchText: String)
     }
     
     enum Mutation {
-        case toggleIsSearchActive
+        case toggleIsSearchActive(_ isSearch: Bool)
         case filter(_ filteredCityLists: ([City], [City]))
     }
     
@@ -34,6 +34,7 @@ final class RootViewReactor: Reactor {
         bookmarkedCityList: []
     )
     
+    
     // MARK: - Mutate
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -47,10 +48,10 @@ final class RootViewReactor: Reactor {
                     .filter(CityManager.filterCityLists(searchText ?? ""))
                 }
             ])
-        case .toggleSearch:
+        case .toggleSearch(let isSearch, let searchText):
             return .concat([
-                .just(.toggleIsSearchActive),
-                .just(.filter(CityManager.filterCityLists()))
+                .just(.toggleIsSearchActive(isSearch)),
+                .just(.filter(CityManager.filterCityLists(searchText ?? "")))
             ])
         case .search(let searchText):
             return .just(.filter(CityManager.filterCityLists(searchText)))
@@ -62,14 +63,15 @@ final class RootViewReactor: Reactor {
         return mutation.observe(on: MainScheduler.instance)
     }
     
+    
     // MARK: - Reduce
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         
         switch mutation {
-        case .toggleIsSearchActive:
-            newState.isSearchActive.toggle()
+        case .toggleIsSearchActive(let isSearch):
+            newState.isSearchActive = isSearch
         case .filter(let filteredCityLists):
             newState.bookmarkedCityList = filteredCityLists.0
             newState.searchedCityList = filteredCityLists.1
