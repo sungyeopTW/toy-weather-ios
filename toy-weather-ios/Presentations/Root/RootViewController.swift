@@ -56,7 +56,7 @@ final class RootViewController: UIViewController, ReactorKit.View {
         super.viewWillAppear(animated)
         
         self.setupNavigationController()
-        self.reactor?.action.onNext(.refresh(nil, nil))
+        self.reactor?.action.onNext(.refresh(nil, self.searchController.searchBar.text ?? ""))
     }
     
 
@@ -83,12 +83,27 @@ final class RootViewController: UIViewController, ReactorKit.View {
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
-        // [BookmarkTableView] cell 클릭
-        let weatherDetailViewController = WeatherDetailViewController()
+        // [BookmarkTableView] cell 탭
         self.bookmarkTableView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
                 guard let self = self else { return }
-                self.navigationController?.pushViewController(weatherDetailViewController, animated: true)
+                let viewController = WeatherDetailViewController()
+                let viewReactor = WeatherDetailViewReactor()
+                viewReactor.initialState.city = CityManager.getBookmarkedCityList()[indexPath.row]
+                viewController.reactor = viewReactor
+                self.navigationController?.pushViewController(viewController, animated: true)
+            })
+            .disposed(by: self.disposeBag)
+        
+        // [LocationSearchTableView] cell 탭
+        self.locationSearchTableView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let self = self else { return }
+                let viewController = WeatherDetailViewController()
+                let viewReactor = WeatherDetailViewReactor()
+                viewReactor.initialState.city = CityManager.getSearchedCityList(from: self.searchController.searchBar.text ?? "")[indexPath.row]
+                viewController.reactor = viewReactor
+                self.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: self.disposeBag)
             

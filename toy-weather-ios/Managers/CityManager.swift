@@ -17,7 +17,7 @@ import ReactorKit
 
 struct CityManager {
     
-    private static var allCityList = UserDefaultsManager.loadCityList().isEmpty
+    static var allCityList = UserDefaultsManager.loadCityList().isEmpty
                     ? parseAllCityList()
                     : UserDefaultsManager.loadCityList()
 
@@ -66,13 +66,13 @@ struct CityManager {
     // MARK: - Filter CityList
     
     // 모든 cityList
-    private static func getAllCityList() -> [City] { return self.allCityList }
+    // static func getAllCityList() -> [City] { return self.allCityList }
     
     // 즐겨찾기 cityList 필터
     static func getBookmarkedCityList() -> [City] { return self.allCityList.filter { $0.isBookmarked }}
     
     // 검색결과 cityList 필터
-    private static func getSearchedCityList(from text: String = "") -> [City] {
+    static func getSearchedCityList(from text: String = "") -> [City] {
         if text.isEmpty { return allCityList }
         else { return self.allCityList.filter { $0.location.contains(text) } }
     }
@@ -129,6 +129,25 @@ struct CityManager {
             }
             
             return Disposables.create(disposables)
+        }
+    }
+    
+    // 단기예보 to CityList
+    static func updateVilageDataOnCityList(_ city: City) -> Observable<City> {
+        return .create { observer -> Disposable in
+            let disposable = WeatherManager.fetchVilageData(of: city)
+                    .subscribe(
+                        onNext: { weather in
+                            let index = self.findIndex(city)
+                            self.allCityList[index].weather.highestTemperature = weather.highestTemperature
+                            self.allCityList[index].weather.lowestTemperature = weather.lowestTemperature
+                            self.allCityList[index].weather.rainProbability = weather.rainProbability
+                        },
+                        onError: observer.onError,
+                        onCompleted: observer.onCompleted
+                    )
+            
+            return Disposables.create([disposable])
         }
     }
     
