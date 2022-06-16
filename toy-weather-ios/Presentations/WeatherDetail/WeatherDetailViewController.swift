@@ -16,6 +16,7 @@ import Then
 final class WeatherDetailViewController: UIViewController, ReactorKit.View {
     
     var disposeBag = DisposeBag()
+    var isCelsius: Bool = UserDefaultsManager.loadIsCelsius()
     
     var titleLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 20.0, weight: .bold)
@@ -33,8 +34,8 @@ final class WeatherDetailViewController: UIViewController, ReactorKit.View {
     lazy var thermometerButton = UIBarButtonItem().then {
         $0.image = UIImage(systemName: "thermometer")
         $0.style = .plain
-        // $0.target = self
-        // $0.action = #selector(tabThermometerButton)
+        $0.target = self
+        $0.action = #selector(tapThermometerButton)
     }
     
     
@@ -44,6 +45,7 @@ final class WeatherDetailViewController: UIViewController, ReactorKit.View {
         super.viewDidLoad()
         
         self.view.backgroundColor = .white
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,10 +68,23 @@ final class WeatherDetailViewController: UIViewController, ReactorKit.View {
     // MARK: - Methods
     
     @objc func tabBackButton(_ sender: UIBarButtonItem) {
-        // self.delegate?.didTabTemperatureButton(self.isCelsius)
-        // self.delegate?.didTabBookmarkButton(self.isBookmarked, on: self.locationData)
-
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func tapThermometerButton(_ sender: UIBarButtonItem) {
+        self.isCelsius.toggle()
+        
+        UserDefaultsManager.saveIsCelsius(self.isCelsius) /// userDefault에 저장
+    }
+    
+}
+
+// MARK: - Gesture Test
+
+extension WeatherDetailViewController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
 }
