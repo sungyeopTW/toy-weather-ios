@@ -230,49 +230,4 @@ struct WeatherManager {
         }
     }
     
-    
-    // static func fetchVilageData(
-    //     _ locationData: City,
-    //     _ completion: @escaping (
-    //         _ lowestTemperature: Temperature,
-    //         _ highestTemperature: Temperature,
-    //         _ rainProbability: String
-    //     ) -> Void
-    // ) {
-    //     let endPoint = self.endPoint(.vilageFcst, locationData)
-    //
-    //     session.dataTask(with: endPoint) { data, response, error in
-    //         if let data = data {
-    //             do {
-    //                 let apiData = try JSONDecoder().decode(WeatherData.self, from: data)
-    //                 let itemArray = apiData.response.body.items.item
-    //
-    //                 var resultData: [WeatherCategory: String] = [:]
-    //
-    //                 itemArray.forEach {
-    //                     switch $0.category {
-    //                     case WeatherCategory.highestTemperature.rawValue: /// 최고기온
-    //                         resultData[.highestTemperature] = $0.fcstValue
-    //                     case WeatherCategory.lowestTempeerature.rawValue: /// 최저기온
-    //                         resultData[.lowestTempeerature] = $0.fcstValue
-    //                     case WeatherCategory.rainProbability.rawValue: /// 강수확률
-    //                         resultData[.rainProbability] = $0.fcstValue
-    //                     default:
-    //                         return
-    //                     }
-    //                 }
-    //
-    //                 completion(
-    //                     Temperature(celsius: Double(resultData[.highestTemperature]!) ?? 0),
-    //                     Temperature(celsius: Double(resultData[.lowestTempeerature]!) ?? 0),
-    //                     "\(resultData[.rainProbability]!)%"
-    //                 )
-    //
-    //             } catch {
-    //                 print("error :", error)
-    //             }
-    //         }
-    //     }.resume()
-    // }
-    
 }

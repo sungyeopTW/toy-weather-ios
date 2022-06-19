@@ -39,8 +39,8 @@ final class RootViewReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .refresh(let id, let searchText):
-            if let id = id { CityManager.bookmark(id: id) }
+        case .refresh(let bookmarkId, let searchText):
+            if let bookmarkId = bookmarkId { CityManager.bookmark(id: bookmarkId) }
             
             return .concat([
                 .just(.filter(CityManager.filterCityLists(searchText ?? ""))),

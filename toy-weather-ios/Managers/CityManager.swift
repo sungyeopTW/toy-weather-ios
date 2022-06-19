@@ -65,9 +65,6 @@ struct CityManager {
     
     // MARK: - Filter CityList
     
-    // 모든 cityList
-    // static func getAllCityList() -> [City] { return self.allCityList }
-    
     // 즐겨찾기 cityList 필터
     static func getBookmarkedCityList() -> [City] { return self.allCityList.filter { $0.isBookmarked }}
     

@@ -46,40 +46,6 @@ final class WeatherDetailViewController: UIViewController, ReactorKit.View {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // let scrollView = UIScrollView()
-        // scrollView.alwaysBounceVertical = true
-        //
-        // let contentView = UIView()
-        // scrollView.addSubview(contentView)
-        //
-        // //snapkit
-        // // contentView.snp.makeConstraints {
-        // //     $0.edges.width.equalTo(scrollView)
-        // // }
-        //
-        // //basic
-        // contentView.translatesAutoresizingMaskIntoConstraints = false
-        // contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor).isActive = true
-        // contentView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor).isActive = true
-        // contentView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor).isActive = true
-        // contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor).isActive = true
-        // contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor).isActive = true
-        //
-        //
-        // self.view = scrollView
-        //
-        // let tempView = UIView()
-        // tempView.backgroundColor = .orange
-        //
-        // contentView.addSubview(tempView)
-        // tempView.snp.makeConstraints {
-        //     $0.top.equalTo(contentView).offset(16)
-        //     $0.bottom.equalTo(contentView).offset(-16)
-        //     $0.width.equalTo(100)
-        //     $0.height.equalTo(1000)
-        //     $0.centerX.equalToSuperview()
-        // }
-        
         self.view = self.weatherDetailView
         self.view.backgroundColor = .white
         reactor?.action.onNext(.landing)
@@ -95,13 +61,20 @@ final class WeatherDetailViewController: UIViewController, ReactorKit.View {
     // MARK: - Bind
     
     func bind(reactor: WeatherDetailViewReactor) {
+        // [weatherDetailView] 즐겨찾기 버튼
+        self.weatherDetailView.bookmarkButton.rx.tap
+            .map { _ in Reactor.Action.bookmark(reactor.currentState.city.id) }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
+        // [WeatherDetailViewController] bind with `city`
         reactor.state.map { $0.city }
             .subscribe(onNext: {
-                print($0)
                 self.titleLabel.text = $0.location
             })
             .disposed(by: self.disposeBag)
         
+        // [WeatherDetailView] bind with `city`
         reactor.state.map { $0.city }
             .subscribe(onNext: {
                 let view = self.weatherDetailView
@@ -135,12 +108,9 @@ final class WeatherDetailViewController: UIViewController, ReactorKit.View {
     
     @objc func tapThermometerButton(_ sender: UIBarButtonItem) {
         self.isCelsius.toggle()
-        
-        // TODO: 섭씨/화씨 변경시 refresh 또는 reload
-        // self.weatherDetailView.refreshControl.
-        
-        
+
         UserDefaultsManager.saveIsCelsius(self.isCelsius) /// userDefault에 저장
+        reactor?.action.onNext(.refresh)
     }
     
     private func backGroundImageName(_ sky: Sky) -> String {

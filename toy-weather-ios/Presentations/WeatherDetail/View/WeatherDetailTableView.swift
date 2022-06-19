@@ -14,6 +14,7 @@ import Then
 
 final class WeatherDetailView: UIScrollView {
     
+    var disposeBag = DisposeBag()
     
     // MARK: - Enum
     
@@ -25,10 +26,7 @@ final class WeatherDetailView: UIScrollView {
     
     
     // MARK: - UI
-    
-    
-    // TODO: StackView나 더 나은 방법 음쓸까
-    
+        
     let contentView = UIView()
     
     var backgroundImageView = UIImageView().then {
@@ -36,8 +34,8 @@ final class WeatherDetailView: UIScrollView {
         $0.clipsToBounds = true /// image가 imageView보다 크면 맞춰 자름
         $0.layer.cornerRadius = 12.0
     }
-
-    var bookmarkButton = UIButton(frame: .zero).then {
+    
+    var bookmarkButton = UIButton().then {
         $0.setImage(UIImage(systemName: "star.fill"), for: .normal)
         $0.contentHorizontalAlignment = .fill
         $0.contentVerticalAlignment = .fill
@@ -139,13 +137,14 @@ extension WeatherDetailView {
             $0.top.leading.equalToSuperview().offset(16)
         }
         
-        // bookmarkButton layout
         self.bookmarkButton.snp.makeConstraints {
             $0.width.height.equalTo(60)
-
-            $0.top.trailing.equalToSuperview().inset(36)
+            
+            $0.top.equalToSuperview().inset(36)
+            // $0.trailing.equalToSuperview().inset(36) /// ?? 왜 이건 이벤트가 안먹는지..?
+            $0.center.equalToSuperview()
         }
-
+        
         // skyLabel layout
         self.skyLabel.snp.makeConstraints {
             $0.bottom.equalTo(self.temperatureLabel.snp.top)

@@ -17,7 +17,7 @@ import Then
 final class RootViewController: UIViewController, ReactorKit.View {
     
     var disposeBag = DisposeBag()
-    var isCelsius: Bool = UserDefaultsManager.loadIsCelsius()
+    var isCelsius: Bool = true
 
     enum Text {
         static let navigationBarTitle = "오늘의 날씨 정보 🧑🏻‍💼"
@@ -57,13 +57,13 @@ final class RootViewController: UIViewController, ReactorKit.View {
         
         self.setupNavigationController()
         self.reactor?.action.onNext(.refresh(nil, self.searchController.searchBar.text ?? ""))
+        self.isCelsius = UserDefaultsManager.loadIsCelsius()
     }
     
 
     // MARK: - Bind
     
     func bind(reactor: RootViewReactor) {
-        
         // [searchController] 서치 시작
         self.searchController.searchBar.rx.textDidBeginEditing
             .map { _ in Reactor.Action.toggleSearch(true, self.searchController.searchBar.text) }

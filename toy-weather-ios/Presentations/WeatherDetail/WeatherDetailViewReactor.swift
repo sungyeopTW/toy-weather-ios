@@ -13,10 +13,14 @@ final class WeatherDetailViewReactor: Reactor {
     
     enum Action {
         case landing
+        case refresh
+        case bookmark(_ bookmarkId: String)
     }
     
     enum Mutation {
         case updateCityState(_ city: City)
+        case refreshScrollView
+        case toggleBookmark
     }
     
     struct State {
@@ -53,6 +57,15 @@ final class WeatherDetailViewReactor: Reactor {
                     return .updateCityState(newData)
                 }
             ])
+        case .refresh:
+            return .just(.refreshScrollView)
+        case .bookmark(let bookmarkId):
+            CityManager.bookmark(id: bookmarkId)
+            
+            return .concat([
+                .just(.toggleBookmark),
+                .just(.refreshScrollView)
+            ])
         }
     }
     
@@ -69,6 +82,10 @@ final class WeatherDetailViewReactor: Reactor {
         switch mutation {
         case .updateCityState(let city):
             newState.city = city
+        case .refreshScrollView:
+            newState = state
+        case .toggleBookmark:
+            newState.city.isBookmarked.toggle()
         }
         
         return newState
