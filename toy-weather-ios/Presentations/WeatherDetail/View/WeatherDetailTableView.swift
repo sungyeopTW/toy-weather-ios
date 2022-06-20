@@ -110,8 +110,6 @@ extension WeatherDetailView {
         // contentView
         self.addSubview(contentView)
         self.contentView.snp.makeConstraints {
-            $0.height.equalTo(700)
-            
             $0.edges.width.equalTo(self)
         }
         
@@ -192,6 +190,8 @@ extension WeatherDetailView {
         self.rainProbabilityLabel.snp.makeConstraints {
             $0.top.equalTo(self.rainProbabilitySubjectLabel.snp.bottom).offset(8)
             $0.trailing.equalTo(self.backgroundImageView.snp.trailing).inset(15)
+            
+            $0.bottom.equalToSuperview().offset(-16)
         }
     }
     
