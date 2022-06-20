@@ -5,10 +5,24 @@
 //  Created by sungyeopTW on 2022/05/24.
 //
 
-// DataModel of LocationSource.csv
-struct City: Hashable, Equatable {
+
+// MARK: - DataModel
+
+struct City: Codable {
     var id: String
     var location: String
     var x: String
     var y: String
+    var weather: WeatherModel
+    var isBookmarked: Bool
+}
+
+extension City: Hashable, Equatable {
+    static func == (lhs: City, rhs: City) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }

@@ -11,7 +11,7 @@ enum TemperatureSymbol: String {
     case fahrenheit = "°F"
 }
 
-struct Temperature {
+struct Temperature: Codable {
     var celsius: Double
     
     func convertWithFormat(_ format: TemperatureSymbol) -> String {
