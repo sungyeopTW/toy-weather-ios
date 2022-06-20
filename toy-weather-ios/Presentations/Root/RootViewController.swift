@@ -109,14 +109,16 @@ final class RootViewController: UIViewController, ReactorKit.View {
             
         // [RootViewController.View] bind with `isSearchActive`
         reactor.state.map { $0.isSearchActive }
-            .subscribe(onNext: {
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
                 self.view = $0 == true ? self.locationSearchTableView : self.bookmarkTableView
             })
             .disposed(by: self.disposeBag)
         
         // [BookmarkTableView] bind with `bookmarkedCityList`
         reactor.state.map { $0.bookmarkedCityList }
-            .bind(to: self.bookmarkTableView.rx.items(cellIdentifier: "BookmarkTableViewCell", cellType: BookmarkTableViewCell.self)) { index, item, cell in
+            .bind(to: self.bookmarkTableView.rx.items(cellIdentifier: "BookmarkTableViewCell", cellType: BookmarkTableViewCell.self)) { [weak self] index, item, cell in
+                guard let self = self else { return }
                 
                 cell.temperatureLabel.text = item.weather.currentTemperature.convertWithFormat(self.isCelsius ? .celsius : .fahrenheit)
                 cell.locationLabel.text = item.location
@@ -134,6 +136,7 @@ final class RootViewController: UIViewController, ReactorKit.View {
         // [LocationSearchTableView] bind with `searchedCityList`
         reactor.state.map { $0.searchedCityList }
             .bind(to: self.locationSearchTableView.rx.items(cellIdentifier: "LocationSearchTableViewCell", cellType: LocationSearchTableViewCell.self)) { [weak self] index, item, cell in
+                guard let self = self else { return }
                 
                 cell.locationLabel.text = item.location
                 cell.bookmarkButton.tintColor = item.isBookmarked ? .yellowBookmarkColor : .grayBookmarkColor
@@ -141,7 +144,7 @@ final class RootViewController: UIViewController, ReactorKit.View {
                 // [LocationSearchTableViewCell] 즐겨찾기 버튼
                 cell.disposeBag = DisposeBag() /// 중복방지!
                 cell.bookmarkButton.rx.tap
-                    .map { _ in Reactor.Action.refresh(item.id, self?.searchController.searchBar.text) }
+                    .map { _ in Reactor.Action.refresh(item.id, self.searchController.searchBar.text) }
                     .bind(to: reactor.action)
                     .disposed(by: cell.disposeBag)
             }

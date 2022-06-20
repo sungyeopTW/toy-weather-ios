@@ -49,11 +49,11 @@ final class WeatherDetailViewReactor: Reactor {
         case .landing:
             return .concat([
                 CityManager.updateVilageDataOnCityList(self.currentState.city).map { city in
-                    let newData = CityManager.allCityList.filter { $0.id == city.id }[0]
+                    let newData = CityManager.allCityList.first { $0.id == city.id }!
                     return .updateCityState(newData)
                 },
                 CityManager.updateUltraSrtDataOnCityList([self.currentState.city]).map { city in
-                    let newData = CityManager.allCityList.filter { $0.id == city.id }[0]
+                    let newData = CityManager.allCityList.first { $0.id == city.id }!
                     return .updateCityState(newData)
                 }
             ])

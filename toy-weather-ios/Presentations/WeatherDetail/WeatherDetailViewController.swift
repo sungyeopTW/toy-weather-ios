@@ -69,14 +69,18 @@ final class WeatherDetailViewController: UIViewController, ReactorKit.View {
         
         // [WeatherDetailViewController] bind with `city`
         reactor.state.map { $0.city }
-            .subscribe(onNext: {
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                
                 self.titleLabel.text = $0.location
             })
             .disposed(by: self.disposeBag)
         
         // [WeatherDetailView] bind with `city`
         reactor.state.map { $0.city }
-            .subscribe(onNext: {
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                
                 let view = self.weatherDetailView
                 let weather = $0.weather
                 
