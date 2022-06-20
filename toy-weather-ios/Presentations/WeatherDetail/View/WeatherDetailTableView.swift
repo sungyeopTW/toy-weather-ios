@@ -109,8 +109,9 @@ extension WeatherDetailView {
     private func setupConstraints() {
         // contentView
         self.addSubview(contentView)
-        
         self.contentView.snp.makeConstraints {
+            $0.height.equalTo(700)
+            
             $0.edges.width.equalTo(self)
         }
         
@@ -137,12 +138,12 @@ extension WeatherDetailView {
             $0.top.leading.equalToSuperview().offset(16)
         }
         
+        // bookmarkButton layout
         self.bookmarkButton.snp.makeConstraints {
             $0.width.height.equalTo(60)
             
             $0.top.equalToSuperview().inset(36)
-            // $0.trailing.equalToSuperview().inset(36) /// ?? 왜 이건 이벤트가 안먹는지..?
-            $0.center.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(36)
         }
         
         // skyLabel layout
@@ -192,8 +193,6 @@ extension WeatherDetailView {
             $0.top.equalTo(self.rainProbabilitySubjectLabel.snp.bottom).offset(8)
             $0.trailing.equalTo(self.backgroundImageView.snp.trailing).inset(15)
         }
-        
-        
     }
     
 }

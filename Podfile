@@ -16,4 +16,3 @@ end
 target 'toy-weather-ios' do
   libs
 end
-l
