@@ -68,27 +68,29 @@ final class WeatherDetailViewController: UIViewController, ReactorKit.View {
             .disposed(by: self.disposeBag)
         
         // [WeatherDetailViewController] bind with `city`
-        reactor.state.map { $0.city }
-            .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
-                
-                self.titleLabel.text = $0.location
-            })
+        reactor.state.map(\.city.location)
+            .bind(to: self.titleLabel.rx.text)
             .disposed(by: self.disposeBag)
+        // reactor.state.map { $0.city.location }
+        //     .withUnretained(self)
+        //     .subscribe(onNext: { object, location in
+        //         object.titleLabel.text = location
+        //     })
+        //     .disposed(by: self.disposeBag)
         
         // [WeatherDetailView] bind with `city`
         reactor.state.map { $0.city }
-            .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
+            .withUnretained(self)
+            .subscribe(onNext: { object, city in
+                let view = object.weatherDetailView
+                let weather = city.weather
+                let isCelsius = object.isCelsius ? TemperatureSymbol.celsius : .fahrenheit
                 
-                let view = self.weatherDetailView
-                let weather = $0.weather
-                
-                view.backgroundImageView.image = UIImage(named: self.backGroundImageName(Sky(rawValue: weather.sky.rawValue)!))
-                view.bookmarkButton.tintColor = $0.isBookmarked ? .yellowBookmarkColor : .grayBookmarkColor
+                view.backgroundImageView.image = UIImage(named: object.backGroundImageName(Sky(rawValue: weather.sky.rawValue)!))
+                view.bookmarkButton.tintColor = city.isBookmarked ? .yellowBookmarkColor : .grayBookmarkColor
                 view.skyLabel.text = weather.sky.rawValue
-                view.temperatureLabel.text = weather.currentTemperature.convertWithFormat(self.isCelsius ? .celsius : .fahrenheit)
-                view.highestLowestLabel.text = "\(weather.highestTemperature.convertWithFormat(self.isCelsius ? .celsius : .fahrenheit)), \(weather.lowestTemperature.convertWithFormat(self.isCelsius ? .celsius : .fahrenheit))"
+                view.temperatureLabel.text = weather.currentTemperature.convertWithFormat(isCelsius)
+                view.highestLowestLabel.text = "\(weather.highestTemperature.convertWithFormat(isCelsius)), \(weather.lowestTemperature.convertWithFormat(isCelsius))"
                 view.windLabel.text = "\(weather.windDirection.rawValue), \(weather.windSpeed)"
                 view.rainProbabilityLabel.text = weather.rainProbability
             })

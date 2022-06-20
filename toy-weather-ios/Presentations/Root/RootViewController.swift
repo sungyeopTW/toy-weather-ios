@@ -85,41 +85,39 @@ final class RootViewController: UIViewController, ReactorKit.View {
         
         // [BookmarkTableView] cell 탭
         self.bookmarkTableView.rx.itemSelected
-            .subscribe(onNext: { [weak self] indexPath in
-                guard let self = self else { return }
+            .withUnretained(self)
+            .subscribe(onNext: { object, indexPath in
                 let viewController = WeatherDetailViewController()
                 let viewReactor = WeatherDetailViewReactor()
                 viewReactor.initialState.city = CityManager.getBookmarkedCityList()[indexPath.row]
                 viewController.reactor = viewReactor
-                self.navigationController?.pushViewController(viewController, animated: true)
+                object.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: self.disposeBag)
         
         // [LocationSearchTableView] cell 탭
         self.locationSearchTableView.rx.itemSelected
-            .subscribe(onNext: { [weak self] indexPath in
-                guard let self = self else { return }
+            .withUnretained(self)
+            .subscribe(onNext: { object, indexPath in
                 let viewController = WeatherDetailViewController()
                 let viewReactor = WeatherDetailViewReactor()
-                viewReactor.initialState.city = CityManager.getSearchedCityList(from: self.searchController.searchBar.text ?? "")[indexPath.row]
+                viewReactor.initialState.city = CityManager.getSearchedCityList(from: object.searchController.searchBar.text ?? "")[indexPath.row]
                 viewController.reactor = viewReactor
-                self.navigationController?.pushViewController(viewController, animated: true)
+                object.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: self.disposeBag)
             
         // [RootViewController.View] bind with `isSearchActive`
         reactor.state.map { $0.isSearchActive }
-            .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
-                self.view = $0 == true ? self.locationSearchTableView : self.bookmarkTableView
+            .withUnretained(self)
+            .subscribe(onNext: { object, isSearchActive in
+                object.view = isSearchActive == true ? object.locationSearchTableView : object.bookmarkTableView
             })
             .disposed(by: self.disposeBag)
         
         // [BookmarkTableView] bind with `bookmarkedCityList`
         reactor.state.map { $0.bookmarkedCityList }
-            .bind(to: self.bookmarkTableView.rx.items(cellIdentifier: "BookmarkTableViewCell", cellType: BookmarkTableViewCell.self)) { [weak self] index, item, cell in
-                guard let self = self else { return }
-                
+            .bind(to: self.bookmarkTableView.rx.items(cellIdentifier: "BookmarkTableViewCell", cellType: BookmarkTableViewCell.self)) { index, item, cell in
                 cell.temperatureLabel.text = item.weather.currentTemperature.convertWithFormat(self.isCelsius ? .celsius : .fahrenheit)
                 cell.locationLabel.text = item.location
                 cell.bookmarkButton.tintColor = item.isBookmarked ? .yellowBookmarkColor : .grayBookmarkColor
@@ -135,9 +133,7 @@ final class RootViewController: UIViewController, ReactorKit.View {
         
         // [LocationSearchTableView] bind with `searchedCityList`
         reactor.state.map { $0.searchedCityList }
-            .bind(to: self.locationSearchTableView.rx.items(cellIdentifier: "LocationSearchTableViewCell", cellType: LocationSearchTableViewCell.self)) { [weak self] index, item, cell in
-                guard let self = self else { return }
-                
+            .bind(to: self.locationSearchTableView.rx.items(cellIdentifier: "LocationSearchTableViewCell", cellType: LocationSearchTableViewCell.self)) { index, item, cell in
                 cell.locationLabel.text = item.location
                 cell.bookmarkButton.tintColor = item.isBookmarked ? .yellowBookmarkColor : .grayBookmarkColor
 
